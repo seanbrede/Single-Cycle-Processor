@@ -13,14 +13,14 @@ module TopLevel_tb;	     // Lab 17
        Clk;
 
 // From DUT Outputs
-  wire Ack;		   // done flag
+wire Ack;		   // done flag
 
 // Instantiate the Device Under Test (DUT)
-  TopLevel DUT (
-    .Reset  (Init)  ,
-	.Start  (Req )  , 
-	.Clk    (Clk )  , 
-	.Ack    (Ack )             
+TopLevel DUT (
+  .Reset  (Init)  ,
+	.Start  (Req )  ,
+	.Clk    (Clk )  ,
+	.Ack    (Ack )
 	);
 
 initial begin
@@ -39,7 +39,7 @@ initial begin
   for(int j=0; j<16; j++)
     DUT.RF1.Registers[j] = 8'b0;    // default -- clear it
 // students may pre-load desired constants into the reg_file
-    
+
 // launch prodvgram in DUT
   #10ns Req = 0;
 // Wait for done flag, then display results
@@ -49,13 +49,12 @@ initial begin
                   DUT.DM1.Core[7],
                   DUT.DM1.Core[8]);
 //        $display("instruction = %d %t",DUT.PC,$time);
-  #10ns $stop;			   
+  #10ns $stop;
 end
 
 always begin   // clock period = 10 Verilog time units
   #5ns  Clk = 'b1;
   #5ns  Clk = 'b0;
 end
-      
-endmodule
 
+endmodule

@@ -3,12 +3,12 @@
 // Module Name:    TopLevel
 // CSE141L
 // partial only
-module TopLevel (		   // you will have the same 3 ports
-    input        Reset,	// init/reset, active high
-			        Start, // start next program
-	              Clk,	// clock -- posedge used inside design
-    output logic Ack	   // done flag from DUT
-    );
+module TopLevel (		     // you will have the same 3 ports
+    input        Reset,	 // init/reset, active high
+			           Start,  // start next program
+	                 Clk,	 // clock -- posedge used inside design
+       output logic Ack	 // done flag from DUT
+);
 
 wire [ 9:0] PgmCtr,        // program counter
 			      PCTarg;
@@ -89,7 +89,7 @@ RegFile #(.W(8),.D(4)) RF1 (
 		.DataAddress  (ReadA)    ,
 		.WriteEn      (MemWrite),
 		.DataIn       (MemWriteValue),
-		.DataOut      (MemReadValue)  ,
+		.DataOut      (MemReadValue),
 		.Clk 		  		     ,
 		.Reset		  (Reset)
 	);
