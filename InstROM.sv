@@ -8,9 +8,10 @@
 //
 // Revision: 
 //
-module InstROM #(parameter A=10, W=10) (
-  input       [A-1:0] InstAddress,
-  output logic[W-1:0] InstOut);
+module InstROM #(parameter A=10, W=9) (
+	input        [A-1:0] InstAddress,
+	output logic [W-1:0] InstOut
+	);
 	 
 // Instruction format: {4bit opcode, 3bit rs or rt, 3bit rt, immediate, or branch target}
 	 
@@ -35,11 +36,12 @@ module InstROM #(parameter A=10, W=10) (
 
 // alternative expression
 //   need $readmemh or $readmemb to initialize all of the elements
-  logic[W-1:0] inst_rom[2**(A)];
-  always_comb InstOut = inst_rom[InstAddress];
+logic[W-1:0] inst_rom[2 ** A];
+
+always_comb InstOut = inst_rom[InstAddress];
  
-  initial begin		                  // load from external text file
-  	$readmemb("machine_code.txt",inst_rom);
-  end 
+initial begin		                  // load from external text file
+	$readmemb("machine_code.txt", inst_rom);
+end 
   
 endmodule
