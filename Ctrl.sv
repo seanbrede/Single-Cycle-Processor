@@ -10,7 +10,7 @@ module Ctrl (
   );
 // jump on right shift that generates a zero
 always_comb
-  if(Instruction[2:0] ==  kRSH)
+  if(Instruction[3:0] ==  kRSH)
     Jump = 1;
   else
     Jump = 0;
