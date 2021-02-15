@@ -23,10 +23,11 @@ wire [ 7:0] RegWriteValue, // data in to reg file
 	   	      MemReadValue;  // data out from data_memory
 
 wire        MemWrite,	   // data_memory write enable
-		        RegWrEn,	   // reg_file write enable
-			       Zero,		   // ALU output = 0 flag
-            Jump,	       // to program counter: jump
+		         RegWrEn,	   // reg_file write enable
+			          Zero,		 // ALU output = 0 flag
+               Jump,	   // to program counter: jump  //TODO:: get rid of ??
             BranchEn;	   // to program counter: branch enable
+
 logic[15:0] CycleCt;	   // standalone; NOT PC!
 
 // Fetch = Program Counter + Instruction ROM
@@ -37,16 +38,17 @@ InstFetch IF1 (
 	.Clk         (Clk),      // (Clk) is required in Verilog, optional in SystemVerilog
 	.BranchAbs   (Jump),     // jump enable
 	.BranchRelEn (BranchEn), // branch enable
-	.ALU_flag	 (Zero),
-   .Target      (PCTarg),
+	.ALU_flag	    (Zero),
+  .Target      (PCTarg),
 	.ProgCtr     (PgmCtr)	 // program count = index to instruction memory
 	);
 
 // Control decoder
 Ctrl Ctrl1 (
 	.Instruction (Instruction), // from instr_ROM
-	.Jump        (Jump),		    // to PC
-	.BranchEn    (BranchEn)	    // to PC
+	.BranchEn    (BranchEn),	    // to PC
+  .MemWrite    (MemWrite),
+  .RegWrite    (RegWrEn)
 	);
 
 // Instruction ROM
@@ -55,27 +57,23 @@ InstROM #(.W(9)) IR1 (
 	.InstOut     (Instruction)
 	);
 
-assign LoadInst = (Instruction[8:6] == 3'b110); // calls out load specially
-assign Ack = &Instruction;
+assign LoadInst = (Instruction[8:5] == 4'b0110); // calls out load specially
+assign Ack      = &Instruction; // TODO:: what is the comparitor
 // Register file
 RegFile #(.W(8),.D(4)) RF1 (
 	.Clk,
 	.WriteEn  (RegWrEn),
-	.RaddrA   (Instruction[5:3]), //concatenate with 0 to give us 4 bits
-	.RaddrB   (Instruction[2:0]),
-	.Waddr    (Instruction[5:3]), // mux above
+	.RaddrA   (Instruction[4:1]), //concatenate with 0 to give us 4 bits
+	.RaddrB   (Instruction[0:0]),
+	.Waddr    ( (Instruction[8:5] == 4'b1000 ) ? Instruction[0:0] : Instruction[4:1] ), // mux above
 	.DataIn   (RegWriteValue),
 	.DataOutA (ReadA),
 	.DataOutB (ReadB)
 	);
 
-// one pointer, two adjacent read accesses: (optional approach)
-//	.raddrA ({Instruction[5:3],1'b0});
-//	.raddrB ({Instruction[5:3],1'b1});
-
   assign InA = ReadA;	// connect RF out to ALU in
 	assign InB = ReadB;
-	assign MemWrite = (Instruction == 9'h111);  // mem_store command
+
 	assign RegWriteValue = LoadInst? MemReadValue : ALU_out;  // 2:1 switch into reg_file
     ALU ALU1  (
 	  .InputA  (InA),
