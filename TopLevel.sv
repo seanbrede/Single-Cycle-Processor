@@ -3,10 +3,10 @@
 // Module Name:    TopLevel
 // CSE141L
 // partial only
-module TopLevel(		   // you will have the same 3 ports
-    input        Reset,	   // init/reset, active high
-			           Start,    // start next program
-	                 Clk,	   // clock -- posedge used inside design
+module TopLevel (		   // you will have the same 3 ports
+    input        Reset,	// init/reset, active high
+			        Start, // start next program
+	              Clk,	// clock -- posedge used inside design
     output logic Ack	   // done flag from DUT
     );
 
@@ -31,43 +31,44 @@ logic[15:0] CycleCt;	   // standalone; NOT PC!
 
 // Fetch = Program Counter + Instruction ROM
 // Program Counter
-  InstFetch IF1 (
-	.Reset       (Reset   ) ,
-	.Start       (Start   ) ,  // SystemVerilg shorthand for .halt(halt),
-	.Clk         (Clk     ) ,  // (Clk) is required in Verilog, optional in SystemVerilog
-	.BranchAbs   (Jump    ) ,  // jump enable
-	.BranchRelEn (BranchEn) ,  // branch enable
-	.ALU_flag	 (Zero    ) ,
-    .Target      (PCTarg  ) ,
-	.ProgCtr     (PgmCtr  )	   // program count = index to instruction memory
+InstFetch IF1 (
+	.Reset       (Reset),
+	.Start       (Start),    // SystemVerilg shorthand for .halt(halt),
+	.Clk         (Clk),      // (Clk) is required in Verilog, optional in SystemVerilog
+	.BranchAbs   (Jump),     // jump enable
+	.BranchRelEn (BranchEn), // branch enable
+	.ALU_flag	 (Zero),
+   .Target      (PCTarg),
+	.ProgCtr     (PgmCtr)	 // program count = index to instruction memory
 	);
 
 // Control decoder
-  Ctrl Ctrl1 (
-	.Instruction  (Instruction), // from instr_ROM
-	.Jump         (Jump),		     // to PC
-	.BranchEn     (BranchEn)		 // to PC
-  );
-
-// instruction ROM
-  InstROM #(.W(9)) IR1(
-	.InstAddress   (PgmCtr),
-	.InstOut       (Instruction)
+Ctrl Ctrl1 (
+	.Instruction (Instruction), // from instr_ROM
+	.Jump        (Jump),		    // to PC
+	.BranchEn    (BranchEn)	    // to PC
 	);
 
-  assign LoadInst = Instruction[8:6]==3'b110;  // calls out load specially
-  assign Ack = &Instruction;
-// reg file
-	RegFile #(.W(8),.D(4)) RF1 (
-		.Clk    				  ,
-		.WriteEn   (RegWrEn)    ,
-		.RaddrA    (Instruction[5:3]),         //concatenate with 0 to give us 4 bits
-		.RaddrB    (Instruction[2:0]),
-		.Waddr     (Instruction[5:3]), 	       // mux above
-		.DataIn    (RegWriteValue) ,
-		.DataOutA  (ReadA        ) ,
-		.DataOutB  (ReadB		 )
+// Instruction ROM
+InstROM #(.W(9)) IR1 (
+	.InstAddress (PgmCtr),
+	.InstOut     (Instruction)
 	);
+
+assign LoadInst = (Instruction[8:6] == 3'b110); // calls out load specially
+assign Ack = &Instruction;
+// Register file
+RegFile #(.W(8),.D(4)) RF1 (
+	.Clk,
+	.WriteEn  (RegWrEn),
+	.RaddrA   (Instruction[5:3]), //concatenate with 0 to give us 4 bits
+	.RaddrB   (Instruction[2:0]),
+	.Waddr    (Instruction[5:3]), // mux above
+	.DataIn   (RegWriteValue),
+	.DataOutA (ReadA),
+	.DataOutB (ReadB)
+	);
+
 // one pointer, two adjacent read accesses: (optional approach)
 //	.raddrA ({Instruction[5:3],1'b0});
 //	.raddrB ({Instruction[5:3],1'b1});
