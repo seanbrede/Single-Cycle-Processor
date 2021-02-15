@@ -4,9 +4,9 @@
 // CSE141L
 // partial only										   
 module TopLevel (		   // you will have the same 3 ports
-    input        Reset,	   // init/reset, active high
-			        Start,    // start next program
-	              Clk,	   // clock -- posedge used inside design
+    input        Reset,	// init/reset, active high
+			        Start, // start next program
+	              Clk,	// clock -- posedge used inside design
     output logic Ack	   // done flag from DUT
     );
 
@@ -35,15 +35,15 @@ InstFetch IF1 (
 	.BranchAbs   (Jump),     // jump enable
 	.BranchRelEn (BranchEn), // branch enable
 	.ALU_flag	 (Zero),
-    .Target     (PCTarg),
+   .Target      (PCTarg),
 	.ProgCtr     (PgmCtr)	 // program count = index to instruction memory
 	);					  
 
 // Control decoder
 Ctrl Ctrl1 (
-	.Instruction  (Instruction), // from instr_ROM
-	.Jump         (Jump),		  // to PC
-	.BranchEn     (BranchEn)	  // to PC
+	.Instruction (Instruction), // from instr_ROM
+	.Jump        (Jump),		    // to PC
+	.BranchEn    (BranchEn)	    // to PC
 	);
   
 // Instruction ROM
@@ -52,7 +52,7 @@ InstROM #(.W(9)) IR1 (
 	.InstOut     (Instruction)
 	);
 
-assign LoadInst = Instruction[8:6]==3'b110; // calls out load specially
+assign LoadInst = (Instruction[8:6] == 3'b110); // calls out load specially
 assign Ack = &Instruction;
 // Register file
 RegFile #(.W(8),.D(3)) RF1 (
