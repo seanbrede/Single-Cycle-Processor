@@ -18,18 +18,19 @@ op_mne op_mnemonic; // type enum: used for convenient waveform viewing
 always_comb begin
     Out = 0; // No Op = default
 
-	if (OP >= kADD & OP <= 4'b0001)         // add
+	if (OP >= kADD)                          // add
 		Out = InputA + InputB;
-	else if (OP >= 4'b1010 & OP <= 4'b1100) // subtract
-		Out = InputA - InputB;
+	else if ( OP == kR_XOR )                // REDUCTION XOR
+	    Out = ^InputA
 	else if (OP == kXOR)                    // bitwise XOR
 		Out = InputA ^ InputB;
 	else if (OP == kAND)                    // bitwise AND
 		Out = InputA & InputB;
-	else if (OP == kLSH)                    // shift left
-		Out = InputA << 1;
 	else if (OP == kRSH)                    // shift right
 		Out = {1'b0, InputA[7:1]};
+	else if (OP >= 4'b1010 & OP <= 4'b1100) // subtract for instructions { JEQ, SLT, SEQ }
+		Out = InputA - InputB;
+
 end
 
 always_comb	// assign Zero = !Out;
