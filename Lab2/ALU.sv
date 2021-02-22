@@ -28,9 +28,8 @@ always_comb begin
 		Out = InputA & InputB;
 	else if (OP == kRSH)                    // shift right
 		Out = {1'b0, InputA[7:1]};
-	else if (OP >= 4'b1010 & OP <= 4'b1100) // subtract for instructions { JEQ, SLT, SEQ }
+	else if (OP >= JEQ & OP <= SEQ) // subtract for instructions { JEQ, SLT, SEQ }
 		Out = InputA - InputB;
-
 end
 
 always_comb	// assign Zero = !Out;

@@ -4,16 +4,27 @@ package definitions;
 
 // Instruction map
 const logic [3:0] kADD   = 4'b0000;
-const logic [3:0] kR_XOR = 4'b0010;
+const logic [3:0] kR_XOR = 4'b0001;
 const logic [3:0] kXOR   = 4'b0010;
 const logic [3:0] kAND   = 4'b0011;
-const logic [3:0] kLSH   = 4'b0100;
-const logic [3:0] kRSH   = 4'b1101;
+const logic [3:0] kRSH   = 4'b0100;
+// 							4'b0101
+// 							4'b0110
+// 							4'b0111
+//							4'b1000
+//							4'b1001
+const logic [3:0] JEQ	 = 4'b1010;
+const logic [3:0] SLT	 = 4'b1011;
+const logic [3:0] SEQ	 = 4'b1100;
+//							4'b1011
+//							4'b1100
+//							4'b1101
+const logic [3:0] kACK   = 4'b1101;
 // const logic [2:0]kCLR  = 3'b110;
 
 // enum names will appear in timing diagram
  typedef enum logic [3:0] {
-	ADD, R_XOR, XOR, AND, LSH, RSH
+	ADD, kR_XOR, AND, RSH 
 	} op_mne;
    // CLR might need to be added
 
