@@ -1,9 +1,0 @@
-# you can write comments like this
-add r14 r1               # comments on the same line as code work too
-      aDd     r1      r0 # this line will work despite weird capitalization and spacing
-
-
-
-
-
-# blank lines work, as # do # lines # with # lots # of # pound # signs
