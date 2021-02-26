@@ -21,7 +21,7 @@ always_comb begin
 	if (OP >= kADD)                          // add
 		Out = InputA + InputB;
 	else if ( OP == kR_XOR )                // REDUCTION XOR
-	    Out = ^InputA
+	    Out = ^InputA;
 	else if (OP == kXOR)                    // bitwise XOR
 		Out = InputA ^ InputB;
 	else if (OP == kAND)                    // bitwise AND

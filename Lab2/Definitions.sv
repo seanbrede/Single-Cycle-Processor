@@ -24,7 +24,7 @@ const logic [3:0] kACK   = 4'b1101;
 
 // enum names will appear in timing diagram
  typedef enum logic [3:0] {
-	ADD, kR_XOR, AND, RSH 
+	ADD, R_XOR, AND, RSH
 	} op_mne;
    // CLR might need to be added
 
