@@ -4,23 +4,23 @@
 // CSE141L
 // partial only
 module TopLevel (		  // you will have the same 3 ports
-	input        Reset, // init/reset, active high
-			       Start, // start next program
-	             Clk,	  // clock -- posedge used inside design
+	input        Reset,   // init/reset, active high
+			     Start,   // start next program
+	               Clk,	  // clock -- posedge used inside design
 	output logic Ack	  // done flag from DUT
 	);
 
 wire [9:0] PgmCtr, // program counter
-			  PCTarg; // for jump
+		   PCTarg; // for jump
 
-wire [8:0] Instruction;  // our 9-bit opcode
+wire [8:0] Instruction;  // our 9-bit instruction
 wire [7:0] ReadA, ReadB; // reg_file outputs
 wire [7:0] InA, InB, 	 // ALU operand inputs
            ALU_out;      // ALU result
 
 wire [7:0] RegWriteValue, // data in to reg file
            MemWriteValue, // data in to data_memory
-	   	  MemReadValue;  // data out from data_memory
+	   	   MemReadValue;  // data out from data_memory
 
 wire       MemWrite,	// data_memory write enable
 		     RegWrEn,	// reg_file write enable
@@ -31,7 +31,7 @@ wire       MemWrite,	// data_memory write enable
 logic [15:0] CycleCt; // standalone; NOT PC!
 
 assign LoadInst = (Instruction[8:5] == 4'b0110); // calls out load specially
-assign Ack      = &Instruction;                  // TODO:: what is the comparator
+assign Ack      = (Instruction[8:5] == 4'b1101); // TODO:: what are we comparing to ?? AWK opcode ??
 
 assign InA = ReadA; // connect RF out to ALU in
 assign InB = ReadB;
@@ -67,10 +67,10 @@ InstROM #(.W(9)) InstROM1 (
 // Register file
 RegFile #(.W(8),.D(4)) RF1 (
 	.Clk,
-	.WriteEn  (RegWrEn),
-	.RaddrA   (Instruction[4:1]), //concatenate with 0 to give us 4 bits
-	.RaddrB   (Instruction[0:0]),
-	.Waddr    ( (Instruction[8:5] == 4'b1000 ) ? Instruction[0:0] : Instruction[4:1] ), // mux above
+	.WriteEn  (RegWrEn),          // [OPCODE = 8765  | RaddrA = 4321 | RaddarB = 0 ]
+	.RaddrA   (Instruction[4:1]), //  RaddrA = 4321 bits of instruction
+	.RaddrB   (Instruction[0:0]), //  RaddarB = 0   bits of instruction
+	.Waddr    ( (Instruction[8:5] == 4'b1000 ) ? {3'b000, Instruction[0:0]} : Instruction[4:1] ), // if ( move high to low ) -> rs write reg else rd write reg
 	.DataIn   (RegWriteValue),
 	.DataOutA (ReadA),
 	.DataOutB (ReadB)
