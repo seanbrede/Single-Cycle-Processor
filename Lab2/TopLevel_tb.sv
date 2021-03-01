@@ -26,7 +26,8 @@ TopLevel DUT (
 initial begin
 	#10ns Init = 'b0;
 	#10ns Req  = 'b1;
-
+    $display("Program Started");
+    $display("Program Counter at start %b ", DUT.PgmCtr);
 	// initialize DUT's data memory
 	#10ns for (int i=0; i<256; i++) begin
 		DUT.DM1.Core[i] = 8'h0;	     // clear data_mem
@@ -35,13 +36,35 @@ initial begin
 		DUT.DM1.Core[3] = 8'hff;      // MSW of operand B
 		DUT.DM1.Core[4] = 8'hfb;
 	end
-	// students may also pre_load desired constants into DM
 
+	// students may also pre_load desired constants into DM
 	// initialize DUT's register file
 	for(int j=0; j<16; j++)
 		DUT.RF1.Registers[j] = 8'b0;    // default -- clear it
 	// students may pre-load desired constants into the reg_file
 
+    DUT.RF1.Registers[6] = 8'b00000101; // pre-load register 6 with value 5
+    DUT.RF1.Registers[1] = 8'b00000011; // r1 = 3
+    #1ns
+    $display("Program Counter after init data mem and reg %b ", DUT.PgmCtr);
+    $display("instruction out %b ", DUT.Instruction);
+
+    $display("RaddrA = %b ", DUT.RF1.RaddrA);
+    $display("RaddrB = %b ", DUT.RF1.RaddrB);
+
+    $display("InA = %b ", DUT.ALU1.InputA);
+    $display("INB = %b ", DUT.ALU1.InputB);
+    $display("OP  = %b ", DUT.ALU1.OP);
+
+    if ( DUT.ALU_out != 8'b00001000) begin // out = 8
+        $display("ALU was not equal to 8");
+        #10ns;
+        $display("ALU = %b ", DUT.ALU_out);
+        #10ns $stop;
+    end
+
+    $display("ALU test passed ");
+    $display("ALU = %b ", DUT.ALU_out);
 	// launch prodvgram in DUT
 	#10ns Req = 0;
 	// Wait for done flag, then display results
@@ -51,7 +74,8 @@ initial begin
 						 "_",
                    DUT.DM1.Core[7],
                    DUT.DM1.Core[8]);
-//			$display("instruction = %d %t",DUT.PC,$time);
+	//$display("instruction = %d %t",DUT.PC,$time);
+	$display("program ended");
 	#10ns $stop;
 end
 

@@ -7,7 +7,7 @@ import definitions::*; // includes package "definitions"
 // combinational (unclocked) ALU
 module ALU (
 	input        [7:0] InputA, // data inputs
-	input              InputB,
+                       InputB,
 	input        [3:0] OP,		// ALU opcode, part of microcode
 	output logic [7:0] Out,		// or:  output reg [7:0] OUT,
 	output logic       Zero    // output = zero flag
@@ -18,7 +18,7 @@ op_mne op_mnemonic; // type enum: used for convenient waveform viewing
 always_comb begin
     Out = 0; // No Op = default
 
-	if (OP >= kADD)                          // add
+	if (OP == kADD)                          // add
 		Out = InputA + InputB;
 	else if ( OP == kR_XOR )                // REDUCTION XOR
 	    Out = ^InputA;
