@@ -24,8 +24,8 @@ wire [7:0] RegWriteValue, // data in to reg file
 
 wire       MemWrite,	// data_memory write enable
 		     RegWrEn,	// reg_file write enable
-			  Zero,		// ALU output = 0 flag
-           Jump,	   // to program counter: jump  //TODO:: get rid of ??
+			    Zero,		// ALU output = 0 flag
+               Jump,	   // to program counter: jump  //TODO:: get rid of ??
            BranchEn;	// to program counter: branch enable
 
 logic [15:0] CycleCt; // standalone; NOT PC!

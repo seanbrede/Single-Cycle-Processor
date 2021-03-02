@@ -46,25 +46,59 @@ initial begin
     DUT.RF1.Registers[6] = 8'b00000101; // pre-load register 6 with value 5
     DUT.RF1.Registers[1] = 8'b00000011; // r1 = 3
     #1ns
+
     $display("Program Counter after init data mem and reg %b ", DUT.PgmCtr);
     $display("instruction out %b ", DUT.Instruction);
 
-    $display("RaddrA = %b ", DUT.RF1.RaddrA);
-    $display("RaddrB = %b ", DUT.RF1.RaddrB);
+    $display("***************************************");
+    $display("TEST 1:  ADD  r6(=5), r1(=3)  ");
 
-    $display("InA = %b ", DUT.ALU1.InputA);
-    $display("INB = %b ", DUT.ALU1.InputB);
-    $display("OP  = %b ", DUT.ALU1.OP);
+    if ( DUT.ALU1.InputA != 8'b00000101) begin
+        $display("ALU register A did not have value 5");
+        $display("Input A data = %b ", DUT.ALU1.InputA);
+        #10ns $stop;
+    end
 
-    if ( DUT.ALU_out != 8'b00001000) begin // out = 8
+    if ( DUT.ALU1.InputB != 8'b00000011) begin
+        $display("ALU register B did not have value 3");
+        $display("Input B data = %b ", DUT.ALU1.InputB);
+        #10ns $stop;
+    end
+
+    if ( DUT.ALU1.OP != 3'b000) begin
+        $display("ALU operation was not add (000_");
+        $display("ALU OP= %b ", DUT.ALU1.OP);
+        #10ns $stop;
+    end
+
+    if ( DUT.ALU1.OP != 3'b000) begin
+        $display("ALU operation was not add (000_");
+        $display("ALU OP= %b ", DUT.ALU1.OP);
+        #10ns $stop;
+    end
+
+    if ( DUT.ALU_out != 8'b00001000) begin // if out != 8
         $display("ALU was not equal to 8");
-        #10ns;
         $display("ALU = %b ", DUT.ALU_out);
         #10ns $stop;
     end
 
-    $display("ALU test passed ");
-    $display("ALU = %b ", DUT.ALU_out);
+    $display("TEST 1 PASSED ");
+    $display("***************************************");
+	// ############################################################################
+	// Increment clock cycle
+	#15ns
+    // ############################################################################
+	$display("Program Counter after Test 1 %b ", DUT.PgmCtr);
+    $display("instruction out %b ", DUT.Instruction);
+
+	$display("");
+	$display("***************************************");
+	$display("TEST 2  MVH  r15(=0), r1(=3)   # r15 = 3");
+	// Increment clock cycle
+	#15ns
+	$display("Program Counter after another 15 ns  %b ", DUT.PgmCtr);
+    $display("instruction out %b ", DUT.Instruction);
 	// launch prodvgram in DUT
 	#10ns Req = 0;
 	// Wait for done flag, then display results
