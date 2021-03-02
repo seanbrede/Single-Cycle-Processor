@@ -29,14 +29,12 @@ wire       MemWrite,	// data_memory write enable
            BranchEn;	// to program counter: branch enable
 
 logic [15:0] CycleCt; // standalone; NOT PC!
-
-assign LoadInst = (Instruction[8:5] == 4'b0110); // calls out load specially
-assign Ack      = (Instruction[8:5] == 4'b1101); // TODO:: what are we comparing to ?? AWK opcode ??
-
+assign Ack      = (Instruction[8:5] == 4'b1101);
 assign InA = ReadA; // connect RF out to ALU in
 assign InB = ReadB;
 
-assign RegWriteValue = LoadInst? MemReadValue : ALU_out; // 2:1 switch into reg_file
+assign LoadInst = (Instruction[8:5] == 4'b0110 || Instruction[8:5] == 4'b0101); // calls out load specially
+assign RegWriteValue = LoadInst? MemReadValue : ALU_out; //
 
 // Instruction fetch
 InstFetch InstFetch1 (
@@ -53,6 +51,7 @@ InstFetch InstFetch1 (
 // Control decoder
 Ctrl Ctrl1 (
 	.Instruction (Instruction), // from instr_ROM
+	.Clk         (Clk),
 	.BranchEn    (BranchEn),	 // to PC
 	.MemWrite    (MemWrite),
 	.RegWrite    (RegWrEn)
@@ -70,10 +69,11 @@ RegFile #(.W(8),.D(4)) RF1 (
 	.WriteEn  (RegWrEn),          // [OPCODE = 8765  | RaddrA = 4321 | RaddarB = 0 ]
 	.RaddrA   (Instruction[4:1]), //  RaddrA = 4321 bits of instruction
 	.RaddrB   (Instruction[0:0]), //  RaddarB = 0   bits of instruction
-	.Waddr    ( (Instruction[8:5] == 4'b1000 ) ? {3'b000, Instruction[0:0]} : Instruction[4:1] ), // if ( move high to low ) -> rs write reg else rd write reg
+	//.Waddr    ( (Instruction[8:5] == 4'b1000 ) ? {3'b000, Instruction[0:0]} : Instruction[4:1] ), // if ( move high to low ) -> rs write reg else rd write reg
 	.DataIn   (RegWriteValue),
 	.DataOutA (ReadA),
-	.DataOutB (ReadB)
+	.DataOutB (ReadB),
+	.OP (Instruction[8:5])
 	);
 
 // ALU
