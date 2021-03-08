@@ -92,9 +92,10 @@ ALU ALU1 (
 	.Zero
 	);
 
+
 // Data memory
 DataMem DM1 (
-		.DataAddress ({3'b000, Instruction[4:0]}),
+		.DataAddress ( LoadInst ? RF1.Registers[ Instruction[3:0] ] : {3'b000, Instruction[4:0]}),
 		.WriteEn     (MemWrite),
 		.DataIn      (RF1.Registers[3]),
 		.DataOut     (MemReadValue),
