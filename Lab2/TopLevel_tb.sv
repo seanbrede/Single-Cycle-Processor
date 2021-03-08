@@ -45,8 +45,12 @@ initial begin
 
     DUT.RF1.Registers[6] = 8'b00000101; // pre-load register 6 with value 5
     DUT.RF1.Registers[1] = 8'b00000011; // r1 = 3
-    #1ns
+    $display("setting r3 value to 8");
+    $display("setting r9 value to 9");
+    DUT.RF1.Registers[3] = 8'b00001001;
 
+    //#1ns
+    Req = 'b0;
     $display("Program Counter after init data mem and reg %b ", DUT.PgmCtr);
     $display("instruction out %b ", DUT.Instruction);
 
@@ -84,21 +88,110 @@ initial begin
     end
 
     $display("TEST 1 PASSED ");
+
+
+
     $display("***************************************");
 	// ############################################################################
-	// Increment clock cycle
-	#15ns
+	// Increment To next test
+	#10ns
     // ############################################################################
 	$display("Program Counter after Test 1 %b ", DUT.PgmCtr);
     $display("instruction out %b ", DUT.Instruction);
-
-	$display("");
 	$display("***************************************");
+
+
+
 	$display("TEST 2  MVH  r15(=0), r1(=3)   # r15 = 3");
-	// Increment clock cycle
-	#15ns
-	$display("Program Counter after another 15 ns  %b ", DUT.PgmCtr);
+
+    if ( DUT.RF1.RaddrA  != 4'b1111) begin
+        $display("Reg addr A should be reg 15");
+        $display("addr A val = %b ", DUT.RF1.RaddrA );
+        #10ns $stop;
+    end
+
+    if ( DUT.RF1.RaddrB  != 1'b1) begin
+        $display("Reg addr B  should b 1");
+        $display("addr B val = %b ", DUT.RF1.RaddrB);
+        #10ns $stop;
+    end
+
+    if ( DUT.RF1.OP != 4'b1001) begin
+        $display("RF1 operation was not Move Low To High (1001)");
+        $display("OP= %b ", DUT.RF1.OP);
+        #10ns $stop;
+    end
+
+	// ############################################################################
+	#10ns // Verify the register values were changed by examining them at next instruction!
+    // ############################################################################
+
+     if (  DUT.RF1.Registers[15]  != 8'b00000011) begin
+        $display("Reg File:  DataOutA (R15) should be 3");
+        $display(" actual DataOutA= %b ", DUT.RF1.Registers[15]);
+        #10ns $stop;
+    end
+
+    if (  DUT.RF1.Registers[1] != 8'b00000011) begin
+        $display("Reg File:  DataOutB (R1) should be ALSO be 3");
+        $display(" actual DataOutB= %b ", DUT.RF1.Registers[1]);
+        #10ns $stop;
+    end
+    $display("TEST 2 PASSED ");
+    $display("***************************************");
+
+
+    $display("Program Counter after Test 2 %b ", DUT.PgmCtr);
     $display("instruction out %b ", DUT.Instruction);
+
+
+	$display("***************************************");
+    $display("TEST 3:  STORE  MEM[20] = r3(=9)  ");
+
+    if (  DUT.Instruction[8:5]  != 4'b0111) begin
+        $display(" Opcode != store{0111} ");
+        $display(" Opcode =  %b ", DUT.Instruction[8:5]  );
+        #10ns $stop;
+    end
+
+    if (  DUT.RF1.Registers[3] != 8'b00001001) begin
+        $display("Reg File:  R3 value != 9 ");
+        $display(" r3 value = %b ", DUT.RF1.Registers[3]  );
+        #10ns $stop;
+    end
+
+    if (  DUT.DM1.WriteEn != 1'b1) begin
+        $display("WriteEnable is NOT enabled. Will not allow data to be written");
+        #10ns $stop;
+    end
+
+    if (  DUT.DM1.DataAddress != 8'b00010100) begin
+        $display(" not writing into MEM[20] ");
+        $display("  ( MEM [DataAddress] ) where DataAddress = %b ", DUT.DM1.DataAddress   );
+        #10ns $stop;
+    end
+
+    if (  DUT.DM1.DataIn != 8'b00001001) begin
+        $display("DataIn is NOT 9.  Mem[..] = 9 is the goal.  ");
+        $display(" DataIn = %b ", DUT.DM1.DataIn  );
+        #10ns $stop;
+    end
+
+	// ############################################################################
+	#10ns // Verify the register values were changed by examining them at next instruction!
+    // ############################################################################
+
+
+    if (  DUT.DM1.Core[20] != 8'b00001001) begin
+        $display(" MEM[20] != 9 ");
+        $display(" MEM[20] =  %b ",DUT.DM1.Core[20] );
+        #10ns $stop;
+    end
+
+    $display("TEST 3 PASSED ");
+    $display("***************************************");
+
+
 	// launch prodvgram in DUT
 	#10ns Req = 0;
 	// Wait for done flag, then display results

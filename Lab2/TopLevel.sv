@@ -73,6 +73,7 @@ RegFile #(.W(8),.D(4)) RF1 (
 	.DataIn   (RegWriteValue),
 	.DataOutA (ReadA),
 	.DataOutB (ReadB),
+	.MemWriteValue (MemWriteValue),
 	.OP (Instruction[8:5])
 	);
 
@@ -87,11 +88,11 @@ ALU ALU1 (
 
 // Data memory
 DataMem DM1 (
-		.DataAddress (ReadA),
+		.DataAddress ({3'b000, Instruction[4:0]}),
 		.WriteEn     (MemWrite),
-		.DataIn      (MemWriteValue),
+		.DataIn      (RF1.Registers[3]),
 		.DataOut     (MemReadValue),
-		.Clk,
+		.Clk         (Clk),
 		.Reset		 (Reset)
 	);
 

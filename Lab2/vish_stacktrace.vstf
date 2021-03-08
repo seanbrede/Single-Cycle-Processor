@@ -24,3 +24,55 @@ Exception c0000005 has occurred at address 0076b9c3. Traceback:
 StackWalk failed 299
 # End of Stack Trace
 
+# Current time Sun Mar 07 20:14:58 2021
+# ModelSim - Intel FPGA Edition Stack Trace
+# Program = vish
+# Id = "2020.3"
+# Version = "2020.07"
+# Date = "Jul 22 2020"
+# Platform = win32aloem
+
+Exception c0000005 has occurred at address 007666f2. Traceback:
+# 0    0x007666f2: 'WlfContextItem::`vector deleting destructor' + 0x68dd2'
+# 1    0x0076bd84: 'WlfContextItem::`vector deleting destructor' + 0x6e464'
+# 2    0x0076c87f: 'WlfContextItem::`vector deleting destructor' + 0x6ef5f'
+# 3    0x0076977e: 'WlfContextItem::`vector deleting destructor' + 0x6be5e'
+# 4    0x00767341: 'WlfContextItem::`vector deleting destructor' + 0x69a21'
+# 5    0x0067ee9e: 'WinMain + 0x12426e'
+# 6    0x004f8659: 'EnumDispProc + 0x1779'
+# 7    0x588c1fae: 'TclInvokeStringCommand + 0xbe'
+# 8    0x588c39f1: 'TclNREvalObjv + 0x3e1'
+# 9    0x588c3a49: 'TclNRRunCallbacks + 0x49'
+# 10   0x588c563c: 'Tcl_EvalObjEx + 0x2c'
+# 11   0x70cf0400: 'Itcl_EvalMemberCode + 0x300'
+# 12   0x0265e254: '<unknown (@0x265e254)>'
+# 13   0x588c39f1: 'TclNREvalObjv + 0x3e1'
+StackWalk failed 299
+# End of Stack Trace
+
+# Current time Sun Mar 07 20:22:45 2021
+# ModelSim - Intel FPGA Edition Stack Trace
+# Program = vish
+# Id = "2020.3"
+# Version = "2020.07"
+# Date = "Jul 22 2020"
+# Platform = win32aloem
+
+Exception c0000005 has occurred at address 007666f2. Traceback:
+# 0    0x007666f2: 'WlfContextItem::`vector deleting destructor' + 0x68dd2'
+# 1    0x0076bd84: 'WlfContextItem::`vector deleting destructor' + 0x6e464'
+# 2    0x0076c87f: 'WlfContextItem::`vector deleting destructor' + 0x6ef5f'
+# 3    0x0076977e: 'WlfContextItem::`vector deleting destructor' + 0x6be5e'
+# 4    0x00767341: 'WlfContextItem::`vector deleting destructor' + 0x69a21'
+# 5    0x0067ee9e: 'WinMain + 0x12426e'
+# 6    0x004f8659: 'EnumDispProc + 0x1779'
+# 7    0x58741fae: 'TclInvokeStringCommand + 0xbe'
+# 8    0x587439f1: 'TclNREvalObjv + 0x3e1'
+# 9    0x58743a49: 'TclNRRunCallbacks + 0x49'
+# 10   0x5874563c: 'Tcl_EvalObjEx + 0x2c'
+# 11   0x70cf0400: 'Itcl_EvalMemberCode + 0x300'
+# 12   0x0265e254: '<unknown (@0x265e254)>'
+# 13   0x587439f1: 'TclNREvalObjv + 0x3e1'
+StackWalk failed 299
+# End of Stack Trace
+

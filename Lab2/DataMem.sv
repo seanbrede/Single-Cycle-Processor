@@ -24,10 +24,10 @@ always_comb                     // reads are combinational
 always_ff @ (posedge Clk)		 // writes are sequential
 /*( Reset response is needed only for initialization (see inital $readmemh above for another choice)
   if you do not need to preload your data memory with any constants, you may omit the if(Reset) and the else,
-  and go straight to if(WriteEn) ...
+  and go straighlilt to if(WriteEn) ...
 */
 	if(Reset) begin
-// you may initialize your memory w/ constants, if you wish
+        // you may initialize your memory w/ constants, if you wish
 		for(int i=0;i<256;i++)
 			Core[i] <= 0;
 
