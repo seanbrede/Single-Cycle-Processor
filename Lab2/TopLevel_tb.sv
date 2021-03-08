@@ -37,6 +37,8 @@ initial begin
 		DUT.DM1.Core[4] = 8'hfb;
 	end
 
+    DUT.DM1.Core[11] = 8'b00001111;
+
 	// students may also pre_load desired constants into DM
 	// initialize DUT's register file
 	for(int j=0; j<16; j++)
@@ -44,10 +46,14 @@ initial begin
 	// students may pre-load desired constants into the reg_file
 
     DUT.RF1.Registers[6] = 8'b00000101; // pre-load register 6 with value 5
+    $display("setting r6 value to 5");
     DUT.RF1.Registers[1] = 8'b00000011; // r1 = 3
-    $display("setting r3 value to 8");
-    $display("setting r9 value to 9");
+    $display("setting r1 value to 3");
     DUT.RF1.Registers[3] = 8'b00001001;
+    $display("setting r3 value to 9");
+    DUT.RF1.Registers[5] = 8'b00001011;
+    $display("setting r5 value to 11");
+
 
     //#1ns
     Req = 'b0;
@@ -102,7 +108,8 @@ initial begin
 
 
 
-	$display("TEST 2  MVH  r15(=0), r1(=3)   # r15 = 3");
+	$display("TEST 2  MOVE  r15(=0), r1(=3)   ");
+    $display("(Low to High)    after r15 =3   ");
 
     if ( DUT.RF1.RaddrA  != 4'b1111) begin
         $display("Reg addr A should be reg 15");
@@ -146,7 +153,8 @@ initial begin
 
 
 	$display("***************************************");
-    $display("TEST 3:  STORE  MEM[20] = r3(=9)  ");
+    $display("TEST 3:  STORE  MEM[ R[rd] ] = r3  ");
+    $display("           where  MEM[ 20 ]  = 9  ");
 
     if (  DUT.Instruction[8:5]  != 4'b0111) begin
         $display(" Opcode != store{0111} ");
@@ -190,6 +198,66 @@ initial begin
 
     $display("TEST 3 PASSED ");
     $display("***************************************");
+
+
+
+    $display("Program Counter after Test 3 %b ", DUT.PgmCtr);
+    $display("instruction out %b ", DUT.Instruction);
+
+
+	$display("***************************************");
+    $display("TEST 4:  LOAD  r2 =  MEM[ rd ]  ");
+    $display("              where  MEM[ 11 ] = 15  ");
+
+    if (  DUT.Instruction[8:5]  != 4'b0110) begin
+        $display(" Opcode != Load{0110} ");
+        $display(" Opcode =  %b ", DUT.Instruction[8:5]  );
+        #10ns $stop;
+    end
+
+    if (  DUT.RF1.Registers[5] != 8'b00001011) begin
+        $display("Reg File:  R5 value != 11 ");
+        $display(" r5 value = %b ", DUT.RF1.Registers[5]  );
+        #10ns $stop;
+    end
+
+    if (  DUT.DM1.Core[11]  != 8'b00001111) begin
+        $display("  MEM[11] != 15   ");
+        $display("  DUT.DM1.Core[11] =  %b ",  DUT.DM1.Core[11]  );
+        #10ns $stop;
+    end
+
+
+    if (  DUT.DM1.DataAddress != 8'b00001011) begin
+        $display("  DataAddress != 11   ");
+        $display("  DataAddress =  %b ",  DUT.DM1.DataAddress );
+        #10ns $stop;
+    end
+
+
+	// ############################################################################
+	#10ns // Verify the register values were changed by examining them at next instruction!
+    // ############################################################################
+
+
+    if (  DUT.RF1.Registers[2]  != 8'b00001111) begin
+        $display("  r2 value != 15   ");
+        $display("  r2 value  =  %b ",  DUT.RF1.Registers[2] );
+        #10ns $stop;
+    end
+
+
+    $display("TEST 4 PASSED ");
+    $display("***************************************");
+
+
+    $display("");
+    $display("");
+    $display("***************************************");
+    $display("ALL TESTS PASSED ");
+    $display("***************************************");
+
+
 
 
 	// launch prodvgram in DUT
