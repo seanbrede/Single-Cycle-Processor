@@ -29,22 +29,24 @@ always_comb begin
 	else if (OP == kRSH)                    // shift right
 		Out = {1'b0, InputA[7:1]};
 	else if (OP == SEQ) begin			// subtract for instructions { SEQ } , JEQ and SLT might need to be in a diff condition
-		Out = InputA - InputB; 
-		if (Out == 0) 
+		// Out = InputA - InputB; 
+		if ((InputA - InputB) == 0) 
 			// take output of Zero assign to r4
-			// or take output Out assign to r4
-			Out = 1;
+			Out = 1; // lets r4 = 1
 		else 
-			Out = 0;
+			Out = 0; // we store r4 = 0
 	end
-	else if (OP == SLT) begin 			// subtr and shift for SLT
-		Out = (InputA - InputB); 	// assuming InputA (Rs) and InputB (Rd)  
-		if (Out[7] == 0) // if true, means Rs > Rd
-			// set Out = 1, assign val to r4
-			Out = 1;
+	else if (OP == SLT) begin 			
+		Out = InputA - InputB; 	
+		// assuming InputA (Rd) and InputB (Rs)
+		// check to see if Rd (InputA) < Rs (InputB)
+		if (Out[7] == 1) // if true, then Rd (InputA) < Rs (InputB)
+			// r4 = 1
+			Out = 1; 
 		else 
-			// set Out = 0, assign val to r4
-			Out = 0;
+			// means Rd (A) >= Rs (B) 
+			// r4 = 0
+			Out = 0; 
 	end 
 	else 
 		Out = 0; // No Op = default

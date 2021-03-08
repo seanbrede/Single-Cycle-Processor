@@ -4,6 +4,9 @@
 //
 // Additional Comments: 					  $clog2
 
+// import definitions
+import definitions::*; // includes package "definitions"
+
 /* parameters are compile time directives 
  * this can be an any-size reg_file: just override the params!
  */
@@ -17,6 +20,7 @@ module RegFile #(parameter W=8, D=4) (		  // W = data path width; D = pointer wi
 	output       [W-1:0] DataOutA,			  // showing two different ways to handle DataOutX, for
 	output logic [W-1:0] DataOutB,		      // pedagogic reasons only
 	output       [W-1:0] MemWriteValue,
+	output		 [W-1:0] JumpRdy,
 	input        [3:0] OP            		// ALU opcode, part of microcode
 );
 
@@ -31,13 +35,14 @@ logic [W-1:0] Registers[2**D];	  // or just Registers[16] if we know D=4 always
 assign      DataOutA = Registers[RaddrA];	// can't read from addr 0, just like MIPS
 always_comb DataOutB = Registers[RaddrB];  // can read from addr 0, just like ARM
 assign      MemWriteValue = Registers[RaddrA];
+assign		JumpRdy = Registers[4];
 
 // sequential (clocked) writes 
 always_ff @ (posedge Clk)
 	if (WriteEn) begin // works just like data_memory writes
 
 	    // if SLT or SEQ  write into R4
-	    if( OP == 4'b1011 || OP == 4'b1011 )
+	    if( OP == 4'b1011 || OP == 4'b1100 ) 
 		    Registers[4] <= DataIn;  // R4 = ALU_OUTPUT
 		else if ( OP == 4'b0101 || OP == 4'b0110 )// if LOAD TABLE or LOAD
 		    Registers[2] <= DataIn;//   R2 = ALU_OUTPUT

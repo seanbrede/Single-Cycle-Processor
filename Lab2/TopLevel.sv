@@ -25,8 +25,10 @@ wire [7:0] RegWriteValue, // data in to reg file
 wire       MemWrite,	// data_memory write enable
 		     RegWrEn,	// reg_file write enable
 			    Zero,		// ALU output = 0 flag
-               Jump,	   // to program counter: jump  //TODO:: get rid of ??
-           BranchEn;	// to program counter: branch enable
+          		Jump,	   // to program counter: jump  //TODO:: get rid of ??
+           BranchEn,	// to program counter: branch enable
+		   JumpImm, 
+		   JumpInstr;
 
 logic [15:0] CycleCt; // standalone; NOT PC!
 assign Ack      = (Instruction[8:5] == 4'b1101);
@@ -34,7 +36,9 @@ assign InA = ReadA; // connect RF out to ALU in
 assign InB = ReadB;
 
 assign LoadInst = (Instruction[8:5] == 4'b0110 || Instruction[8:5] == 4'b0101); // calls out load specially
-assign RegWriteValue = LoadInst? MemReadValue : ALU_out; //
+assign RegWriteValue = LoadInst ? MemReadValue : ALU_out; //
+assign Jump = (JumpInstr && JumpRdy); // when OP == JEQ && r4 == 1 (JumpRdy)
+
 
 // Instruction fetch
 InstFetch InstFetch1 (
@@ -43,7 +47,7 @@ InstFetch InstFetch1 (
 	.Clk         (Clk),      // (Clk) is required in Verilog, optional in SystemVerilog
 	.BranchAbs   (Jump),     // jump enable
 	.BranchRelEn (BranchEn), // branch enable
-	.ALU_flag	 (Zero),
+	.ALU_flag	 (Zero),	 // Zero flag, not in use (yet)
 	.Target      (PCTarg),
 	.ProgCtr     (PgmCtr)	 // program count = index to instruction memory
 	);
@@ -53,6 +57,7 @@ Ctrl Ctrl1 (
 	.Instruction (Instruction), // from instr_ROM
 	.Clk         (Clk),
 	.BranchEn    (BranchEn),	 // to PC
+	.JumpEnable 	 (JumpInstr),
 	.MemWrite    (MemWrite),
 	.RegWrite    (RegWrEn)
 	);
@@ -74,6 +79,7 @@ RegFile #(.W(8),.D(4)) RF1 (
 	.DataOutA (ReadA),
 	.DataOutB (ReadB),
 	.MemWriteValue (MemWriteValue),
+	.JumpRdy (JumpRdy),
 	.OP (Instruction[8:5])
 	);
 
