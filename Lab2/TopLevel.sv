@@ -70,10 +70,9 @@ RegFile #(.W(8),.D(4)) RF1 (
 	.RaddrA   (Instruction[4:1]), //  RaddrA = 4321 bits of instruction
 	.RaddrB   (Instruction[0:0]), //  RaddarB = 0   bits of instruction
 	//.Waddr    ( (Instruction[8:5] == 4'b1000 ) ? {3'b000, Instruction[0:0]} : Instruction[4:1] ), // if ( move high to low ) -> rs write reg else rd write reg
-	.DataIn   (RegWriteValue),
+	.DataIn   ( RegWriteValue),
 	.DataOutA (ReadA),
 	.DataOutB (ReadB),
-	.MemWriteValue (MemWriteValue),
 	.OP (Instruction[8:5])
 	);
 
@@ -87,11 +86,18 @@ ALU ALU1 (
 	);
 
 
+LUT_Imm LUT_IMM(
+    .index     (Instruction[4:0]), // RD portion of instruction
+    .immediate ( MemWriteValue )
+);
+
+// .DataAddress ( LoadInst ? RF1.Registers[Instruction[3:0]] : MemWriteValue ),
+
 // Data memory
 DataMem DM1 (
-		.DataAddress ( LoadInst ? RF1.Registers[ Instruction[3:0] ] : {3'b000, Instruction[4:0]}),
+		.DataAddress (MemWriteValue),
 		.WriteEn     (MemWrite),
-		.DataIn      (RF1.Registers[3]),
+		.DataIn      (RF1.Registers[3]), // Note:: DataIn is only used for STORE inst. so we can hard set value to r3
 		.DataOut     (MemReadValue),
 		.Clk         (Clk),
 		.Reset		 (Reset)

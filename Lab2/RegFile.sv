@@ -16,7 +16,6 @@ module RegFile #(parameter W=8, D=4) (		  // W = data path width; D = pointer wi
 	input        [W-1:0] DataIn,
 	output       [W-1:0] DataOutA,			  // showing two different ways to handle DataOutX, for
 	output logic [W-1:0] DataOutB,		      // pedagogic reasons only
-	output       [W-1:0] MemWriteValue,
 	input        [3:0] OP            		// ALU opcode, part of microcode
 );
 
@@ -30,7 +29,6 @@ logic [W-1:0] Registers[2**D];	  // or just Registers[16] if we know D=4 always
  */
 assign      DataOutA = Registers[RaddrA];	// can't read from addr 0, just like MIPS
 always_comb DataOutB = Registers[RaddrB];  // can read from addr 0, just like ARM
-assign      MemWriteValue = Registers[RaddrA];
 
 // sequential (clocked) writes 
 always_ff @ (posedge Clk)
