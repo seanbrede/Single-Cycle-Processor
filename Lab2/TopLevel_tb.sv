@@ -37,7 +37,8 @@ initial begin
 		DUT.DM1.Core[4] = 8'hfb;
 	end
 
-    DUT.DM1.Core[11] = 8'b00001111;
+    //DUT.DM1.Core[11] = 8'b00001111;
+    DUT.DM1.Core[54] = 8'b00001111;
 
 	// students may also pre_load desired constants into DM
 	// initialize DUT's register file
@@ -153,8 +154,8 @@ initial begin
 
 
 	$display("***************************************");
-    $display("TEST 3:  STORE  MEM[ R[rd] ] = r3  ");
-    $display("           where  MEM[ 20 ]  = 9  ");
+    $display("TEST 3:  STORE  MEM[ LUT [ rd ]  ] = r3  ");
+    $display("  rd=7 , r3=9     where  MEM[ 61 ]  = 9  ");
 
     if (  DUT.Instruction[8:5]  != 4'b0111) begin
         $display(" Opcode != store{0111} ");
@@ -173,15 +174,23 @@ initial begin
         #10ns $stop;
     end
 
-    if (  DUT.DM1.DataAddress != 8'b00010100) begin
-        $display(" not writing into MEM[20] ");
-        $display("  ( MEM [DataAddress] ) where DataAddress = %b ", DUT.DM1.DataAddress   );
-        #10ns $stop;
-    end
-
     if (  DUT.DM1.DataIn != 8'b00001001) begin
         $display("DataIn is NOT 9.  Mem[..] = 9 is the goal.  ");
         $display(" DataIn = %b ", DUT.DM1.DataIn  );
+        #10ns $stop;
+    end
+
+
+    if (  DUT.Instruction[4:0]  != 4'b00111) begin
+        $display(" rd != 7 ");
+        $display(" rd =  %b ", DUT.Instruction[8:5]  );
+        #10ns $stop;
+    end
+
+
+    if (  DUT.DM1.DataAddress != 8'b00111101) begin
+        $display(" not writing into MEM[61] ");
+        $display("  ( MEM [DataAddress] ) where DataAddress = %b ", DUT.DM1.DataAddress   );
         #10ns $stop;
     end
 
@@ -190,9 +199,9 @@ initial begin
     // ############################################################################
 
 
-    if (  DUT.DM1.Core[20] != 8'b00001001) begin
-        $display(" MEM[20] != 9 ");
-        $display(" MEM[20] =  %b ",DUT.DM1.Core[20] );
+    if (  DUT.DM1.Core[61] != 8'b00001001) begin
+        $display(" MEM[61] != 9 ");
+        $display(" MEM[61] =  %b ", DUT.DM1.Core[61] );
         #10ns $stop;
     end
 
@@ -206,8 +215,9 @@ initial begin
 
 
 	$display("***************************************");
-    $display("TEST 4:  LOAD  r2 =  MEM[ rd ]  ");
-    $display("              where  MEM[ 11 ] = 15  ");
+    $display("TEST 4:  LOAD  r2 =  MEM[ LUT[rd] ]  ");
+    $display(" where,  rd=6,  LUT[6]=54,  MEM[54]=15 ");
+    $display("  so r2 = 15 after load  ");
 
     if (  DUT.Instruction[8:5]  != 4'b0110) begin
         $display(" Opcode != Load{0110} ");
@@ -215,37 +225,39 @@ initial begin
         #10ns $stop;
     end
 
-    if (  DUT.RF1.Registers[5] != 8'b00001011) begin
-        $display("Reg File:  R5 value != 11 ");
-        $display(" r5 value = %b ", DUT.RF1.Registers[5]  );
+    if (  DUT.Instruction[4:0]  != 4'b00110) begin
+        $display(" rd != 6 ");
+        $display(" rd =  %b ", DUT.Instruction[8:5]  );
         #10ns $stop;
     end
 
-    if (  DUT.DM1.Core[11]  != 8'b00001111) begin
-        $display("  MEM[11] != 15   ");
-        $display("  DUT.DM1.Core[11] =  %b ",  DUT.DM1.Core[11]  );
+    if (  DUT.DM1.Core[54]  != 8'b00001111) begin
+        $display("  MEM[54] != 15   ");
+        $display("  DUT.DM1.Core[54] =  %b ",  DUT.DM1.Core[11]  );
         #10ns $stop;
     end
 
-
-    if (  DUT.DM1.DataAddress != 8'b00001011) begin
-        $display("  DataAddress != 11   ");
-        $display("  DataAddress =  %b ",  DUT.DM1.DataAddress );
+    if (  DUT.MemReadValue  != 8'b00001111) begin
+        $display("  MemReadValue != 15   ");
+        $display(" MemReadValue =  %b ",  DUT.MemReadValue  );
         #10ns $stop;
     end
 
+    if (  DUT.RegWriteValue  != 8'b00001111) begin
+        $display("  RegWriteValue != 15   ");
+        $display("  RegWriteValue =  %b ",  DUT.MemReadValue  );
+        #10ns $stop;
+    end
 
 	// ############################################################################
 	#10ns // Verify the register values were changed by examining them at next instruction!
     // ############################################################################
-
 
     if (  DUT.RF1.Registers[2]  != 8'b00001111) begin
         $display("  r2 value != 15   ");
         $display("  r2 value  =  %b ",  DUT.RF1.Registers[2] );
         #10ns $stop;
     end
-
 
     $display("TEST 4 PASSED ");
     $display("***************************************");

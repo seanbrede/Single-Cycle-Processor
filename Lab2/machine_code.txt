@@ -1,6 +1,6 @@
 111111111
-000001101
-100111111
-011110100
-011000101
+000001101  //  ADD: rd = rd + rs               | where  r6 =5 , r1 = 3        |  r6 = 8
+100111111  //  MVL: rd = rs (Move low to High) | where
+011100111  //  STR: MEM[LUT[rd]] = r3          | where       r3 =9,   rd=9,   |  MEM[61] = 9
+011000110  //  LOD: r2 = MEM[LUT[rd]]          | where MEM[54]= 15,   rd=6,   |  r2 = 15
 110100001
