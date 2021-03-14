@@ -48,7 +48,7 @@ InstFetch InstFetch1 (
 	.Start       (Start),    // SystemVerilg shorthand for .halt(halt),
 	.Clk         (Clk),      // (Clk) is required in Verilog, optional in SystemVerilog
 	.BranchAbs   (Jump),     // jump enable
-	.BranchRelEn (BranchEn), // branch enable
+	.BranchRelEn (BranchEn), // branch anable
 	.ALU_flag	 (Zero),	 // Zero flag, not in use (yet)
 	.Target      (PCTarg),
 	.ProgCtr     (PgmCtr)	 // program count = index to instruction memory
@@ -97,8 +97,17 @@ ALU ALU1 (
 
 LUT_Imm LUT_IMM(
     .index     (Instruction[4:0]), // RD portion of instruction
-    .immediate ( MemWriteValue )
+    .immediate (MemWriteValue)
 );
+
+// LUT_Add LUT_ADD(
+// 	// index prob needs to be an index starting from 0, successively incremented 
+// 	// along the way. There's prob no way to control which index we increment to,
+// 	// and we'll have to order it such that the right index pertaining to the right
+// 	// instr address we want to branch to -- maybe needs a signal for when to increase
+// 	.index		( /* some index */), 
+// 	.address	(PCTarg)
+// );
 
 // .DataAddress ( LoadInst ? RF1.Registers[Instruction[3:0]] : MemWriteValue ),
 
