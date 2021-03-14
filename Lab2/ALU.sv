@@ -50,7 +50,6 @@ always_comb begin
 	end 
 	else 
 		Out = 0; // No Op = default
-	// Remaining to be done: JEQ instr case
 end
 
 always_comb	// assign Zero = !Out;

@@ -27,8 +27,9 @@ wire       MemWrite,	// data_memory write enable
 			    Zero,		// ALU output = 0 flag
           		Jump,	   // to program counter: jump  //TODO:: get rid of ??
            BranchEn,	// to program counter: branch enable
-		   JumpImm, 
-		   JumpInstr;
+		   JumpRdy, 
+		   JumpInstr,
+		   DataAddr;
 
 logic [15:0] CycleCt; // standalone; NOT PC!
 assign Ack      = (Instruction[8:5] == 4'b1101);
@@ -38,6 +39,7 @@ assign InB = ReadB;
 assign LoadInst = (Instruction[8:5] == 4'b0110 || Instruction[8:5] == 4'b0101); // calls out load specially
 assign RegWriteValue = LoadInst ? MemReadValue : ALU_out; //
 assign Jump = (JumpInstr && JumpRdy); // when OP == JEQ && r4 == 1 (JumpRdy)
+assign DataAddr = LoadInst ? RF1.Registers[ Instruction[3:0] ] : {3'b000, Instruction[4:0]};
 
 
 // Instruction fetch
@@ -95,7 +97,7 @@ ALU ALU1 (
 
 // Data memory
 DataMem DM1 (
-		.DataAddress ( LoadInst ? RF1.Registers[ Instruction[3:0] ] : {3'b000, Instruction[4:0]}),
+		.DataAddress ( DataAddr ),
 		.WriteEn     (MemWrite),
 		.DataIn      (RF1.Registers[3]),
 		.DataOut     (MemReadValue),
