@@ -100,26 +100,26 @@ LUT_Imm LUT_IMM(
     .immediate (MemWriteValue)
 );
 
-// LUT_Add LUT_ADD(
-// 	// index prob needs to be an index starting from 0, successively incremented 
-// 	// along the way. There's prob no way to control which index we increment to,
-// 	// and we'll have to order it such that the right index pertaining to the right
-// 	// instr address we want to branch to -- maybe needs a signal for when to increase
-// 	.index		( /* some index */), 
-// 	.address	(PCTarg)
-// );
+// We'll need to decide what index pertains to what instruction (addresses) 
+// so that PCTarg points to the correct next instruction
+// The default index points to random jibberish if none of the occupied indices
+// are chosen by instruction bits [4:0]
+LUT_Add LUT_ADD(
+	.index		(instruction[4:0]), 
+	.address	(PCTarg)
+);
 
 // .DataAddress ( LoadInst ? RF1.Registers[Instruction[3:0]] : MemWriteValue ),
 
 // Data memory
 DataMem DM1 (
 		// .DataAddress ( DataAddr ),
-		.DataAddress (MemWriteValue),
-		.WriteEn     (MemWrite),
-		.DataIn      (RF1.Registers[3]), // Note:: DataIn is only used for STORE inst. so we can hard set value to r3
-		.DataOut     (MemReadValue),
 		.Clk         (Clk),
-		.Reset		 (Reset)
+		.Reset		 (Reset),
+		.WriteEn     (MemWrite),
+		.DataAddress (MemWriteValue),
+		.DataIn      (RF1.Registers[3]), // Note: DataIn is only used for STORE inst. so we can hard set value to r3
+		.DataOut     (MemReadValue)
 	);
 
 // count number of instructions executed
