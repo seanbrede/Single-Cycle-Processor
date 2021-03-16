@@ -59,7 +59,7 @@ Ctrl Ctrl1 (
 	.Instruction (Instruction), // from instr_ROM
 	.Clk         (Clk),
 	.BranchEn    (BranchEn),	 // to PC
-	.JumpEnable 	 (JumpInstr),
+	.JumpEnable  (JumpInstr),
 	.MemWrite    (MemWrite),
 	.RegWrite    (RegWrEn)
 	);
