@@ -1,6 +1,6 @@
 # assemble_helpers.py: helper definitions and functions for assemble.py
-from collections import defaultdict  # dictionary with default initialization
-import sys                           # for creating errors with exit()
+import collections as col  # for defaultdict()
+import sys                 # for exit()
 
 
 # create a table of {operation: [type, opcode]}
@@ -34,8 +34,7 @@ def processInstruction(inst):
 
 # build a table of {label: {"index": int, "address": int}} from the file ahead of time
 def processLabels(filename):
-    # TODO fix addr_table to have an index in it too instead of only an address
-    addr_table = defaultdict(lambda: {"index": -1, "address": -1})
+    addr_table = col.defaultdict(lambda: {"index": -1, "address": -1})
     line       = 0
     inst_addr  = 0
     num_labels = 0
@@ -104,7 +103,6 @@ def buildLUTAdd(addr_table):
 
 
 def decodeInstruction(inst, raw_inst, addr_table, line):
-    # TODO fix this to use the new addr_table format
     # use the operation to get the opcode from the dictionary, then write the opcode
     to_write = ops_dict[inst[0]][1]
 

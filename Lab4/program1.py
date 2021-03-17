@@ -37,7 +37,7 @@ while write_ptr < last_ptr:
 	new_bit = chs.redXOR(new_bit)  # get the new bit; use reduction-xor
 	LFSR_st = LFSR_st << 1         # shift left by 1
 	LFSR_st = LFSR_st | new_bit    # put in the new bit
-	LFSR_st = LFSR_st & 127        # shift over by 1
+	LFSR_st = LFSR_st & 127        # set MSB to 0
 	# move up pointer
 	write_ptr = write_ptr + 1
 
@@ -54,7 +54,7 @@ while write_ptr < last_ptr:
 	new_bit = chs.redXOR(new_bit)  # get the new bit; use reduction-xor
 	LFSR_st = LFSR_st << 1         # shift left by 1
 	LFSR_st = LFSR_st | new_bit    # put in the new bit
-	LFSR_st = LFSR_st & 127        # shift over by 1
+	LFSR_st = LFSR_st & 127        # set MSB to 0
 	# move up pointers
 	read_ptr  = read_ptr + 1
 	write_ptr = write_ptr + 1
@@ -64,13 +64,13 @@ while write_ptr < last_ptr:
 write_ptr = 64
 while write_ptr < last_ptr:
 	# read an encrypted character
-	enc_char = MEM[read_ptr]
+	enc_char = MEM[write_ptr]
 	# set the parity
 	parity = chs.redXOR(enc_char)
 	if 0 < parity:
 		enc_char = enc_char | 128
 	# write the character with parity
-	MEM[read_ptr] = enc_char
+	MEM[write_ptr] = enc_char
 	# move up pointer
 	write_ptr = write_ptr + 1
 

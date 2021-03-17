@@ -12,20 +12,20 @@ programs  = ["program1", "program2", "program3"]
 # parse each line of Python code
 for program in programs:
     for line in open(program + ".py", "r"):
-        line  = chs.processLine(line)
+        line = chs.processLine(line)
 
         # TODO skip lines with import or print
         if 0 < 1:
             pass
 
         # BLANK LINE OR ONLY COMMENT
-        if not inst: continue
+        if not line: continue
 
         # ASSIGNMENT
-        if inst[1] == "=":
+        if line[1] == "=":
             # add the reference if it doesn't exist
-            if ref_table[inst[0]]["index"] == -1:
-                ref_table[inst[0]]["index"] = num_refs
+            if ref_table[line[0]]["index"] == -1:
+                ref_table[line[0]]["index"] = num_refs
                 num_refs += 1
 
             # TODO then if

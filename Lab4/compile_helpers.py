@@ -51,9 +51,11 @@ def addImmEntries(file, imm_table, num_imms):
         # IF or WHILE
         if len(line) == 4 and (line[0] == "if" or line[0] == "while"):
             if line[1].isdigit():
-                pass
+                imm_table[int(line[1])] = num_imms
+                num_imms += 1
             if line[3].isdigit():
-                pass
+                imm_table[int(line[3])] = num_imms
+                num_imms += 1
 
     return imm_table, num_imms
 
@@ -70,16 +72,18 @@ def redXOR(red):
         par = par + 1
         red = red & (red - 1)
     par = par % 2
-    if par > 0: return 1
-    else:       return 0
+    if par > 0:
+        return 1
+    else:
+        return 0
 
 
 # set up the memory for program1
 def initMemory1():
-    MEM = ([32] * 54) + ([0] * (256 - 54))
+    MEM     = ([32] * 54) + ([0] * (256 - 54))
     MEM[61] = 10          # number of spaces
     MEM[62] = tap_LUT[0]  # LFSR tap pattern
-    MEM[63] = 64          # LFSR initial state
+    MEM[63] = 1           # LFSR initial state
     message = "Mr. Watson, come here. I want to see you."
     for i in range(len(message)):
         MEM[i] = ord(message[i])  # convert character literal to int
