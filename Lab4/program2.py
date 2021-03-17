@@ -18,8 +18,8 @@ last_ptr       = 75             # r8
 read_ptr       = 0              # r9
 expected_state = 64             # r10
 found          = 0              # r10
-write_ptr      = 0             # r11
-write_end      = 64            # r12
+write_ptr      = 0              # r11
+write_end      = 64             # r12
 # r13
 # r14
 # r15
@@ -28,38 +28,45 @@ write_end      = 64            # r12
 def cycle_LFSR( LFSR_st, tap):
     x = LFSR_st & tap
     new_bit = chs.redXOR(x)
-    LFSR_st = LFSR_st | new_bit  # put in the new bit
-    # LFSR_st = LFSR_st >> 1  # shift over by 1  # TODO:: isnt left shift ?
-    return  LFSR_st
+    nextState = LFSR_st | new_bit
+    nextState = nextState << 1
+    return  nextState
 
 # 1. Figure out the tap pattern
-     # WHILE_TAP_SEARCH JUMP (dummy label for while loops)
+NEXT_TAP = "HERE"
 while tap_select < 9:
-    if found == 0:  # IF STATEMENT IS NOT NEEDED IF JUMPS ARE AVAILABLE
-        #TODO-> NEXT_TAP: HERE
+
+    if found == 0:
+        NOT_FOUND = "JUMP"
         curr_tap = chs.tap_LUT[tap_select]
         LFSR_st  = LFSR_st_init
         read_ptr = 65  # start at the space after the seed value
-        last_ptr = 74  # read in the other 9 spaces
+        last_ptr = 74  # read up until the last space value
+    NOT_FOUND = "HERE"
 
-    # iterate through each state making sure they're the same
+    if found == 1: # really only need for the python to work since jumps wont
+        break
+
+    # For given tap, cycle through lfsr each state and check predicted vs actual lfsr state
+    READ_NEXT_PTR = "HERE"
     while read_ptr < last_ptr:
-        # get the predicted adn actual next state
-        expected_state = MEM[read_ptr] ^ 32
-        LFSR_st        = cycle_LFSR( LFSR_st, tap_select)
+        expected_state = MEM[read_ptr] ^ 32               # predicted state
+        LFSR_st        = cycle_LFSR( LFSR_st, tap_select) # actual state
 
-        # if the same check next state, else go to next tap
-        if LFSR_st == expected_state:
-            if read_ptr == last_ptr-1:
-                found = 1 # not needed for assembly
-                break#TODO-> FOUND_TAP: JUMP
-            read_ptr   += 1
-        else:
-            tap_select += 1 # jump to the label of "while tap < 9"
-            break #TODO-> NEXT_TAP: JUMP
-# WHILE_TAP_SEARCH JUMP
+        # predicted != actual, go to next tap
+        if LFSR_st != expected_state:
+            tap_select += 1
+            NEXT_TAP = "JUMP"
+            break
 
-#TODO-> FOUND_TAP: HERE
+        if read_ptr == last_ptr-1:
+            found = 1
+            FOUND_TAP = "JUMP"
+
+        read_ptr   += 1
+        READ_NEXT_PTR = "JUMP"
+
+FOUND_TAP = "HERE"
 
 # 2.  decode the message by iterating through
 while write_ptr < write_end:
