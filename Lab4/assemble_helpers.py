@@ -23,6 +23,9 @@ ops_dict = {
     "sbt": ["IM", "1111"]
 }
 
+# files
+files = ["program1.as", "program2.as", "program3.as"]
+
 
 # deal with comments, formatting, capitalization
 def processInstruction(inst):
@@ -72,10 +75,10 @@ def intToBinaryString(num, num_bits):
 
 
 # builds LUT_Add.sv from the table of {label: address}
-def buildLUTAdd(addr_table):
+def writeLUTAdd(addr_table):
     table_size = len(addr_table)
     if table_size > 32: sys.exit("TERMINATING: LUT_Add size " + str(table_size) + " exceeds maximum: 32")
-    LUT_Add = open("LUT_Add.sv", "w")
+    file = open("LUT_Add.sv", "w")
 
     # turn addr_table into a list
     addr_list = [None] * table_size
@@ -83,7 +86,7 @@ def buildLUTAdd(addr_table):
         addr_list[addr_table[label]["index"]] = addr_table[label]["address"]
 
     # write everything up to the addresses
-    LUT_Add.write("module LUT_Add (\n"             +
+    file.write("module LUT_Add (\n"             +
                   "\tinput        [4:0] index,\n"  +
                   "\toutput logic [9:0] address\n" +
                   ");\n"                           +
@@ -91,15 +94,15 @@ def buildLUTAdd(addr_table):
                   "\tcase (index)\n")
 
     # write each address
-    for i in range(len(addr_list)):
-        LUT_Add.write("\t\t5'd" + str(i) + ":    address = 10'd" + str(addr_list[i]) + ";\n")
+    for i in range(table_size):
+        file.write("\t\t5'd" + str(i) + ":    address = 10'd" + str(addr_list[i]) + ";\n")
 
     # write everything else
-    LUT_Add.write("\t\tdefault: address = 10'd1023;\n" +
+    file.write("\t\tdefault: address = 10'd1023;\n" +
                   "\tendcase\n"                        +
                   "endmodule")
 
-    LUT_Add.close()
+    file.close()
 
 
 def decodeInstruction(inst, raw_inst, addr_table, line):

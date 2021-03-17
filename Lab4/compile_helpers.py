@@ -1,4 +1,5 @@
 import collections as col
+import sys
 
 
 tap_LUT   = [0x60, 0x48, 0x78, 0x72, 0x6A, 0x69, 0x5C, 0x7E, 0x7B]
@@ -62,7 +63,33 @@ def addImmEntries(file, imm_table, num_imms):
 
 # write LUT_Imm.sv based off of the table
 def writeLUTImm(imm_table):
-    pass  # TODO
+    table_size = len(imm_table)
+    if table_size > 32: sys.exit("TERMINATING: LUT_Imm size " + str(table_size) + " exceeds maximum: 32")
+    file = open("LUT_Imm.sv", "w")
+
+    # turn imm_table into a list
+    imm_list = [None] * table_size
+    for imm in imm_table.keys():
+        imm_list[imm_table[imm]] = imm
+
+    # write everything up to the immediates
+    file.write("module LUT_Imm (\n"                  +
+                  "\tinput        [4:0] index,\n"    +
+                  "\toutput logic [7:0] immediate\n" +
+                  ");\n"                             +
+                  "always_comb\n"                    +
+                  "\tcase (index)\n")
+
+    # write each address
+    for i in range(table_size):
+        LUT_Add.write("\t\t5'd" + str(i) + ":    address = 10'd" + str(addr_list[i]) + ";\n")
+
+    # write everything else
+    LUT_Add.write("\t\tdefault: address = 10'd1023;\n" +
+                  "\tendcase\n"                        +
+                  "endmodule")
+
+    LUT_Add.close()
 
 
 # reduction xor
