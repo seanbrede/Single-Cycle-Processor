@@ -26,6 +26,7 @@ TopLevel DUT (
 initial begin
 	#10ns Init = 'b0;
 	#10ns Req  = 'b1;
+
     $display("Program Started");
     $display("Program Counter at start %b ", DUT.PgmCtr);
 	// initialize DUT's data memory
