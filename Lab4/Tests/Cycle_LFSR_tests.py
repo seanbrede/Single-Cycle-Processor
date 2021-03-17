@@ -1,5 +1,5 @@
 import unittest
-import compile_helpers as chs;
+import Lab4.compile_helpers as chs;
 
 def CYCLE_LFSR( state, tap):
     x = state & tap
