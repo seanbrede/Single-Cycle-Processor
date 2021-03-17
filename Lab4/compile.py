@@ -4,9 +4,8 @@ import sys
 
 
 num_refs  = 0
-num_imms  = 0
 ref_table = col.defaultdict()
-imm_table = chs.buildImmediateTable()
+imm_table = chs.buildImmTable()
 programs  = ["program1", "program2", "program3"]
 
 

@@ -10,23 +10,52 @@ def processLine(line):
     line = line.split("#")[0]    # remove comments by getting rid of everything after the first "#"
     line = line.strip()          # remove leading and trailing whitespace
     line = line.lower().split()  # lowercase and then split
-    return line                  # inst[0] is operation, inst[1], inst[2] are operands
+    return line                  # line is now properly tokenized
 
 
 # create the table that links immediate values to an index, from each of the 3 program files
-def buildImmediateTable():
+def buildImmTable():
     imm_table = col.defaultdict(lambda: -1)
+    num_imms  = 0
     for file in filenames:
-        imm_table = addImmEntries(file, imm_table)
-    return
+        imm_table, num_imms = addImmEntries(file, imm_table, num_imms)
+    return imm_table
 
 
 # put immediate entries from the file into the table
-def addImmEntries(file, imm_table):
+def addImmEntries(file, imm_table, num_imms):
     for line in open(file, "r"):
-        pass  # TODO
+        line = processLine(line)  # split line into tokens
 
-    return imm_table
+        # ASSIGNMENT
+        if len(line) > 2 and line[1] == "=":
+            # identifier = MEM[int]
+            if line[2][0:3] == "mem":
+                possible_int = line[2][2:len(line[2])-1]
+                if possible_int.isdigit():
+                    imm_table[int(possible_int)] = num_imms
+                    num_imms += 1
+            # identifier = int
+            if line[2].is_digit():
+                imm_table[int(line[2])] = num_imms
+                num_imms += 1
+            # identifier = int? op int?
+            if len(line) == 5:
+                if line[2].isdigit():
+                    imm_table[int(line[2])] = num_imms
+                    num_imms += 1
+                if line[4].isdigit():
+                    imm_table[int(line[4])] = num_imms
+                    num_imms += 1
+
+        # IF or WHILE
+        if len(line) == 4 and (line[0] == "if" or line[0] == "while"):
+            if line[1].isdigit():
+                pass
+            if line[3].isdigit():
+                pass
+
+    return imm_table, num_imms
 
 
 # write LUT_Imm.sv based off of the table
@@ -41,8 +70,8 @@ def redXOR(red):
         par = par + 1
         red = red & (red - 1)
     par = par % 2
-    if par == 1: return 128
-    else:        return 0
+    if par > 0: return 1
+    else:       return 0
 
 
 # set up the memory for program1
@@ -53,6 +82,13 @@ def initMemory1():
     MEM[63] = 64          # LFSR initial state
     message = "Mr. Watson, come here. I want to see you."
     for i in range(len(message)):
-        MEM[i] = ord(message[i])  # convert char to int
-
+        MEM[i] = ord(message[i])  # convert character literal to int
     return MEM
+
+
+def initMemory2():
+    pass  # TODO
+
+
+def initMemory3():
+    pass  # TODO
