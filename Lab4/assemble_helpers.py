@@ -23,8 +23,10 @@ ops_dict = {
     "sbt": ["IM", "1111"]
 }
 
-# files
-files = ["program1.as", "program2.as", "program3.as"]
+# names of input and output files
+filenames = [("program1.as", "program1.mc"),
+             ("program2.as", "program2.mc"),
+             ("program3.as", "program3.mc")]
 
 
 # deal with comments, formatting, capitalization

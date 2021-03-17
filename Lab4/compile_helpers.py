@@ -118,8 +118,8 @@ def initMemory1():
 
 
 def initMemory2():
-    pass  # TODO
+    return []  # TODO
 
 
 def initMemory3():
-    pass  # TODO
+    return []  # TODO

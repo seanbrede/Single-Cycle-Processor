@@ -11,21 +11,21 @@ ash.writeLUTAdd(addr_table)                          # generate LUT_Add.sv
 
 
 # TODO finish refactoring this to work with multiple files
-for file in ash.files:
-    m_code = open(file[0:len(file)-2] + ".mc", "w")  # changes .as to .mc; will create if does not exist
+for file in ash.filenames:
+    m_code = open(file[0], "w")  # changes .as to .mc; will create if does not exist
 
     # parse each line of assembly
-    for raw_inst in open("assembly_code.txt", "r"):
+    for a_inst in open("assembly_code.txt", "r"):
         line += 1                                 # increment the line number at the beginning
-        inst  = ash.processInstruction(raw_inst)  # operation as inst[0]; operands as inst[1], inst[2]
+        inst  = ash.processInstruction(a_inst)  # operation as inst[0]; operands as inst[1], inst[2]
 
         # BLANK LINE OR ONLY COMMENT
         if not inst: continue
 
         # OPERATION
         if inst[0] in ash.ops_dict.keys():  # if operation exists in the dictionary
-            to_write = ash.decodeInstruction(inst, raw_inst, addr_table, line)
-            m_code.write(to_write)
+            m_inst = ash.decodeInstruction(inst, a_inst, addr_table, line)
+            m_code.write(m_inst)
             inst_addr += 1  # instruction address only increases from operations
 
         # LABEL
