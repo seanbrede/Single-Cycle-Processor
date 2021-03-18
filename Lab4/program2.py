@@ -1,15 +1,15 @@
 import compile_helpers as chs; MEM = chs.initMemory1()
 
-# MEM[64] = 289
-# MEM[65] = 290
-# MEM[66] = 292
-# MEM[67] = 296
-# MEM[68] = 304
-# MEM[69] = 1
-# MEM[70] =
-# MEM[71] =
-# MEM[72] =
-# MEM[73] =
+MEM[64] = 0x21
+MEM[65] = 0x22
+MEM[66] = 0x24
+MEM[67] = 0x28
+MEM[68] = 0x30
+MEM[69] = 0x00
+MEM[70] = 0xe1
+MEM[71] = 0xa3
+MEM[72] = 0xa6
+MEM[73] = 0xac
 
 # labels are all caps as var name with string values  JUMP and HERE
 # TAP_SELECT = "HERE"
@@ -87,37 +87,39 @@ while tap_select < 9:
 
 FOUND_TAP = "HERE"
 
-# 2.  decode the message by iterating through
-WRITE = "HERE"
-while write_ptr < write_end:
-    DONE_WRITE = "JUMP"
-
-    #  get rid of the parity bit
-    parity          = MEM[read_ptr] & 128
-    echar_no_parity = MEM[read_ptr] ^ parity
-    # decrypt character
-    if read_ptr == 64:
-        NOT_SEED = "JUMP"
-        lfsr_st        = echar_no_parity ^ 32
-        MEM[write_ptr] = 32  # since we know the frist 10 chars are a space, we can fill the first one like so
-    NOT_SEED = "HERE"
-
-    if read_ptr != 64:
-        SEED = "JUMP"
-        MEM[write_ptr] = lfsr_st ^ echar_no_parity
-    SEED = "HERE"
-
-    # cycle the LFSR
-    lfsr_st = cycle_LFSR(lfsr_st, tap_select)
-    # increment the write and read ptr
-    write_ptr += 1
-    read_ptr  += 1
-    WRITE = "JUMP"
-
-DONE_WRITE = "HERE"
-
-
-# *** DEBUG ONLY ****
-# The decoded message should be in MEM[0] - MEM[64]
-for i in range(64):
-    print(MEM[i]+32)
+print(tap_select)
+print(chs.tap_LUT[tap_select])
+# # 2.  decode the message by iterating through
+# WRITE = "HERE"
+# while write_ptr < write_end:
+#     DONE_WRITE = "JUMP"
+#
+#     #  get rid of the parity bit
+#     parity          = MEM[read_ptr] & 128
+#     echar_no_parity = MEM[read_ptr] ^ parity
+#     # decrypt character
+#     if read_ptr == 64:
+#         NOT_SEED = "JUMP"
+#         lfsr_st        = echar_no_parity ^ 32
+#         MEM[write_ptr] = 32  # since we know the frist 10 chars are a space, we can fill the first one like so
+#     NOT_SEED = "HERE"
+#
+#     if read_ptr != 64:
+#         SEED = "JUMP"
+#         MEM[write_ptr] = lfsr_st ^ echar_no_parity
+#     SEED = "HERE"
+#
+#     # cycle the LFSR
+#     lfsr_st = cycle_LFSR(lfsr_st, tap_select)
+#     # increment the write and read ptr
+#     write_ptr += 1
+#     read_ptr  += 1
+#     WRITE = "JUMP"
+#
+# DONE_WRITE = "HERE"
+#
+#
+# # *** DEBUG ONLY ****
+# # The decoded message should be in MEM[0] - MEM[64]
+# for i in range(64):
+#     print(MEM[i]+32)
