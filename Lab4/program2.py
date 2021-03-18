@@ -1,15 +1,17 @@
 import compile_helpers as chs; MEM = chs.initMemory1()
 
-MEM[64] = 0x21
-MEM[65] = 0x22
-MEM[66] = 0x24
-MEM[67] = 0x28
-MEM[68] = 0x30
-MEM[69] = 0x00
-MEM[70] = 0xe1
-MEM[71] = 0xa3
-MEM[72] = 0xa6
-MEM[73] = 0xac
+
+f = open('./Tests/p2t60s1.txt', "r")
+a = []
+for line in f:
+    last4 = line[-5:]
+    last4 = last4[0:4]
+    h = int(last4, 16)
+    a.append(h)
+f.close()
+for i in range(len(a)):
+    MEM[64+i] = a[i]
+
 
 # labels are all caps as var name with string values  JUMP and HERE
 # TAP_SELECT = "HERE"
@@ -36,90 +38,80 @@ parity          = 0             # r14
 # r15
 # cannot h
 
+
 def cycle_LFSR( LFSR_st, tap):
-    x = LFSR_st & tap
-    new_bit = chs.redXOR(x)
+    x       = LFSR_st & tap
+    new_bit =  chs.redXOR(x)
+    # GET MSB
+    MSB     = (LFSR_st >> 6) & 1
+    MSB = MSB << 6
+    # CLEAR MSB
+    LFSR_st  = LFSR_st ^ MSB
+    # SHIFT LEFT
+    LFSR_st   = LFSR_st << 1
     nextState = LFSR_st | new_bit
-    nextState = nextState << 1
     return  nextState
 
 # 1. Figure out the tap pattern
-NEXT_TAP = "HERE"
-while tap_select < 9:
-
-    if found == 0:
-        NOT_FOUND = "JUMP"
-        curr_tap = chs.tap_LUT[tap_select]
-        lfsr_st  = lfsr_st_init
-        read_ptr = 65  # start at the space after the seed value
-        last_ptr = 74  # read up until the last space value
-    NOT_FOUND = "HERE"
-
-    if found == 1: # really only need for the python to work since jumps wont
-        break
+while found == 0:
+    curr_tap = chs.tap_LUT[tap_select]
+    # print('curr_tap = ', hex(curr_tap))
+    lfsr_st  = lfsr_st_init
+    read_ptr = 65  # start at the space after the seed value
+    last_ptr = 74  # read up until the last space value
 
     # For given tap, cycle through lfsr each state and check expected_state of true lfsr vs guess lfsr
-    READ_NEXT_PTR = "HERE"
     while read_ptr < last_ptr:
         parity          = MEM[read_ptr] & 128
         echar_no_parity = MEM[read_ptr] ^ parity
 
-        expected_state   = echar_no_parity ^ 32             # predicted state
-        lfsr_st          = cycle_LFSR(lfsr_st, tap_select) # actual state
+        expected_state   = echar_no_parity ^ 32          # predicted state
+        lfsr_st          = cycle_LFSR(lfsr_st, curr_tap) # actual state
 
         # actual    != predicted, go to next tap
         if lfsr_st != expected_state:
-            STATES_EQUAL = "JUMP"
+            # print('\t failure @ ', read_ptr)
+            # print('\t expected state ', hex(expected_state))
+            # print('\t lfsr_st ', hex(lfsr_st))
             tap_select += 1
-            NEXT_TAP = "JUMP"
             break
-
-        STATES_EQUAL = "JUMP"
+        # else:
+        #     print('\t success @ ', read_ptr, " LFSR = ", hex(lfsr_st))
 
         if read_ptr == last_ptr - 1:
-            NOT_LAST_CHECK = "JUMP"
             found = 1
-            FOUND_TAP = "JUMP"
 
-        NOT_LAST_CHECK = "HERE"
         read_ptr += 1
-        READ_NEXT_PTR = "JUMP"
 
-FOUND_TAP = "HERE"
+print('tap selection done.  tap selected -> ', hex(curr_tap) )
+read_ptr = 64
 
-print(tap_select)
-print(chs.tap_LUT[tap_select])
 # # 2.  decode the message by iterating through
 # WRITE = "HERE"
-# while write_ptr < write_end:
-#     DONE_WRITE = "JUMP"
-#
-#     #  get rid of the parity bit
-#     parity          = MEM[read_ptr] & 128
-#     echar_no_parity = MEM[read_ptr] ^ parity
-#     # decrypt character
-#     if read_ptr == 64:
-#         NOT_SEED = "JUMP"
-#         lfsr_st        = echar_no_parity ^ 32
-#         MEM[write_ptr] = 32  # since we know the frist 10 chars are a space, we can fill the first one like so
-#     NOT_SEED = "HERE"
-#
-#     if read_ptr != 64:
-#         SEED = "JUMP"
-#         MEM[write_ptr] = lfsr_st ^ echar_no_parity
-#     SEED = "HERE"
-#
-#     # cycle the LFSR
-#     lfsr_st = cycle_LFSR(lfsr_st, tap_select)
-#     # increment the write and read ptr
-#     write_ptr += 1
-#     read_ptr  += 1
-#     WRITE = "JUMP"
-#
-# DONE_WRITE = "HERE"
-#
-#
-# # *** DEBUG ONLY ****
-# # The decoded message should be in MEM[0] - MEM[64]
-# for i in range(64):
-#     print(MEM[i]+32)
+while write_ptr < write_end:
+    #  get rid of the parity bit
+    parity          = MEM[read_ptr] & 128
+    echar_no_parity = MEM[read_ptr] ^ parity
+    # decrypt character
+    if read_ptr == 64:
+        lfsr_st        = echar_no_parity ^ 32
+        MEM[write_ptr] = 32  # since we know the frist 10 chars are a space, we can fill the first one like so
+
+    if read_ptr != 64:
+        MEM[write_ptr] = lfsr_st ^ echar_no_parity
+
+    # cycle the LFSR
+    lfsr_st = cycle_LFSR(lfsr_st, curr_tap)
+    # increment the write and read ptr
+    write_ptr += 1
+    read_ptr  += 1
+
+
+# *** DEBUG ONLY ****
+# The decoded message should be in MEM[0] - MEM[64]
+s = ""
+for i in range(64):
+    v = int(MEM[i])
+    s += chr(v)
+
+print(s)

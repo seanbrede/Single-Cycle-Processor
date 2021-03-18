@@ -35,14 +35,17 @@ def writeLUTImm(imm_table):
 
 
 # reduction xor
-def redXOR(red):
+def redXOR( red ):
     par = 0
     while red != 0:
         par = par + 1
         red = red & (red - 1)
     par = par % 2
-    if par == 1: return 128
-    else:        return 0
+    if par > 0:
+        return 1
+    else:
+        return 0
+
 
 
 # set up the memory for program1
