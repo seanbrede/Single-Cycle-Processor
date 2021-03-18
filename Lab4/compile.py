@@ -67,8 +67,11 @@ for read, write in chs.filenames:
         else:
             sys.exit("error!")
 
-    # TODO make sure to finish the end of any if blocks or while loops here
-    pass
+    # at the end of the file, if we're still inside of any if/whiles, we need to end them
+    # TODO make sure it prints the correct number of tabs?
+    for _ in range(curr_tabs):
+        nextwrite = cf_stack.pop()
+        write_file.write(nextwrite)
 
     # close the file that we've been writing to
     write_file.close()

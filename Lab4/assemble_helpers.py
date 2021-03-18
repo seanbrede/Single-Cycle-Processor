@@ -37,34 +37,36 @@ def processInstruction(inst):
     return inst                  # inst[0] is operation, inst[1], inst[2] are operands
 
 
-# build a table of {label: {"index": int, "address": int}} from the file ahead of time
-def processLabels(filename):
+# build a table of {label: {"index": int, "address": int}} from the files ahead of time
+def processLabels():
     addr_table = col.defaultdict(lambda: {"index": -1, "address": -1})
     line       = 0
     inst_addr  = 0
     num_labels = 0
 
     # parse each line of assembly
-    for inst in open(filename, "r"):
-        line += 1                        # increment the line number at the beginning of each line
-        inst = processInstruction(inst)  # inst[0] is operation, inst[1], inst[2] are operands
+    # TODO this current code probably requires unique label names across all files, which might be a problem especially if they are generated automatically
+    for a_code, _ in filenames:
+        for inst in open(a_code, "r"):
+            line += 1                        # increment the line number at the beginning of each line
+            inst = processInstruction(inst)  # inst[0] is operation, inst[1], inst[2] are operands
 
-        # BLANK LINE OR ONLY COMMENT
-        if not inst: continue
+            # BLANK LINE OR ONLY COMMENT
+            if not inst: continue
 
-        # OPERATION
-        if inst[0] in ops_dict.keys(): inst_addr += 1  # instruction address only increases from operations
+            # OPERATION
+            if inst[0] in ops_dict.keys(): inst_addr += 1  # instruction address only increases from operations
 
-        # LABEL
-        elif inst[0].find(":") == len(inst[0]) - 1:  # must have a single colon, and it must be at the end
-            label = inst[0][:(len(inst[0]) - 1)]
-            if addr_table[label]["address"] == -1:  # error if it isn't the default
-                addr_table[label]["address"] = inst_addr
-                addr_table[label]["index"]   = num_labels
-                num_labels += 1
+            # LABEL
+            elif inst[0].find(":") == len(inst[0]) - 1:  # must have a single colon, and it must be at the end
+                label = inst[0][:(len(inst[0]) - 1)]
+                if addr_table[label]["address"] == -1:  # error if it isn't the default
+                    addr_table[label]["address"] = inst_addr
+                    addr_table[label]["index"]   = num_labels
+                    num_labels += 1
 
-            else:
-                sys.exit("TERMINATING: label on line " + str(line) + " has already been defined")
+                else:
+                    sys.exit("TERMINATING: label on line " + str(line) + " has already been defined")
 
     return addr_table  # {label: {"index": int, "address": int}}
 
