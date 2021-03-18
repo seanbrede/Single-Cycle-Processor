@@ -6,17 +6,18 @@ import sys                      # for exit()
 line      = 0  # keep track of the line number, mostly for errors
 inst_addr = 0  # how many operations have been parsed
 
-addr_table = ash.processLabels("assembly_code.txt")  # create a table of {label: address}
-ash.writeLUTAdd(addr_table)                          # generate LUT_Add.sv
+
+# TODO refactor ash.processLabels() to work with multiple files
+addr_table = ash.processLabels()  # create a table of {label: address}
+ash.writeLUTAdd(addr_table)       # generate LUT_Add.sv
 
 
-# TODO finish refactoring this to work with multiple files
 for file in ash.filenames:
-    m_code = open(file[0], "w")  # changes .as to .mc; will create if does not exist
+    m_code = open(file[1], "w")  # changes .as to .mc; will create if does not exist
 
     # parse each line of assembly
-    for a_inst in open("assembly_code.txt", "r"):
-        line += 1                                 # increment the line number at the beginning
+    for a_inst in open(file[0], "r"):
+        line += 1                               # increment the line number at the beginning
         inst  = ash.processInstruction(a_inst)  # operation as inst[0]; operands as inst[1], inst[2]
 
         # BLANK LINE OR ONLY COMMENT

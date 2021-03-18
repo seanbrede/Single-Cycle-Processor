@@ -11,6 +11,11 @@ read_ptr     = 0               # r7
 next_state   = 0               # r8
 new_bit      = 0               # r9
 tap_found    = 0               # r10
+# r11
+# r12
+# r13
+# r14
+# r15
 # cannot have more variables after r15
 
 
@@ -31,14 +36,15 @@ while tap_found == 0:
         LFSR_st = LFSR_st & 127        # set MSB to 0
         # get the actual next LFSR state
         next_state = MEM[read_ptr] ^ 32
-        # if the 2 states are the same, go to the next iteration
-        if LFSR_st == next_state:
-            read_ptr = read_ptr + 1
-        # if the 2 states are different
+        # if the 2 states are different, these aren't the droids you're looking for
         if LFSR_st != next_state:
-            tap_select = tap_select + 1
-            tap_found  = 0
-            break
+            tap_found = 0
+        # move up the pointer
+        read_ptr = read_ptr + 1
+
+    # go to next tap if we failed
+    if tap_found == 0:
+        tap_select = tap_select + 1
 
 
 # 2. decode the message TODO

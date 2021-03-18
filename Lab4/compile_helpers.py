@@ -3,15 +3,18 @@ import sys
 
 
 tap_LUT   = [0x60, 0x48, 0x78, 0x72, 0x6A, 0x69, 0x5C, 0x7E, 0x7B]
-filenames = ["program1.py", "program2.py", "program3.py"]
+filenames = [("program1.py", "program1.as"),
+             ("program2.py", "program2.as"),
+             ("program3.py", "program3.as")]
 
 
 # deal with comments, formatting, capitalization
 def processLine(line):
-    line = line.split("#")[0]    # remove comments by getting rid of everything after the first "#"
-    line = line.strip()          # remove leading and trailing whitespace
-    line = line.lower().split()  # lowercase and then split
-    return line                  # line is now properly tokenized
+    line      = line.split("#")[0]                  # remove comments
+    next_tabs = len(line) - len(line.lstrip('\t'))  # count the number of tabs
+    line      = line.strip()                        # remove leading and trailing whitespace
+    line      = line.lower().split()                # lowercase and then split
+    return line, next_tabs
 
 
 # create the table that links immediate values to an index, from each of the 3 program files
@@ -26,7 +29,7 @@ def buildImmTable():
 # put immediate entries from the file into the table
 def addImmEntries(file, imm_table, num_imms):
     for line in open(file, "r"):
-        line = processLine(line)  # split line into tokens
+        line, _ = processLine(line)  # split line into tokens
 
         # ASSIGNMENT
         if len(line) > 2 and line[1] == "=":
@@ -82,14 +85,14 @@ def writeLUTImm(imm_table):
 
     # write each address
     for i in range(table_size):
-        LUT_Add.write("\t\t5'd" + str(i) + ":    address = 10'd" + str(addr_list[i]) + ";\n")
+        file.write("\t\t5'd" + str(i) + ":    immediate = 8'd" + str(imm_list[i]) + ";\n")
 
     # write everything else
-    LUT_Add.write("\t\tdefault: address = 10'd1023;\n" +
-                  "\tendcase\n"                        +
+    file.write("\t\tdefault: immediate = 8'd255;\n" +
+                  "\tendcase\n"                     +
                   "endmodule")
 
-    LUT_Add.close()
+    file.close()
 
 
 # reduction xor
