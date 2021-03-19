@@ -23,7 +23,7 @@ tap_found    = 0             # r10
 while tap_found == 0:
     LFSR_tap  = TAP_LUT[tap_select]
     LFSR_st   = LFSR_st_init
-    read_ptr  = 65  # the first “next state”
+    read_ptr  = 65  # the first "next state"
     tap_found = 1   # assume this tap is the correct one until proven otherwise
 
     # iterate through each state making sure they’re the same
@@ -49,4 +49,4 @@ while tap_found == 0:
 
 # 2. decode the message TODO
 # while 1 < 0:
-#    pass
+#     pass

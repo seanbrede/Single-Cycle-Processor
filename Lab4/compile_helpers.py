@@ -21,13 +21,14 @@ def processLine(line):
 def buildImmTable():
     imm_table = col.defaultdict(lambda: -1)
     num_imms  = 0
-    for file in filenames:
-        imm_table, num_imms = addImmEntries(file, imm_table, num_imms)
+    for read, _ in filenames:
+        imm_table, num_imms = addImmEntries(read, imm_table, num_imms)
     return imm_table
 
 
 # put immediate entries from the file into the table
 def addImmEntries(file, imm_table, num_imms):
+    print(file)
     for line in open(file, "r"):
         line, _ = processLine(line)  # split line into tokens
 
@@ -40,7 +41,7 @@ def addImmEntries(file, imm_table, num_imms):
                     imm_table[int(possible_int)] = num_imms
                     num_imms += 1
             # identifier = int
-            if line[2].is_digit():
+            if line[2].isdigit():
                 imm_table[int(line[2])] = num_imms
                 num_imms += 1
             # identifier = int? op int?
