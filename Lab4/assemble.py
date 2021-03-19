@@ -7,7 +7,6 @@ line      = 0  # keep track of the line number, mostly for errors
 inst_addr = 0  # how many operations have been parsed
 
 
-# TODO refactor ash.processLabels() to work with multiple files
 addr_table = ash.processLabels()  # create a table of {label: address}
 ash.writeLUTAdd(addr_table)       # generate LUT_Add.sv
 
