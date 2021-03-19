@@ -52,6 +52,7 @@ def cycle_LFSR( LFSR_st, tap):
     nextState = LFSR_st | new_bit
     return  nextState
 
+# 0. remove the parity for init
 parity = lfsr_st_init  & 128
 lfsr_st_init = lfsr_st_init ^ parity
 
