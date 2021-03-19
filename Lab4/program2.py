@@ -2,15 +2,15 @@ import compile_helpers as chs; MEM = chs.initMemory2(); TAP_LUT = []  # TODO nee
 
 
 # variable
-LFSR_st_init = MEM[64] ^ 0x20  # r2
-tap_select   = 0               # r3
-last_ptr     = 75              # r4
-LFSR_tap     = 0               # r5
-LFSR_st      = 0               # r6
-read_ptr     = 0               # r7
-next_state   = 0               # r8
-new_bit      = 0               # r9
-tap_found    = 0               # r10
+LFSR_st_init = MEM[64] ^ 32  # r2
+tap_select   = 0             # r3
+last_ptr     = 75            # r4
+LFSR_tap     = 0             # r5
+LFSR_st      = 0             # r6
+read_ptr     = 0             # r7
+next_state   = 0             # r8
+new_bit      = 0             # r9
+tap_found    = 0             # r10
 # r11
 # r12
 # r13
@@ -48,5 +48,5 @@ while tap_found == 0:
 
 
 # 2. decode the message TODO
-while 1 < 0:
-    pass
+# while 1 < 0:
+#    pass
