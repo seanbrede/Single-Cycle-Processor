@@ -16,7 +16,7 @@ module ALU (
 op_mne op_mnemonic; // type enum: used for convenient waveform viewing
 
 always_comb begin
-    Out = 0; // No Op = default
+    // Out = 0; // No Op = default
 
 	if (OP == kADD)                          // add
 		Out = InputA + InputB;
@@ -26,8 +26,8 @@ always_comb begin
 		Out = InputA ^ InputB;
 	else if (OP == kAND)                    // bitwise AND
 		Out = InputA & InputB;
-	else if (OP == kRSH)                    // shift right
-		Out = {1'b0, InputA[7:1]};
+	else if (OP == kLSH)                    // shift left
+		Out = {InputA[6:0], 1'b0};
 	else if (OP == SEQ) begin			// subtract for instructions { SEQ } , JEQ and SLT might need to be in a diff condition
 		// Out = InputA - InputB; 
 		if ((InputA - InputB) == 0) 
@@ -48,6 +48,8 @@ always_comb begin
 			// r4 = 0
 			Out = 0; 
 	end 
+	else if (OP == kOR) // OR operation
+		Out = (InputA | InputB);
 	else 
 		Out = 0; // No Op = default
 end

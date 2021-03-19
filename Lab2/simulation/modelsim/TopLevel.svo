@@ -1,0 +1,1517 @@
+// Copyright (C) 2018  Intel Corporation. All rights reserved.
+// Your use of Intel Corporation's design tools, logic functions 
+// and other software and tools, and its AMPP partner logic 
+// functions, and any output files from any of the foregoing 
+// (including device programming or simulation files), and any 
+// associated documentation or information are expressly subject 
+// to the terms and conditions of the Intel Program License 
+// Subscription Agreement, the Intel Quartus Prime License Agreement,
+// the Intel FPGA IP License Agreement, or other applicable license
+// agreement, including, without limitation, that your use is for
+// the sole purpose of programming logic devices manufactured by
+// Intel and sold by Intel or its authorized distributors.  Please
+// refer to the applicable agreement for further details.
+
+// VENDOR "Altera"
+// PROGRAM "Quartus Prime"
+// VERSION "Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition"
+
+// DATE "03/19/2021 00:51:13"
+
+// 
+// Device: Altera EP2AGX45CU17I3 Package UFBGA358
+// 
+
+// 
+// This Verilog file should be used for ModelSim-Altera (SystemVerilog) only
+// 
+
+`timescale 1 ps/ 1 ps
+
+module TopLevel (
+	Reset,
+	Start,
+	Clk,
+	Ack);
+input 	Reset;
+input 	Start;
+input 	Clk;
+output 	Ack;
+
+// Design Ports Information
+// Ack	=>  Location: PIN_V9,	 I/O Standard: 2.5 V,	 Current Strength: Default
+// Clk	=>  Location: PIN_T10,	 I/O Standard: 2.5 V,	 Current Strength: Default
+// Reset	=>  Location: PIN_V10,	 I/O Standard: 2.5 V,	 Current Strength: Default
+// Start	=>  Location: PIN_Y7,	 I/O Standard: 2.5 V,	 Current Strength: Default
+
+
+wire gnd;
+wire vcc;
+wire unknown;
+
+assign gnd = 1'b0;
+assign vcc = 1'b1;
+assign unknown = 1'bx;
+
+tri1 devclrn;
+tri1 devpor;
+tri1 devoe;
+// synopsys translate_off
+initial $sdf_annotate("TopLevel_v.sdo");
+// synopsys translate_on
+
+wire \Ack~output_o ;
+wire \Clk~input_o ;
+wire \Clk~inputclkctrl_outclk ;
+wire \InstFetch1|Add0~1_sumout ;
+wire \InstROM1|inst_rom~10_combout ;
+wire \InstFetch1|Add0~18 ;
+wire \InstFetch1|Add0~21_sumout ;
+wire \InstFetch1|ProgCtr~10_combout ;
+wire \Reset~input_o ;
+wire \Start~input_o ;
+wire \InstFetch1|ProgCtr[9]~2_combout ;
+wire \InstFetch1|Add0~22 ;
+wire \InstFetch1|Add0~25_sumout ;
+wire \InstFetch1|ProgCtr~9_combout ;
+wire \InstFetch1|Add0~26 ;
+wire \InstFetch1|Add0~29_sumout ;
+wire \InstFetch1|ProgCtr~8_combout ;
+wire \InstFetch1|Add0~30 ;
+wire \InstFetch1|Add0~33_sumout ;
+wire \InstFetch1|ProgCtr~7_combout ;
+wire \InstROM1|inst_rom~9_combout ;
+wire \InstROM1|inst_rom~11_combout ;
+wire \InstROM1|inst_rom~16_combout ;
+wire \InstROM1|inst_rom~17_combout ;
+wire \InstROM1|inst_rom~18_combout ;
+wire \InstROM1|inst_rom~19_combout ;
+wire \InstROM1|inst_rom~14_combout ;
+wire \InstROM1|inst_rom~15_combout ;
+wire \InstFetch1|ProgCtr~0DUPLICATE_combout ;
+wire \InstFetch1|ProgCtr~1_combout ;
+wire \InstFetch1|Add0~2 ;
+wire \InstFetch1|Add0~5_sumout ;
+wire \InstFetch1|ProgCtr~3_combout ;
+wire \InstFetch1|Add0~6 ;
+wire \InstFetch1|Add0~9_sumout ;
+wire \InstFetch1|ProgCtr~4_combout ;
+wire \InstFetch1|Add0~10 ;
+wire \InstFetch1|Add0~14 ;
+wire \InstFetch1|Add0~17_sumout ;
+wire \InstFetch1|ProgCtr~11_combout ;
+wire \InstROM1|inst_rom~1_combout ;
+wire \InstROM1|inst_rom~12_combout ;
+wire \InstROM1|inst_rom~13_combout ;
+wire \InstFetch1|ProgCtr~0_combout ;
+wire \InstFetch1|Add0~34 ;
+wire \InstFetch1|Add0~37_sumout ;
+wire \InstFetch1|ProgCtr~6_combout ;
+wire \InstROM1|inst_rom~1DUPLICATE_combout ;
+wire \InstROM1|inst_rom~0_combout ;
+wire \InstROM1|inst_rom~5_combout ;
+wire \InstROM1|inst_rom~6_combout ;
+wire \InstROM1|inst_rom~4_combout ;
+wire \InstROM1|inst_rom~8_combout ;
+wire \InstROM1|inst_rom~3_combout ;
+wire \InstROM1|inst_rom~7_combout ;
+wire \Jump~0_combout ;
+wire \Jump~1_combout ;
+wire \InstFetch1|Add0~13_sumout ;
+wire \InstFetch1|ProgCtr~5_combout ;
+wire \InstROM1|inst_rom~2_combout ;
+wire \ALU1|Equal0~0_combout ;
+wire [9:0] \InstFetch1|ProgCtr ;
+
+
+// Location: IOOBUF_X29_Y0_N36
+arriaii_io_obuf \Ack~output (
+	.i(\ALU1|Equal0~0_combout ),
+	.oe(vcc),
+	.seriesterminationcontrol(16'b0000000000000000),
+	.devoe(devoe),
+	.o(\Ack~output_o ),
+	.obar());
+// synopsys translate_off
+defparam \Ack~output .bus_hold = "false";
+defparam \Ack~output .open_drain_output = "false";
+// synopsys translate_on
+
+// Location: IOIBUF_X26_Y0_N32
+arriaii_io_ibuf \Clk~input (
+	.i(Clk),
+	.ibar(gnd),
+	.o(\Clk~input_o ));
+// synopsys translate_off
+defparam \Clk~input .bus_hold = "false";
+defparam \Clk~input .simulate_z_as = "z";
+// synopsys translate_on
+
+// Location: CLKCTRL_G7
+arriaii_clkena \Clk~inputclkctrl (
+	.inclk(\Clk~input_o ),
+	.ena(vcc),
+	.devclrn(devclrn),
+	.devpor(devpor),
+	.outclk(\Clk~inputclkctrl_outclk ),
+	.enaout());
+// synopsys translate_off
+defparam \Clk~inputclkctrl .clock_type = "global clock";
+defparam \Clk~inputclkctrl .ena_register_mode = "none";
+// synopsys translate_on
+
+// Location: MLABCELL_X31_Y2_N20
+arriaii_lcell_comb \InstFetch1|Add0~1 (
+// Equation(s):
+// \InstFetch1|Add0~1_sumout  = SUM(( VCC ) + ( \InstFetch1|ProgCtr [0] ) + ( !VCC ))
+// \InstFetch1|Add0~2  = CARRY(( VCC ) + ( \InstFetch1|ProgCtr [0] ) + ( !VCC ))
+
+	.dataa(gnd),
+	.datab(gnd),
+	.datac(gnd),
+	.datad(gnd),
+	.datae(gnd),
+	.dataf(!\InstFetch1|ProgCtr [0]),
+	.datag(gnd),
+	.cin(gnd),
+	.sharein(gnd),
+	.combout(),
+	.sumout(\InstFetch1|Add0~1_sumout ),
+	.cout(\InstFetch1|Add0~2 ),
+	.shareout());
+// synopsys translate_off
+defparam \InstFetch1|Add0~1 .extended_lut = "off";
+defparam \InstFetch1|Add0~1 .lut_mask = 64'h0000FF000000FFFF;
+defparam \InstFetch1|Add0~1 .shared_arith = "off";
+// synopsys translate_on
+
+// Location: MLABCELL_X29_Y2_N0
+arriaii_lcell_comb \InstROM1|inst_rom~10 (
+// Equation(s):
+// \InstROM1|inst_rom~10_combout  = ( \InstFetch1|ProgCtr [1] & ( (!\InstFetch1|ProgCtr [3] & !\InstFetch1|ProgCtr [2]) ) ) # ( !\InstFetch1|ProgCtr [1] & ( (!\InstFetch1|ProgCtr [3] & ((!\InstFetch1|ProgCtr [2]) # (\InstFetch1|ProgCtr [0]))) ) )
+
+	.dataa(gnd),
+	.datab(!\InstFetch1|ProgCtr [3]),
+	.datac(!\InstFetch1|ProgCtr [0]),
+	.datad(!\InstFetch1|ProgCtr [2]),
+	.datae(gnd),
+	.dataf(!\InstFetch1|ProgCtr [1]),
+	.datag(gnd),
+	.cin(gnd),
+	.sharein(gnd),
+	.combout(\InstROM1|inst_rom~10_combout ),
+	.sumout(),
+	.cout(),
+	.shareout());
+// synopsys translate_off
+defparam \InstROM1|inst_rom~10 .extended_lut = "off";
+defparam \InstROM1|inst_rom~10 .lut_mask = 64'hCC0CCC0CCC00CC00;
+defparam \InstROM1|inst_rom~10 .shared_arith = "off";
+// synopsys translate_on
+
+// Location: MLABCELL_X31_Y2_N28
+arriaii_lcell_comb \InstFetch1|Add0~17 (
+// Equation(s):
+// \InstFetch1|Add0~17_sumout  = SUM(( GND ) + ( \InstFetch1|ProgCtr [4] ) + ( \InstFetch1|Add0~14  ))
+// \InstFetch1|Add0~18  = CARRY(( GND ) + ( \InstFetch1|ProgCtr [4] ) + ( \InstFetch1|Add0~14  ))
+
+	.dataa(gnd),
+	.datab(gnd),
+	.datac(gnd),
+	.datad(gnd),
+	.datae(gnd),
+	.dataf(!\InstFetch1|ProgCtr [4]),
+	.datag(gnd),
+	.cin(\InstFetch1|Add0~14 ),
+	.sharein(gnd),
+	.combout(),
+	.sumout(\InstFetch1|Add0~17_sumout ),
+	.cout(\InstFetch1|Add0~18 ),
+	.shareout());
+// synopsys translate_off
+defparam \InstFetch1|Add0~17 .extended_lut = "off";
+defparam \InstFetch1|Add0~17 .lut_mask = 64'h0000FF0000000000;
+defparam \InstFetch1|Add0~17 .shared_arith = "off";
+// synopsys translate_on
+
+// Location: MLABCELL_X31_Y2_N30
+arriaii_lcell_comb \InstFetch1|Add0~21 (
+// Equation(s):
+// \InstFetch1|Add0~21_sumout  = SUM(( \InstFetch1|ProgCtr [5] ) + ( GND ) + ( \InstFetch1|Add0~18  ))
+// \InstFetch1|Add0~22  = CARRY(( \InstFetch1|ProgCtr [5] ) + ( GND ) + ( \InstFetch1|Add0~18  ))
+
+	.dataa(gnd),
+	.datab(gnd),
+	.datac(gnd),
+	.datad(!\InstFetch1|ProgCtr [5]),
+	.datae(gnd),
+	.dataf(gnd),
+	.datag(gnd),
+	.cin(\InstFetch1|Add0~18 ),
+	.sharein(gnd),
+	.combout(),
+	.sumout(\InstFetch1|Add0~21_sumout ),
+	.cout(\InstFetch1|Add0~22 ),
+	.shareout());
+// synopsys translate_off
+defparam \InstFetch1|Add0~21 .extended_lut = "off";
+defparam \InstFetch1|Add0~21 .lut_mask = 64'h0000FFFF000000FF;
+defparam \InstFetch1|Add0~21 .shared_arith = "off";
+// synopsys translate_on
+
+// Location: LABCELL_X30_Y2_N10
+arriaii_lcell_comb \InstFetch1|ProgCtr~10 (
+// Equation(s):
+// \InstFetch1|ProgCtr~10_combout  = ( \InstFetch1|ProgCtr~0DUPLICATE_combout  ) # ( !\InstFetch1|ProgCtr~0DUPLICATE_combout  & ( (!\Jump~1_combout  & \InstFetch1|Add0~21_sumout ) ) )
+
+	.dataa(gnd),
+	.datab(gnd),
+	.datac(!\Jump~1_combout ),
+	.datad(!\InstFetch1|Add0~21_sumout ),
+	.datae(gnd),
+	.dataf(!\InstFetch1|ProgCtr~0DUPLICATE_combout ),
+	.datag(gnd),
+	.cin(gnd),
+	.sharein(gnd),
+	.combout(\InstFetch1|ProgCtr~10_combout ),
+	.sumout(),
+	.cout(),
+	.shareout());
+// synopsys translate_off
+defparam \InstFetch1|ProgCtr~10 .extended_lut = "off";
+defparam \InstFetch1|ProgCtr~10 .lut_mask = 64'h00F000F0FFFFFFFF;
+defparam \InstFetch1|ProgCtr~10 .shared_arith = "off";
+// synopsys translate_on
+
+// Location: IOIBUF_X29_Y0_N94
+arriaii_io_ibuf \Reset~input (
+	.i(Reset),
+	.ibar(gnd),
+	.o(\Reset~input_o ));
+// synopsys translate_off
+defparam \Reset~input .bus_hold = "false";
+defparam \Reset~input .simulate_z_as = "z";
+// synopsys translate_on
+
+// Location: IOIBUF_X29_Y0_N63
+arriaii_io_ibuf \Start~input (
+	.i(Start),
+	.ibar(gnd),
+	.o(\Start~input_o ));
+// synopsys translate_off
+defparam \Start~input .bus_hold = "false";
+defparam \Start~input .simulate_z_as = "z";
+// synopsys translate_on
+
+// Location: MLABCELL_X29_Y2_N4
+arriaii_lcell_comb \InstFetch1|ProgCtr[9]~2 (
+// Equation(s):
+// \InstFetch1|ProgCtr[9]~2_combout  = ( \Reset~input_o  ) # ( !\Reset~input_o  & ( !\Start~input_o  ) )
+
+	.dataa(gnd),
+	.datab(gnd),
+	.datac(!\Start~input_o ),
+	.datad(gnd),
+	.datae(gnd),
+	.dataf(!\Reset~input_o ),
+	.datag(gnd),
+	.cin(gnd),
+	.sharein(gnd),
+	.combout(\InstFetch1|ProgCtr[9]~2_combout ),
+	.sumout(),
+	.cout(),
+	.shareout());
+// synopsys translate_off
+defparam \InstFetch1|ProgCtr[9]~2 .extended_lut = "off";
+defparam \InstFetch1|ProgCtr[9]~2 .lut_mask = 64'hF0F0F0F0FFFFFFFF;
+defparam \InstFetch1|ProgCtr[9]~2 .shared_arith = "off";
+// synopsys translate_on
+
+// Location: FF_X30_Y2_N11
+dffeas \InstFetch1|ProgCtr[5] (
+	.clk(\Clk~inputclkctrl_outclk ),
+	.d(\InstFetch1|ProgCtr~10_combout ),
+	.asdata(vcc),
+	.clrn(vcc),
+	.aload(gnd),
+	.sclr(\Reset~input_o ),
+	.sload(gnd),
+	.ena(\InstFetch1|ProgCtr[9]~2_combout ),
+	.devclrn(devclrn),
+	.devpor(devpor),
+	.q(\InstFetch1|ProgCtr [5]),
+	.prn(vcc));
+// synopsys translate_off
+defparam \InstFetch1|ProgCtr[5] .is_wysiwyg = "true";
+defparam \InstFetch1|ProgCtr[5] .power_up = "low";
+// synopsys translate_on
+
+// Location: MLABCELL_X31_Y2_N32
+arriaii_lcell_comb \InstFetch1|Add0~25 (
+// Equation(s):
+// \InstFetch1|Add0~25_sumout  = SUM(( \InstFetch1|ProgCtr [6] ) + ( GND ) + ( \InstFetch1|Add0~22  ))
+// \InstFetch1|Add0~26  = CARRY(( \InstFetch1|ProgCtr [6] ) + ( GND ) + ( \InstFetch1|Add0~22  ))
+
+	.dataa(gnd),
+	.datab(gnd),
+	.datac(gnd),
+	.datad(!\InstFetch1|ProgCtr [6]),
+	.datae(gnd),
+	.dataf(gnd),
+	.datag(gnd),
+	.cin(\InstFetch1|Add0~22 ),
+	.sharein(gnd),
+	.combout(),
+	.sumout(\InstFetch1|Add0~25_sumout ),
+	.cout(\InstFetch1|Add0~26 ),
+	.shareout());
+// synopsys translate_off
+defparam \InstFetch1|Add0~25 .extended_lut = "off";
+defparam \InstFetch1|Add0~25 .lut_mask = 64'h0000FFFF000000FF;
+defparam \InstFetch1|Add0~25 .shared_arith = "off";
+// synopsys translate_on
+
+// Location: LABCELL_X30_Y2_N34
+arriaii_lcell_comb \InstFetch1|ProgCtr~9 (
+// Equation(s):
+// \InstFetch1|ProgCtr~9_combout  = ( \InstFetch1|Add0~25_sumout  & ( (!\Jump~1_combout ) # (\InstFetch1|ProgCtr~0_combout ) ) ) # ( !\InstFetch1|Add0~25_sumout  & ( \InstFetch1|ProgCtr~0_combout  ) )
+
+	.dataa(gnd),
+	.datab(gnd),
+	.datac(!\Jump~1_combout ),
+	.datad(!\InstFetch1|ProgCtr~0_combout ),
+	.datae(gnd),
+	.dataf(!\InstFetch1|Add0~25_sumout ),
+	.datag(gnd),
+	.cin(gnd),
+	.sharein(gnd),
+	.combout(\InstFetch1|ProgCtr~9_combout ),
+	.sumout(),
+	.cout(),
+	.shareout());
+// synopsys translate_off
+defparam \InstFetch1|ProgCtr~9 .extended_lut = "off";
+defparam \InstFetch1|ProgCtr~9 .lut_mask = 64'h00FF00FFF0FFF0FF;
+defparam \InstFetch1|ProgCtr~9 .shared_arith = "off";
+// synopsys translate_on
+
+// Location: FF_X30_Y2_N35
+dffeas \InstFetch1|ProgCtr[6] (
+	.clk(\Clk~inputclkctrl_outclk ),
+	.d(\InstFetch1|ProgCtr~9_combout ),
+	.asdata(vcc),
+	.clrn(vcc),
+	.aload(gnd),
+	.sclr(\Reset~input_o ),
+	.sload(gnd),
+	.ena(\InstFetch1|ProgCtr[9]~2_combout ),
+	.devclrn(devclrn),
+	.devpor(devpor),
+	.q(\InstFetch1|ProgCtr [6]),
+	.prn(vcc));
+// synopsys translate_off
+defparam \InstFetch1|ProgCtr[6] .is_wysiwyg = "true";
+defparam \InstFetch1|ProgCtr[6] .power_up = "low";
+// synopsys translate_on
+
+// Location: MLABCELL_X31_Y2_N34
+arriaii_lcell_comb \InstFetch1|Add0~29 (
+// Equation(s):
+// \InstFetch1|Add0~29_sumout  = SUM(( GND ) + ( \InstFetch1|ProgCtr [7] ) + ( \InstFetch1|Add0~26  ))
+// \InstFetch1|Add0~30  = CARRY(( GND ) + ( \InstFetch1|ProgCtr [7] ) + ( \InstFetch1|Add0~26  ))
+
+	.dataa(gnd),
+	.datab(gnd),
+	.datac(gnd),
+	.datad(gnd),
+	.datae(gnd),
+	.dataf(!\InstFetch1|ProgCtr [7]),
+	.datag(gnd),
+	.cin(\InstFetch1|Add0~26 ),
+	.sharein(gnd),
+	.combout(),
+	.sumout(\InstFetch1|Add0~29_sumout ),
+	.cout(\InstFetch1|Add0~30 ),
+	.shareout());
+// synopsys translate_off
+defparam \InstFetch1|Add0~29 .extended_lut = "off";
+defparam \InstFetch1|Add0~29 .lut_mask = 64'h0000FF0000000000;
+defparam \InstFetch1|Add0~29 .shared_arith = "off";
+// synopsys translate_on
+
+// Location: LABCELL_X30_Y2_N20
+arriaii_lcell_comb \InstFetch1|ProgCtr~8 (
+// Equation(s):
+// \InstFetch1|ProgCtr~8_combout  = ( \InstFetch1|Add0~29_sumout  & ( (!\Jump~1_combout ) # (\InstFetch1|ProgCtr~0_combout ) ) ) # ( !\InstFetch1|Add0~29_sumout  & ( \InstFetch1|ProgCtr~0_combout  ) )
+
+	.dataa(gnd),
+	.datab(gnd),
+	.datac(!\Jump~1_combout ),
+	.datad(!\InstFetch1|ProgCtr~0_combout ),
+	.datae(gnd),
+	.dataf(!\InstFetch1|Add0~29_sumout ),
+	.datag(gnd),
+	.cin(gnd),
+	.sharein(gnd),
+	.combout(\InstFetch1|ProgCtr~8_combout ),
+	.sumout(),
+	.cout(),
+	.shareout());
+// synopsys translate_off
+defparam \InstFetch1|ProgCtr~8 .extended_lut = "off";
+defparam \InstFetch1|ProgCtr~8 .lut_mask = 64'h00FF00FFF0FFF0FF;
+defparam \InstFetch1|ProgCtr~8 .shared_arith = "off";
+// synopsys translate_on
+
+// Location: FF_X30_Y2_N21
+dffeas \InstFetch1|ProgCtr[7] (
+	.clk(\Clk~inputclkctrl_outclk ),
+	.d(\InstFetch1|ProgCtr~8_combout ),
+	.asdata(vcc),
+	.clrn(vcc),
+	.aload(gnd),
+	.sclr(\Reset~input_o ),
+	.sload(gnd),
+	.ena(\InstFetch1|ProgCtr[9]~2_combout ),
+	.devclrn(devclrn),
+	.devpor(devpor),
+	.q(\InstFetch1|ProgCtr [7]),
+	.prn(vcc));
+// synopsys translate_off
+defparam \InstFetch1|ProgCtr[7] .is_wysiwyg = "true";
+defparam \InstFetch1|ProgCtr[7] .power_up = "low";
+// synopsys translate_on
+
+// Location: MLABCELL_X31_Y2_N36
+arriaii_lcell_comb \InstFetch1|Add0~33 (
+// Equation(s):
+// \InstFetch1|Add0~33_sumout  = SUM(( \InstFetch1|ProgCtr [8] ) + ( GND ) + ( \InstFetch1|Add0~30  ))
+// \InstFetch1|Add0~34  = CARRY(( \InstFetch1|ProgCtr [8] ) + ( GND ) + ( \InstFetch1|Add0~30  ))
+
+	.dataa(gnd),
+	.datab(gnd),
+	.datac(gnd),
+	.datad(!\InstFetch1|ProgCtr [8]),
+	.datae(gnd),
+	.dataf(gnd),
+	.datag(gnd),
+	.cin(\InstFetch1|Add0~30 ),
+	.sharein(gnd),
+	.combout(),
+	.sumout(\InstFetch1|Add0~33_sumout ),
+	.cout(\InstFetch1|Add0~34 ),
+	.shareout());
+// synopsys translate_off
+defparam \InstFetch1|Add0~33 .extended_lut = "off";
+defparam \InstFetch1|Add0~33 .lut_mask = 64'h0000FFFF000000FF;
+defparam \InstFetch1|Add0~33 .shared_arith = "off";
+// synopsys translate_on
+
+// Location: LABCELL_X30_Y2_N8
+arriaii_lcell_comb \InstFetch1|ProgCtr~7 (
+// Equation(s):
+// \InstFetch1|ProgCtr~7_combout  = ( \InstFetch1|Add0~33_sumout  & ( (!\Jump~1_combout ) # (\InstFetch1|ProgCtr~0_combout ) ) ) # ( !\InstFetch1|Add0~33_sumout  & ( \InstFetch1|ProgCtr~0_combout  ) )
+
+	.dataa(gnd),
+	.datab(gnd),
+	.datac(!\Jump~1_combout ),
+	.datad(!\InstFetch1|ProgCtr~0_combout ),
+	.datae(gnd),
+	.dataf(!\InstFetch1|Add0~33_sumout ),
+	.datag(gnd),
+	.cin(gnd),
+	.sharein(gnd),
+	.combout(\InstFetch1|ProgCtr~7_combout ),
+	.sumout(),
+	.cout(),
+	.shareout());
+// synopsys translate_off
+defparam \InstFetch1|ProgCtr~7 .extended_lut = "off";
+defparam \InstFetch1|ProgCtr~7 .lut_mask = 64'h00FF00FFF0FFF0FF;
+defparam \InstFetch1|ProgCtr~7 .shared_arith = "off";
+// synopsys translate_on
+
+// Location: FF_X30_Y2_N9
+dffeas \InstFetch1|ProgCtr[8] (
+	.clk(\Clk~inputclkctrl_outclk ),
+	.d(\InstFetch1|ProgCtr~7_combout ),
+	.asdata(vcc),
+	.clrn(vcc),
+	.aload(gnd),
+	.sclr(\Reset~input_o ),
+	.sload(gnd),
+	.ena(\InstFetch1|ProgCtr[9]~2_combout ),
+	.devclrn(devclrn),
+	.devpor(devpor),
+	.q(\InstFetch1|ProgCtr [8]),
+	.prn(vcc));
+// synopsys translate_off
+defparam \InstFetch1|ProgCtr[8] .is_wysiwyg = "true";
+defparam \InstFetch1|ProgCtr[8] .power_up = "low";
+// synopsys translate_on
+
+// Location: MLABCELL_X29_Y2_N28
+arriaii_lcell_comb \InstROM1|inst_rom~9 (
+// Equation(s):
+// \InstROM1|inst_rom~9_combout  = ( !\InstFetch1|ProgCtr [8] & ( (!\InstFetch1|ProgCtr [6] & (!\InstFetch1|ProgCtr [7] & (!\InstFetch1|ProgCtr [5] & !\InstFetch1|ProgCtr [4]))) ) )
+
+	.dataa(!\InstFetch1|ProgCtr [6]),
+	.datab(!\InstFetch1|ProgCtr [7]),
+	.datac(!\InstFetch1|ProgCtr [5]),
+	.datad(!\InstFetch1|ProgCtr [4]),
+	.datae(gnd),
+	.dataf(!\InstFetch1|ProgCtr [8]),
+	.datag(gnd),
+	.cin(gnd),
+	.sharein(gnd),
+	.combout(\InstROM1|inst_rom~9_combout ),
+	.sumout(),
+	.cout(),
+	.shareout());
+// synopsys translate_off
+defparam \InstROM1|inst_rom~9 .extended_lut = "off";
+defparam \InstROM1|inst_rom~9 .lut_mask = 64'h8000800000000000;
+defparam \InstROM1|inst_rom~9 .shared_arith = "off";
+// synopsys translate_on
+
+// Location: MLABCELL_X29_Y2_N38
+arriaii_lcell_comb \InstROM1|inst_rom~11 (
+// Equation(s):
+// \InstROM1|inst_rom~11_combout  = ( \InstROM1|inst_rom~9_combout  & ( (!\InstFetch1|ProgCtr [9] & \InstROM1|inst_rom~10_combout ) ) )
+
+	.dataa(gnd),
+	.datab(gnd),
+	.datac(!\InstFetch1|ProgCtr [9]),
+	.datad(!\InstROM1|inst_rom~10_combout ),
+	.datae(gnd),
+	.dataf(!\InstROM1|inst_rom~9_combout ),
+	.datag(gnd),
+	.cin(gnd),
+	.sharein(gnd),
+	.combout(\InstROM1|inst_rom~11_combout ),
+	.sumout(),
+	.cout(),
+	.shareout());
+// synopsys translate_off
+defparam \InstROM1|inst_rom~11 .extended_lut = "off";
+defparam \InstROM1|inst_rom~11 .lut_mask = 64'h0000000000F000F0;
+defparam \InstROM1|inst_rom~11 .shared_arith = "off";
+// synopsys translate_on
+
+// Location: MLABCELL_X29_Y2_N18
+arriaii_lcell_comb \InstROM1|inst_rom~16 (
+// Equation(s):
+// \InstROM1|inst_rom~16_combout  = ( \InstFetch1|ProgCtr [1] & ( (!\InstFetch1|ProgCtr [3] & !\InstFetch1|ProgCtr [2]) ) ) # ( !\InstFetch1|ProgCtr [1] & ( (!\InstFetch1|ProgCtr [3] & ((!\InstFetch1|ProgCtr [0]) # (!\InstFetch1|ProgCtr [2]))) ) )
+
+	.dataa(gnd),
+	.datab(!\InstFetch1|ProgCtr [3]),
+	.datac(!\InstFetch1|ProgCtr [0]),
+	.datad(!\InstFetch1|ProgCtr [2]),
+	.datae(gnd),
+	.dataf(!\InstFetch1|ProgCtr [1]),
+	.datag(gnd),
+	.cin(gnd),
+	.sharein(gnd),
+	.combout(\InstROM1|inst_rom~16_combout ),
+	.sumout(),
+	.cout(),
+	.shareout());
+// synopsys translate_off
+defparam \InstROM1|inst_rom~16 .extended_lut = "off";
+defparam \InstROM1|inst_rom~16 .lut_mask = 64'hCCC0CCC0CC00CC00;
+defparam \InstROM1|inst_rom~16 .shared_arith = "off";
+// synopsys translate_on
+
+// Location: MLABCELL_X29_Y2_N36
+arriaii_lcell_comb \InstROM1|inst_rom~17 (
+// Equation(s):
+// \InstROM1|inst_rom~17_combout  = ( \InstROM1|inst_rom~1_combout  & ( \InstROM1|inst_rom~16_combout  ) )
+
+	.dataa(gnd),
+	.datab(gnd),
+	.datac(!\InstROM1|inst_rom~16_combout ),
+	.datad(gnd),
+	.datae(gnd),
+	.dataf(!\InstROM1|inst_rom~1_combout ),
+	.datag(gnd),
+	.cin(gnd),
+	.sharein(gnd),
+	.combout(\InstROM1|inst_rom~17_combout ),
+	.sumout(),
+	.cout(),
+	.shareout());
+// synopsys translate_off
+defparam \InstROM1|inst_rom~17 .extended_lut = "off";
+defparam \InstROM1|inst_rom~17 .lut_mask = 64'h000000000F0F0F0F;
+defparam \InstROM1|inst_rom~17 .shared_arith = "off";
+// synopsys translate_on
+
+// Location: LABCELL_X30_Y2_N0
+arriaii_lcell_comb \InstROM1|inst_rom~18 (
+// Equation(s):
+// \InstROM1|inst_rom~18_combout  = ( !\InstFetch1|ProgCtr [2] & ( (!\InstFetch1|ProgCtr [3] & !\InstFetch1|ProgCtr [0]) ) )
+
+	.dataa(gnd),
+	.datab(!\InstFetch1|ProgCtr [3]),
+	.datac(!\InstFetch1|ProgCtr [0]),
+	.datad(gnd),
+	.datae(gnd),
+	.dataf(!\InstFetch1|ProgCtr [2]),
+	.datag(gnd),
+	.cin(gnd),
+	.sharein(gnd),
+	.combout(\InstROM1|inst_rom~18_combout ),
+	.sumout(),
+	.cout(),
+	.shareout());
+// synopsys translate_off
+defparam \InstROM1|inst_rom~18 .extended_lut = "off";
+defparam \InstROM1|inst_rom~18 .lut_mask = 64'hC0C0C0C000000000;
+defparam \InstROM1|inst_rom~18 .shared_arith = "off";
+// synopsys translate_on
+
+// Location: LABCELL_X30_Y2_N12
+arriaii_lcell_comb \InstROM1|inst_rom~19 (
+// Equation(s):
+// \InstROM1|inst_rom~19_combout  = (\InstROM1|inst_rom~1_combout  & \InstROM1|inst_rom~18_combout )
+
+	.dataa(gnd),
+	.datab(gnd),
+	.datac(!\InstROM1|inst_rom~1_combout ),
+	.datad(!\InstROM1|inst_rom~18_combout ),
+	.datae(gnd),
+	.dataf(gnd),
+	.datag(gnd),
+	.cin(gnd),
+	.sharein(gnd),
+	.combout(\InstROM1|inst_rom~19_combout ),
+	.sumout(),
+	.cout(),
+	.shareout());
+// synopsys translate_off
+defparam \InstROM1|inst_rom~19 .extended_lut = "off";
+defparam \InstROM1|inst_rom~19 .lut_mask = 64'h000F000F000F000F;
+defparam \InstROM1|inst_rom~19 .shared_arith = "off";
+// synopsys translate_on
+
+// Location: MLABCELL_X29_Y2_N24
+arriaii_lcell_comb \InstROM1|inst_rom~14 (
+// Equation(s):
+// \InstROM1|inst_rom~14_combout  = ( \InstFetch1|ProgCtr [1] & ( (!\InstFetch1|ProgCtr [3] & !\InstFetch1|ProgCtr [2]) ) ) # ( !\InstFetch1|ProgCtr [1] & ( (!\InstFetch1|ProgCtr [3] & !\InstFetch1|ProgCtr [0]) ) )
+
+	.dataa(gnd),
+	.datab(!\InstFetch1|ProgCtr [3]),
+	.datac(!\InstFetch1|ProgCtr [0]),
+	.datad(!\InstFetch1|ProgCtr [2]),
+	.datae(gnd),
+	.dataf(!\InstFetch1|ProgCtr [1]),
+	.datag(gnd),
+	.cin(gnd),
+	.sharein(gnd),
+	.combout(\InstROM1|inst_rom~14_combout ),
+	.sumout(),
+	.cout(),
+	.shareout());
+// synopsys translate_off
+defparam \InstROM1|inst_rom~14 .extended_lut = "off";
+defparam \InstROM1|inst_rom~14 .lut_mask = 64'hC0C0C0C0CC00CC00;
+defparam \InstROM1|inst_rom~14 .shared_arith = "off";
+// synopsys translate_on
+
+// Location: LABCELL_X30_Y2_N26
+arriaii_lcell_comb \InstROM1|inst_rom~15 (
+// Equation(s):
+// \InstROM1|inst_rom~15_combout  = ( \InstROM1|inst_rom~14_combout  & ( \InstROM1|inst_rom~1DUPLICATE_combout  ) )
+
+	.dataa(gnd),
+	.datab(gnd),
+	.datac(!\InstROM1|inst_rom~1DUPLICATE_combout ),
+	.datad(gnd),
+	.datae(gnd),
+	.dataf(!\InstROM1|inst_rom~14_combout ),
+	.datag(gnd),
+	.cin(gnd),
+	.sharein(gnd),
+	.combout(\InstROM1|inst_rom~15_combout ),
+	.sumout(),
+	.cout(),
+	.shareout());
+// synopsys translate_off
+defparam \InstROM1|inst_rom~15 .extended_lut = "off";
+defparam \InstROM1|inst_rom~15 .lut_mask = 64'h000000000F0F0F0F;
+defparam \InstROM1|inst_rom~15 .shared_arith = "off";
+// synopsys translate_on
+
+// Location: LABCELL_X30_Y2_N38
+arriaii_lcell_comb \InstFetch1|ProgCtr~0DUPLICATE (
+// Equation(s):
+// \InstFetch1|ProgCtr~0DUPLICATE_combout  = ( \InstROM1|inst_rom~15_combout  & ( \Jump~1_combout  ) ) # ( !\InstROM1|inst_rom~15_combout  & ( \Jump~1_combout  & ( ((!\InstROM1|inst_rom~11_combout ) # ((\InstROM1|inst_rom~19_combout ) # 
+// (\InstROM1|inst_rom~17_combout ))) # (\InstROM1|inst_rom~13_combout ) ) ) )
+
+	.dataa(!\InstROM1|inst_rom~13_combout ),
+	.datab(!\InstROM1|inst_rom~11_combout ),
+	.datac(!\InstROM1|inst_rom~17_combout ),
+	.datad(!\InstROM1|inst_rom~19_combout ),
+	.datae(!\InstROM1|inst_rom~15_combout ),
+	.dataf(!\Jump~1_combout ),
+	.datag(gnd),
+	.cin(gnd),
+	.sharein(gnd),
+	.combout(\InstFetch1|ProgCtr~0DUPLICATE_combout ),
+	.sumout(),
+	.cout(),
+	.shareout());
+// synopsys translate_off
+defparam \InstFetch1|ProgCtr~0DUPLICATE .extended_lut = "off";
+defparam \InstFetch1|ProgCtr~0DUPLICATE .lut_mask = 64'h00000000DFFFFFFF;
+defparam \InstFetch1|ProgCtr~0DUPLICATE .shared_arith = "off";
+// synopsys translate_on
+
+// Location: LABCELL_X30_Y2_N32
+arriaii_lcell_comb \InstFetch1|ProgCtr~1 (
+// Equation(s):
+// \InstFetch1|ProgCtr~1_combout  = ( \InstFetch1|ProgCtr~0DUPLICATE_combout  ) # ( !\InstFetch1|ProgCtr~0DUPLICATE_combout  & ( (!\Jump~1_combout  & \InstFetch1|Add0~1_sumout ) ) )
+
+	.dataa(gnd),
+	.datab(gnd),
+	.datac(!\Jump~1_combout ),
+	.datad(!\InstFetch1|Add0~1_sumout ),
+	.datae(gnd),
+	.dataf(!\InstFetch1|ProgCtr~0DUPLICATE_combout ),
+	.datag(gnd),
+	.cin(gnd),
+	.sharein(gnd),
+	.combout(\InstFetch1|ProgCtr~1_combout ),
+	.sumout(),
+	.cout(),
+	.shareout());
+// synopsys translate_off
+defparam \InstFetch1|ProgCtr~1 .extended_lut = "off";
+defparam \InstFetch1|ProgCtr~1 .lut_mask = 64'h00F000F0FFFFFFFF;
+defparam \InstFetch1|ProgCtr~1 .shared_arith = "off";
+// synopsys translate_on
+
+// Location: FF_X30_Y2_N33
+dffeas \InstFetch1|ProgCtr[0] (
+	.clk(\Clk~inputclkctrl_outclk ),
+	.d(\InstFetch1|ProgCtr~1_combout ),
+	.asdata(vcc),
+	.clrn(vcc),
+	.aload(gnd),
+	.sclr(\Reset~input_o ),
+	.sload(gnd),
+	.ena(\InstFetch1|ProgCtr[9]~2_combout ),
+	.devclrn(devclrn),
+	.devpor(devpor),
+	.q(\InstFetch1|ProgCtr [0]),
+	.prn(vcc));
+// synopsys translate_off
+defparam \InstFetch1|ProgCtr[0] .is_wysiwyg = "true";
+defparam \InstFetch1|ProgCtr[0] .power_up = "low";
+// synopsys translate_on
+
+// Location: MLABCELL_X31_Y2_N22
+arriaii_lcell_comb \InstFetch1|Add0~5 (
+// Equation(s):
+// \InstFetch1|Add0~5_sumout  = SUM(( \InstFetch1|ProgCtr [1] ) + ( GND ) + ( \InstFetch1|Add0~2  ))
+// \InstFetch1|Add0~6  = CARRY(( \InstFetch1|ProgCtr [1] ) + ( GND ) + ( \InstFetch1|Add0~2  ))
+
+	.dataa(gnd),
+	.datab(gnd),
+	.datac(gnd),
+	.datad(!\InstFetch1|ProgCtr [1]),
+	.datae(gnd),
+	.dataf(gnd),
+	.datag(gnd),
+	.cin(\InstFetch1|Add0~2 ),
+	.sharein(gnd),
+	.combout(),
+	.sumout(\InstFetch1|Add0~5_sumout ),
+	.cout(\InstFetch1|Add0~6 ),
+	.shareout());
+// synopsys translate_off
+defparam \InstFetch1|Add0~5 .extended_lut = "off";
+defparam \InstFetch1|Add0~5 .lut_mask = 64'h0000FFFF000000FF;
+defparam \InstFetch1|Add0~5 .shared_arith = "off";
+// synopsys translate_on
+
+// Location: LABCELL_X30_Y2_N22
+arriaii_lcell_comb \InstFetch1|ProgCtr~3 (
+// Equation(s):
+// \InstFetch1|ProgCtr~3_combout  = ( \InstFetch1|Add0~5_sumout  & ( (!\Jump~1_combout ) # (\InstFetch1|ProgCtr~0_combout ) ) ) # ( !\InstFetch1|Add0~5_sumout  & ( \InstFetch1|ProgCtr~0_combout  ) )
+
+	.dataa(gnd),
+	.datab(gnd),
+	.datac(!\Jump~1_combout ),
+	.datad(!\InstFetch1|ProgCtr~0_combout ),
+	.datae(gnd),
+	.dataf(!\InstFetch1|Add0~5_sumout ),
+	.datag(gnd),
+	.cin(gnd),
+	.sharein(gnd),
+	.combout(\InstFetch1|ProgCtr~3_combout ),
+	.sumout(),
+	.cout(),
+	.shareout());
+// synopsys translate_off
+defparam \InstFetch1|ProgCtr~3 .extended_lut = "off";
+defparam \InstFetch1|ProgCtr~3 .lut_mask = 64'h00FF00FFF0FFF0FF;
+defparam \InstFetch1|ProgCtr~3 .shared_arith = "off";
+// synopsys translate_on
+
+// Location: FF_X30_Y2_N23
+dffeas \InstFetch1|ProgCtr[1] (
+	.clk(\Clk~inputclkctrl_outclk ),
+	.d(\InstFetch1|ProgCtr~3_combout ),
+	.asdata(vcc),
+	.clrn(vcc),
+	.aload(gnd),
+	.sclr(\Reset~input_o ),
+	.sload(gnd),
+	.ena(\InstFetch1|ProgCtr[9]~2_combout ),
+	.devclrn(devclrn),
+	.devpor(devpor),
+	.q(\InstFetch1|ProgCtr [1]),
+	.prn(vcc));
+// synopsys translate_off
+defparam \InstFetch1|ProgCtr[1] .is_wysiwyg = "true";
+defparam \InstFetch1|ProgCtr[1] .power_up = "low";
+// synopsys translate_on
+
+// Location: MLABCELL_X31_Y2_N24
+arriaii_lcell_comb \InstFetch1|Add0~9 (
+// Equation(s):
+// \InstFetch1|Add0~9_sumout  = SUM(( GND ) + ( \InstFetch1|ProgCtr [2] ) + ( \InstFetch1|Add0~6  ))
+// \InstFetch1|Add0~10  = CARRY(( GND ) + ( \InstFetch1|ProgCtr [2] ) + ( \InstFetch1|Add0~6  ))
+
+	.dataa(gnd),
+	.datab(gnd),
+	.datac(gnd),
+	.datad(gnd),
+	.datae(gnd),
+	.dataf(!\InstFetch1|ProgCtr [2]),
+	.datag(gnd),
+	.cin(\InstFetch1|Add0~6 ),
+	.sharein(gnd),
+	.combout(),
+	.sumout(\InstFetch1|Add0~9_sumout ),
+	.cout(\InstFetch1|Add0~10 ),
+	.shareout());
+// synopsys translate_off
+defparam \InstFetch1|Add0~9 .extended_lut = "off";
+defparam \InstFetch1|Add0~9 .lut_mask = 64'h0000FF0000000000;
+defparam \InstFetch1|Add0~9 .shared_arith = "off";
+// synopsys translate_on
+
+// Location: LABCELL_X30_Y2_N16
+arriaii_lcell_comb \InstFetch1|ProgCtr~4 (
+// Equation(s):
+// \InstFetch1|ProgCtr~4_combout  = ( \InstFetch1|ProgCtr~0DUPLICATE_combout  ) # ( !\InstFetch1|ProgCtr~0DUPLICATE_combout  & ( (!\Jump~1_combout  & \InstFetch1|Add0~9_sumout ) ) )
+
+	.dataa(gnd),
+	.datab(gnd),
+	.datac(!\Jump~1_combout ),
+	.datad(!\InstFetch1|Add0~9_sumout ),
+	.datae(gnd),
+	.dataf(!\InstFetch1|ProgCtr~0DUPLICATE_combout ),
+	.datag(gnd),
+	.cin(gnd),
+	.sharein(gnd),
+	.combout(\InstFetch1|ProgCtr~4_combout ),
+	.sumout(),
+	.cout(),
+	.shareout());
+// synopsys translate_off
+defparam \InstFetch1|ProgCtr~4 .extended_lut = "off";
+defparam \InstFetch1|ProgCtr~4 .lut_mask = 64'h00F000F0FFFFFFFF;
+defparam \InstFetch1|ProgCtr~4 .shared_arith = "off";
+// synopsys translate_on
+
+// Location: FF_X30_Y2_N17
+dffeas \InstFetch1|ProgCtr[2] (
+	.clk(\Clk~inputclkctrl_outclk ),
+	.d(\InstFetch1|ProgCtr~4_combout ),
+	.asdata(vcc),
+	.clrn(vcc),
+	.aload(gnd),
+	.sclr(\Reset~input_o ),
+	.sload(gnd),
+	.ena(\InstFetch1|ProgCtr[9]~2_combout ),
+	.devclrn(devclrn),
+	.devpor(devpor),
+	.q(\InstFetch1|ProgCtr [2]),
+	.prn(vcc));
+// synopsys translate_off
+defparam \InstFetch1|ProgCtr[2] .is_wysiwyg = "true";
+defparam \InstFetch1|ProgCtr[2] .power_up = "low";
+// synopsys translate_on
+
+// Location: MLABCELL_X31_Y2_N26
+arriaii_lcell_comb \InstFetch1|Add0~13 (
+// Equation(s):
+// \InstFetch1|Add0~13_sumout  = SUM(( GND ) + ( \InstFetch1|ProgCtr [3] ) + ( \InstFetch1|Add0~10  ))
+// \InstFetch1|Add0~14  = CARRY(( GND ) + ( \InstFetch1|ProgCtr [3] ) + ( \InstFetch1|Add0~10  ))
+
+	.dataa(gnd),
+	.datab(gnd),
+	.datac(gnd),
+	.datad(gnd),
+	.datae(gnd),
+	.dataf(!\InstFetch1|ProgCtr [3]),
+	.datag(gnd),
+	.cin(\InstFetch1|Add0~10 ),
+	.sharein(gnd),
+	.combout(),
+	.sumout(\InstFetch1|Add0~13_sumout ),
+	.cout(\InstFetch1|Add0~14 ),
+	.shareout());
+// synopsys translate_off
+defparam \InstFetch1|Add0~13 .extended_lut = "off";
+defparam \InstFetch1|Add0~13 .lut_mask = 64'h0000FF0000000000;
+defparam \InstFetch1|Add0~13 .shared_arith = "off";
+// synopsys translate_on
+
+// Location: LABCELL_X30_Y2_N30
+arriaii_lcell_comb \InstFetch1|ProgCtr~11 (
+// Equation(s):
+// \InstFetch1|ProgCtr~11_combout  = ( \InstFetch1|ProgCtr~0DUPLICATE_combout  ) # ( !\InstFetch1|ProgCtr~0DUPLICATE_combout  & ( (!\Jump~1_combout  & \InstFetch1|Add0~17_sumout ) ) )
+
+	.dataa(gnd),
+	.datab(gnd),
+	.datac(!\Jump~1_combout ),
+	.datad(!\InstFetch1|Add0~17_sumout ),
+	.datae(gnd),
+	.dataf(!\InstFetch1|ProgCtr~0DUPLICATE_combout ),
+	.datag(gnd),
+	.cin(gnd),
+	.sharein(gnd),
+	.combout(\InstFetch1|ProgCtr~11_combout ),
+	.sumout(),
+	.cout(),
+	.shareout());
+// synopsys translate_off
+defparam \InstFetch1|ProgCtr~11 .extended_lut = "off";
+defparam \InstFetch1|ProgCtr~11 .lut_mask = 64'h00F000F0FFFFFFFF;
+defparam \InstFetch1|ProgCtr~11 .shared_arith = "off";
+// synopsys translate_on
+
+// Location: FF_X30_Y2_N31
+dffeas \InstFetch1|ProgCtr[4] (
+	.clk(\Clk~inputclkctrl_outclk ),
+	.d(\InstFetch1|ProgCtr~11_combout ),
+	.asdata(vcc),
+	.clrn(vcc),
+	.aload(gnd),
+	.sclr(\Reset~input_o ),
+	.sload(gnd),
+	.ena(\InstFetch1|ProgCtr[9]~2_combout ),
+	.devclrn(devclrn),
+	.devpor(devpor),
+	.q(\InstFetch1|ProgCtr [4]),
+	.prn(vcc));
+// synopsys translate_off
+defparam \InstFetch1|ProgCtr[4] .is_wysiwyg = "true";
+defparam \InstFetch1|ProgCtr[4] .power_up = "low";
+// synopsys translate_on
+
+// Location: LABCELL_X30_Y2_N4
+arriaii_lcell_comb \InstROM1|inst_rom~1 (
+// Equation(s):
+// \InstROM1|inst_rom~1_combout  = ( !\InstFetch1|ProgCtr [8] & ( !\InstFetch1|ProgCtr [5] & ( (!\InstFetch1|ProgCtr [9] & (!\InstFetch1|ProgCtr [4] & (!\InstFetch1|ProgCtr [7] & !\InstFetch1|ProgCtr [6]))) ) ) )
+
+	.dataa(!\InstFetch1|ProgCtr [9]),
+	.datab(!\InstFetch1|ProgCtr [4]),
+	.datac(!\InstFetch1|ProgCtr [7]),
+	.datad(!\InstFetch1|ProgCtr [6]),
+	.datae(!\InstFetch1|ProgCtr [8]),
+	.dataf(!\InstFetch1|ProgCtr [5]),
+	.datag(gnd),
+	.cin(gnd),
+	.sharein(gnd),
+	.combout(\InstROM1|inst_rom~1_combout ),
+	.sumout(),
+	.cout(),
+	.shareout());
+// synopsys translate_off
+defparam \InstROM1|inst_rom~1 .extended_lut = "off";
+defparam \InstROM1|inst_rom~1 .lut_mask = 64'h8000000000000000;
+defparam \InstROM1|inst_rom~1 .shared_arith = "off";
+// synopsys translate_on
+
+// Location: LABCELL_X30_Y2_N14
+arriaii_lcell_comb \InstROM1|inst_rom~12 (
+// Equation(s):
+// \InstROM1|inst_rom~12_combout  = ( !\InstFetch1|ProgCtr [3] & ( (!\InstFetch1|ProgCtr [2] & ((!\InstFetch1|ProgCtr [0]) # (!\InstFetch1|ProgCtr [1]))) ) )
+
+	.dataa(!\InstFetch1|ProgCtr [0]),
+	.datab(gnd),
+	.datac(!\InstFetch1|ProgCtr [2]),
+	.datad(!\InstFetch1|ProgCtr [1]),
+	.datae(gnd),
+	.dataf(!\InstFetch1|ProgCtr [3]),
+	.datag(gnd),
+	.cin(gnd),
+	.sharein(gnd),
+	.combout(\InstROM1|inst_rom~12_combout ),
+	.sumout(),
+	.cout(),
+	.shareout());
+// synopsys translate_off
+defparam \InstROM1|inst_rom~12 .extended_lut = "off";
+defparam \InstROM1|inst_rom~12 .lut_mask = 64'hF0A0F0A000000000;
+defparam \InstROM1|inst_rom~12 .shared_arith = "off";
+// synopsys translate_on
+
+// Location: LABCELL_X30_Y2_N24
+arriaii_lcell_comb \InstROM1|inst_rom~13 (
+// Equation(s):
+// \InstROM1|inst_rom~13_combout  = ( \InstROM1|inst_rom~12_combout  & ( \InstROM1|inst_rom~1_combout  ) )
+
+	.dataa(gnd),
+	.datab(gnd),
+	.datac(!\InstROM1|inst_rom~1_combout ),
+	.datad(gnd),
+	.datae(gnd),
+	.dataf(!\InstROM1|inst_rom~12_combout ),
+	.datag(gnd),
+	.cin(gnd),
+	.sharein(gnd),
+	.combout(\InstROM1|inst_rom~13_combout ),
+	.sumout(),
+	.cout(),
+	.shareout());
+// synopsys translate_off
+defparam \InstROM1|inst_rom~13 .extended_lut = "off";
+defparam \InstROM1|inst_rom~13 .lut_mask = 64'h000000000F0F0F0F;
+defparam \InstROM1|inst_rom~13 .shared_arith = "off";
+// synopsys translate_on
+
+// Location: LABCELL_X30_Y2_N36
+arriaii_lcell_comb \InstFetch1|ProgCtr~0 (
+// Equation(s):
+// \InstFetch1|ProgCtr~0_combout  = ( \InstROM1|inst_rom~15_combout  & ( \Jump~1_combout  ) ) # ( !\InstROM1|inst_rom~15_combout  & ( \Jump~1_combout  & ( ((!\InstROM1|inst_rom~11_combout ) # ((\InstROM1|inst_rom~17_combout ) # (\InstROM1|inst_rom~19_combout 
+// ))) # (\InstROM1|inst_rom~13_combout ) ) ) )
+
+	.dataa(!\InstROM1|inst_rom~13_combout ),
+	.datab(!\InstROM1|inst_rom~11_combout ),
+	.datac(!\InstROM1|inst_rom~19_combout ),
+	.datad(!\InstROM1|inst_rom~17_combout ),
+	.datae(!\InstROM1|inst_rom~15_combout ),
+	.dataf(!\Jump~1_combout ),
+	.datag(gnd),
+	.cin(gnd),
+	.sharein(gnd),
+	.combout(\InstFetch1|ProgCtr~0_combout ),
+	.sumout(),
+	.cout(),
+	.shareout());
+// synopsys translate_off
+defparam \InstFetch1|ProgCtr~0 .extended_lut = "off";
+defparam \InstFetch1|ProgCtr~0 .lut_mask = 64'h00000000DFFFFFFF;
+defparam \InstFetch1|ProgCtr~0 .shared_arith = "off";
+// synopsys translate_on
+
+// Location: MLABCELL_X31_Y2_N38
+arriaii_lcell_comb \InstFetch1|Add0~37 (
+// Equation(s):
+// \InstFetch1|Add0~37_sumout  = SUM(( GND ) + ( \InstFetch1|ProgCtr [9] ) + ( \InstFetch1|Add0~34  ))
+
+	.dataa(gnd),
+	.datab(gnd),
+	.datac(gnd),
+	.datad(gnd),
+	.datae(gnd),
+	.dataf(!\InstFetch1|ProgCtr [9]),
+	.datag(gnd),
+	.cin(\InstFetch1|Add0~34 ),
+	.sharein(gnd),
+	.combout(),
+	.sumout(\InstFetch1|Add0~37_sumout ),
+	.cout(),
+	.shareout());
+// synopsys translate_off
+defparam \InstFetch1|Add0~37 .extended_lut = "off";
+defparam \InstFetch1|Add0~37 .lut_mask = 64'h0000FF0000000000;
+defparam \InstFetch1|Add0~37 .shared_arith = "off";
+// synopsys translate_on
+
+// Location: LABCELL_X30_Y2_N28
+arriaii_lcell_comb \InstFetch1|ProgCtr~6 (
+// Equation(s):
+// \InstFetch1|ProgCtr~6_combout  = ( \InstFetch1|Add0~37_sumout  & ( (!\Jump~1_combout ) # (\InstFetch1|ProgCtr~0_combout ) ) ) # ( !\InstFetch1|Add0~37_sumout  & ( \InstFetch1|ProgCtr~0_combout  ) )
+
+	.dataa(gnd),
+	.datab(gnd),
+	.datac(!\Jump~1_combout ),
+	.datad(!\InstFetch1|ProgCtr~0_combout ),
+	.datae(gnd),
+	.dataf(!\InstFetch1|Add0~37_sumout ),
+	.datag(gnd),
+	.cin(gnd),
+	.sharein(gnd),
+	.combout(\InstFetch1|ProgCtr~6_combout ),
+	.sumout(),
+	.cout(),
+	.shareout());
+// synopsys translate_off
+defparam \InstFetch1|ProgCtr~6 .extended_lut = "off";
+defparam \InstFetch1|ProgCtr~6 .lut_mask = 64'h00FF00FFF0FFF0FF;
+defparam \InstFetch1|ProgCtr~6 .shared_arith = "off";
+// synopsys translate_on
+
+// Location: FF_X30_Y2_N29
+dffeas \InstFetch1|ProgCtr[9] (
+	.clk(\Clk~inputclkctrl_outclk ),
+	.d(\InstFetch1|ProgCtr~6_combout ),
+	.asdata(vcc),
+	.clrn(vcc),
+	.aload(gnd),
+	.sclr(\Reset~input_o ),
+	.sload(gnd),
+	.ena(\InstFetch1|ProgCtr[9]~2_combout ),
+	.devclrn(devclrn),
+	.devpor(devpor),
+	.q(\InstFetch1|ProgCtr [9]),
+	.prn(vcc));
+// synopsys translate_off
+defparam \InstFetch1|ProgCtr[9] .is_wysiwyg = "true";
+defparam \InstFetch1|ProgCtr[9] .power_up = "low";
+// synopsys translate_on
+
+// Location: LABCELL_X30_Y2_N6
+arriaii_lcell_comb \InstROM1|inst_rom~1DUPLICATE (
+// Equation(s):
+// \InstROM1|inst_rom~1DUPLICATE_combout  = ( !\InstFetch1|ProgCtr [8] & ( !\InstFetch1|ProgCtr [5] & ( (!\InstFetch1|ProgCtr [9] & (!\InstFetch1|ProgCtr [4] & (!\InstFetch1|ProgCtr [6] & !\InstFetch1|ProgCtr [7]))) ) ) )
+
+	.dataa(!\InstFetch1|ProgCtr [9]),
+	.datab(!\InstFetch1|ProgCtr [4]),
+	.datac(!\InstFetch1|ProgCtr [6]),
+	.datad(!\InstFetch1|ProgCtr [7]),
+	.datae(!\InstFetch1|ProgCtr [8]),
+	.dataf(!\InstFetch1|ProgCtr [5]),
+	.datag(gnd),
+	.cin(gnd),
+	.sharein(gnd),
+	.combout(\InstROM1|inst_rom~1DUPLICATE_combout ),
+	.sumout(),
+	.cout(),
+	.shareout());
+// synopsys translate_off
+defparam \InstROM1|inst_rom~1DUPLICATE .extended_lut = "off";
+defparam \InstROM1|inst_rom~1DUPLICATE .lut_mask = 64'h8000000000000000;
+defparam \InstROM1|inst_rom~1DUPLICATE .shared_arith = "off";
+// synopsys translate_on
+
+// Location: MLABCELL_X29_Y2_N6
+arriaii_lcell_comb \InstROM1|inst_rom~0 (
+// Equation(s):
+// \InstROM1|inst_rom~0_combout  = ( \InstFetch1|ProgCtr [1] & ( (\InstFetch1|ProgCtr [0] & (!\InstFetch1|ProgCtr [3] & !\InstFetch1|ProgCtr [2])) ) ) # ( !\InstFetch1|ProgCtr [1] & ( (!\InstFetch1|ProgCtr [0] & !\InstFetch1|ProgCtr [3]) ) )
+
+	.dataa(!\InstFetch1|ProgCtr [0]),
+	.datab(gnd),
+	.datac(!\InstFetch1|ProgCtr [3]),
+	.datad(!\InstFetch1|ProgCtr [2]),
+	.datae(gnd),
+	.dataf(!\InstFetch1|ProgCtr [1]),
+	.datag(gnd),
+	.cin(gnd),
+	.sharein(gnd),
+	.combout(\InstROM1|inst_rom~0_combout ),
+	.sumout(),
+	.cout(),
+	.shareout());
+// synopsys translate_off
+defparam \InstROM1|inst_rom~0 .extended_lut = "off";
+defparam \InstROM1|inst_rom~0 .lut_mask = 64'hA0A0A0A050005000;
+defparam \InstROM1|inst_rom~0 .shared_arith = "off";
+// synopsys translate_on
+
+// Location: MLABCELL_X29_Y2_N30
+arriaii_lcell_comb \InstROM1|inst_rom~5 (
+// Equation(s):
+// \InstROM1|inst_rom~5_combout  = ( \InstROM1|inst_rom~0_combout  & ( \InstROM1|inst_rom~1DUPLICATE_combout  ) )
+
+	.dataa(gnd),
+	.datab(gnd),
+	.datac(!\InstROM1|inst_rom~1DUPLICATE_combout ),
+	.datad(gnd),
+	.datae(gnd),
+	.dataf(!\InstROM1|inst_rom~0_combout ),
+	.datag(gnd),
+	.cin(gnd),
+	.sharein(gnd),
+	.combout(\InstROM1|inst_rom~5_combout ),
+	.sumout(),
+	.cout(),
+	.shareout());
+// synopsys translate_off
+defparam \InstROM1|inst_rom~5 .extended_lut = "off";
+defparam \InstROM1|inst_rom~5 .lut_mask = 64'h000000000F0F0F0F;
+defparam \InstROM1|inst_rom~5 .shared_arith = "off";
+// synopsys translate_on
+
+// Location: LABCELL_X30_Y2_N18
+arriaii_lcell_comb \InstROM1|inst_rom~6 (
+// Equation(s):
+// \InstROM1|inst_rom~6_combout  = ( \InstROM1|inst_rom~2_combout  & ( \InstROM1|inst_rom~1DUPLICATE_combout  ) )
+
+	.dataa(gnd),
+	.datab(gnd),
+	.datac(!\InstROM1|inst_rom~1DUPLICATE_combout ),
+	.datad(gnd),
+	.datae(gnd),
+	.dataf(!\InstROM1|inst_rom~2_combout ),
+	.datag(gnd),
+	.cin(gnd),
+	.sharein(gnd),
+	.combout(\InstROM1|inst_rom~6_combout ),
+	.sumout(),
+	.cout(),
+	.shareout());
+// synopsys translate_off
+defparam \InstROM1|inst_rom~6 .extended_lut = "off";
+defparam \InstROM1|inst_rom~6 .lut_mask = 64'h000000000F0F0F0F;
+defparam \InstROM1|inst_rom~6 .shared_arith = "off";
+// synopsys translate_on
+
+// Location: MLABCELL_X29_Y2_N12
+arriaii_lcell_comb \InstROM1|inst_rom~4 (
+// Equation(s):
+// \InstROM1|inst_rom~4_combout  = ( \InstFetch1|ProgCtr [2] & ( \InstFetch1|ProgCtr [0] & ( (!\InstFetch1|ProgCtr [1] & !\InstFetch1|ProgCtr [3]) ) ) ) # ( !\InstFetch1|ProgCtr [2] & ( \InstFetch1|ProgCtr [0] & ( (\InstFetch1|ProgCtr [1] & 
+// !\InstFetch1|ProgCtr [3]) ) ) ) # ( \InstFetch1|ProgCtr [2] & ( !\InstFetch1|ProgCtr [0] & ( (!\InstFetch1|ProgCtr [1] & !\InstFetch1|ProgCtr [3]) ) ) ) # ( !\InstFetch1|ProgCtr [2] & ( !\InstFetch1|ProgCtr [0] & ( (!\InstFetch1|ProgCtr [1] & 
+// !\InstFetch1|ProgCtr [3]) ) ) )
+
+	.dataa(gnd),
+	.datab(gnd),
+	.datac(!\InstFetch1|ProgCtr [1]),
+	.datad(!\InstFetch1|ProgCtr [3]),
+	.datae(!\InstFetch1|ProgCtr [2]),
+	.dataf(!\InstFetch1|ProgCtr [0]),
+	.datag(gnd),
+	.cin(gnd),
+	.sharein(gnd),
+	.combout(\InstROM1|inst_rom~4_combout ),
+	.sumout(),
+	.cout(),
+	.shareout());
+// synopsys translate_off
+defparam \InstROM1|inst_rom~4 .extended_lut = "off";
+defparam \InstROM1|inst_rom~4 .lut_mask = 64'hF000F0000F00F000;
+defparam \InstROM1|inst_rom~4 .shared_arith = "off";
+// synopsys translate_on
+
+// Location: MLABCELL_X29_Y2_N20
+arriaii_lcell_comb \InstROM1|inst_rom~8 (
+// Equation(s):
+// \InstROM1|inst_rom~8_combout  = ( \InstROM1|inst_rom~4_combout  & ( \InstROM1|inst_rom~1DUPLICATE_combout  ) )
+
+	.dataa(gnd),
+	.datab(gnd),
+	.datac(gnd),
+	.datad(gnd),
+	.datae(!\InstROM1|inst_rom~4_combout ),
+	.dataf(!\InstROM1|inst_rom~1DUPLICATE_combout ),
+	.datag(gnd),
+	.cin(gnd),
+	.sharein(gnd),
+	.combout(\InstROM1|inst_rom~8_combout ),
+	.sumout(),
+	.cout(),
+	.shareout());
+// synopsys translate_off
+defparam \InstROM1|inst_rom~8 .extended_lut = "off";
+defparam \InstROM1|inst_rom~8 .lut_mask = 64'h000000000000FFFF;
+defparam \InstROM1|inst_rom~8 .shared_arith = "off";
+// synopsys translate_on
+
+// Location: MLABCELL_X29_Y2_N10
+arriaii_lcell_comb \InstROM1|inst_rom~3 (
+// Equation(s):
+// \InstROM1|inst_rom~3_combout  = ( \InstFetch1|ProgCtr [2] & ( \InstFetch1|ProgCtr [0] & ( (!\InstFetch1|ProgCtr [3] & !\InstFetch1|ProgCtr [1]) ) ) ) # ( !\InstFetch1|ProgCtr [2] & ( \InstFetch1|ProgCtr [0] & ( (!\InstFetch1|ProgCtr [3] & 
+// \InstFetch1|ProgCtr [1]) ) ) ) # ( !\InstFetch1|ProgCtr [2] & ( !\InstFetch1|ProgCtr [0] & ( !\InstFetch1|ProgCtr [3] ) ) )
+
+	.dataa(gnd),
+	.datab(gnd),
+	.datac(!\InstFetch1|ProgCtr [3]),
+	.datad(!\InstFetch1|ProgCtr [1]),
+	.datae(!\InstFetch1|ProgCtr [2]),
+	.dataf(!\InstFetch1|ProgCtr [0]),
+	.datag(gnd),
+	.cin(gnd),
+	.sharein(gnd),
+	.combout(\InstROM1|inst_rom~3_combout ),
+	.sumout(),
+	.cout(),
+	.shareout());
+// synopsys translate_off
+defparam \InstROM1|inst_rom~3 .extended_lut = "off";
+defparam \InstROM1|inst_rom~3 .lut_mask = 64'hF0F0000000F0F000;
+defparam \InstROM1|inst_rom~3 .shared_arith = "off";
+// synopsys translate_on
+
+// Location: MLABCELL_X29_Y2_N2
+arriaii_lcell_comb \InstROM1|inst_rom~7 (
+// Equation(s):
+// \InstROM1|inst_rom~7_combout  = ( \InstROM1|inst_rom~1_combout  & ( \InstROM1|inst_rom~3_combout  ) )
+
+	.dataa(gnd),
+	.datab(gnd),
+	.datac(!\InstROM1|inst_rom~3_combout ),
+	.datad(gnd),
+	.datae(gnd),
+	.dataf(!\InstROM1|inst_rom~1_combout ),
+	.datag(gnd),
+	.cin(gnd),
+	.sharein(gnd),
+	.combout(\InstROM1|inst_rom~7_combout ),
+	.sumout(),
+	.cout(),
+	.shareout());
+// synopsys translate_off
+defparam \InstROM1|inst_rom~7 .extended_lut = "off";
+defparam \InstROM1|inst_rom~7 .lut_mask = 64'h000000000F0F0F0F;
+defparam \InstROM1|inst_rom~7 .shared_arith = "off";
+// synopsys translate_on
+
+// Location: MLABCELL_X29_Y2_N32
+arriaii_lcell_comb \Jump~0 (
+// Equation(s):
+// \Jump~0_combout  = ( \InstROM1|inst_rom~7_combout  & ( \InstROM1|inst_rom~8_combout  ) )
+
+	.dataa(gnd),
+	.datab(gnd),
+	.datac(!\InstROM1|inst_rom~8_combout ),
+	.datad(gnd),
+	.datae(gnd),
+	.dataf(!\InstROM1|inst_rom~7_combout ),
+	.datag(gnd),
+	.cin(gnd),
+	.sharein(gnd),
+	.combout(\Jump~0_combout ),
+	.sumout(),
+	.cout(),
+	.shareout());
+// synopsys translate_off
+defparam \Jump~0 .extended_lut = "off";
+defparam \Jump~0 .lut_mask = 64'h000000000F0F0F0F;
+defparam \Jump~0 .shared_arith = "off";
+// synopsys translate_on
+
+// Location: MLABCELL_X29_Y2_N26
+arriaii_lcell_comb \Jump~1 (
+// Equation(s):
+// \Jump~1_combout  = ( \Jump~0_combout  & ( (\InstROM1|inst_rom~5_combout  & \InstROM1|inst_rom~6_combout ) ) )
+
+	.dataa(gnd),
+	.datab(gnd),
+	.datac(!\InstROM1|inst_rom~5_combout ),
+	.datad(!\InstROM1|inst_rom~6_combout ),
+	.datae(gnd),
+	.dataf(!\Jump~0_combout ),
+	.datag(gnd),
+	.cin(gnd),
+	.sharein(gnd),
+	.combout(\Jump~1_combout ),
+	.sumout(),
+	.cout(),
+	.shareout());
+// synopsys translate_off
+defparam \Jump~1 .extended_lut = "off";
+defparam \Jump~1 .lut_mask = 64'h00000000000F000F;
+defparam \Jump~1 .shared_arith = "off";
+// synopsys translate_on
+
+// Location: MLABCELL_X29_Y2_N16
+arriaii_lcell_comb \InstFetch1|ProgCtr~5 (
+// Equation(s):
+// \InstFetch1|ProgCtr~5_combout  = ( \InstFetch1|ProgCtr~0DUPLICATE_combout  ) # ( !\InstFetch1|ProgCtr~0DUPLICATE_combout  & ( (!\Jump~1_combout  & \InstFetch1|Add0~13_sumout ) ) )
+
+	.dataa(gnd),
+	.datab(gnd),
+	.datac(!\Jump~1_combout ),
+	.datad(!\InstFetch1|Add0~13_sumout ),
+	.datae(gnd),
+	.dataf(!\InstFetch1|ProgCtr~0DUPLICATE_combout ),
+	.datag(gnd),
+	.cin(gnd),
+	.sharein(gnd),
+	.combout(\InstFetch1|ProgCtr~5_combout ),
+	.sumout(),
+	.cout(),
+	.shareout());
+// synopsys translate_off
+defparam \InstFetch1|ProgCtr~5 .extended_lut = "off";
+defparam \InstFetch1|ProgCtr~5 .lut_mask = 64'h00F000F0FFFFFFFF;
+defparam \InstFetch1|ProgCtr~5 .shared_arith = "off";
+// synopsys translate_on
+
+// Location: FF_X29_Y2_N17
+dffeas \InstFetch1|ProgCtr[3] (
+	.clk(\Clk~inputclkctrl_outclk ),
+	.d(\InstFetch1|ProgCtr~5_combout ),
+	.asdata(vcc),
+	.clrn(vcc),
+	.aload(gnd),
+	.sclr(\Reset~input_o ),
+	.sload(gnd),
+	.ena(\InstFetch1|ProgCtr[9]~2_combout ),
+	.devclrn(devclrn),
+	.devpor(devpor),
+	.q(\InstFetch1|ProgCtr [3]),
+	.prn(vcc));
+// synopsys translate_off
+defparam \InstFetch1|ProgCtr[3] .is_wysiwyg = "true";
+defparam \InstFetch1|ProgCtr[3] .power_up = "low";
+// synopsys translate_on
+
+// Location: LABCELL_X30_Y2_N2
+arriaii_lcell_comb \InstROM1|inst_rom~2 (
+// Equation(s):
+// \InstROM1|inst_rom~2_combout  = ( \InstFetch1|ProgCtr [0] & ( (!\InstFetch1|ProgCtr [3] & (!\InstFetch1|ProgCtr [1] & \InstFetch1|ProgCtr [2])) ) ) # ( !\InstFetch1|ProgCtr [0] & ( (!\InstFetch1|ProgCtr [3] & !\InstFetch1|ProgCtr [2]) ) )
+
+	.dataa(gnd),
+	.datab(!\InstFetch1|ProgCtr [3]),
+	.datac(!\InstFetch1|ProgCtr [1]),
+	.datad(!\InstFetch1|ProgCtr [2]),
+	.datae(gnd),
+	.dataf(!\InstFetch1|ProgCtr [0]),
+	.datag(gnd),
+	.cin(gnd),
+	.sharein(gnd),
+	.combout(\InstROM1|inst_rom~2_combout ),
+	.sumout(),
+	.cout(),
+	.shareout());
+// synopsys translate_off
+defparam \InstROM1|inst_rom~2 .extended_lut = "off";
+defparam \InstROM1|inst_rom~2 .lut_mask = 64'hCC00CC0000C000C0;
+defparam \InstROM1|inst_rom~2 .shared_arith = "off";
+// synopsys translate_on
+
+// Location: MLABCELL_X29_Y2_N34
+arriaii_lcell_comb \ALU1|Equal0~0 (
+// Equation(s):
+// \ALU1|Equal0~0_combout  = ( !\InstROM1|inst_rom~0_combout  & ( (\InstROM1|inst_rom~2_combout  & (\InstROM1|inst_rom~4_combout  & (\InstROM1|inst_rom~1_combout  & \InstROM1|inst_rom~3_combout ))) ) )
+
+	.dataa(!\InstROM1|inst_rom~2_combout ),
+	.datab(!\InstROM1|inst_rom~4_combout ),
+	.datac(!\InstROM1|inst_rom~1_combout ),
+	.datad(!\InstROM1|inst_rom~3_combout ),
+	.datae(gnd),
+	.dataf(!\InstROM1|inst_rom~0_combout ),
+	.datag(gnd),
+	.cin(gnd),
+	.sharein(gnd),
+	.combout(\ALU1|Equal0~0_combout ),
+	.sumout(),
+	.cout(),
+	.shareout());
+// synopsys translate_off
+defparam \ALU1|Equal0~0 .extended_lut = "off";
+defparam \ALU1|Equal0~0 .lut_mask = 64'h0001000100000000;
+defparam \ALU1|Equal0~0 .shared_arith = "off";
+// synopsys translate_on
+
+assign Ack = \Ack~output_o ;
+
+endmodule

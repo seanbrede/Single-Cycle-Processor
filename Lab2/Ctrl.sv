@@ -7,10 +7,11 @@ import definitions::*;
 module Ctrl (
 	input        [8:0] Instruction, // machine code instruction, 9 bits
 	input   Clk,
-	output logic       BranchEn,
-	output logic	   JumpEnable,
-	output logic       MemWrite,
-	output logic       RegWrite
+	output logic		BranchEn,
+	output logic		JumpEqEn,
+	output logic		JumpNeqEn,
+	output logic		MemWrite,
+	output logic		RegWrite
 	);
 
 // jump on right shift that generates a zero
@@ -22,11 +23,11 @@ module Ctrl (
 
 // branch every time ALU result LSB = 0 (even)
 assign BranchEn = (Instruction[8:5] == 4'b1010); // if OP == JEQ, BranchEn == 1
-assign JumpEnable = (Instruction[8:5] == 4'b1010);   // if OP == JEQ, JumpEn == 1
+assign JumpEqEn = (Instruction[8:5] == 4'b1010);   // if OP == JEQ, JumpEqEn == 1
+assign JumpNeqEn = (Instruction[8:5] == 4'b1111); // if OP == JNEQ, JumpNeqEn == 1
 assign MemWrite = (Instruction[8:5] == 4'b0111);  // mem_store command
                                        // STORE  instruction        // Jump Equal instruction
 assign RegWrite = ( ((Instruction[8:5] == 4'b0111 || Instruction[8:5] == 4'b1010)  )  ? 'b0 : 'b1);  // mem_store command
-
 
 // program counter can clear to 0, increment, or jump
 //always_comb begin	            // or just always; always_ff is a linting construct

@@ -25,11 +25,14 @@ wire [7:0] RegWriteValue, // data in to reg file
 wire       MemWrite,	// data_memory write enable
 		     RegWrEn,	// reg_file write enable
 			    Zero,		// ALU output = 0 flag
-          		Jump,	   // to program counter: jump  //TODO:: get rid of ??
            BranchEn,	// to program counter: branch enable
-		   JumpRdy, 
-		   JumpInstr,
-		   DataAddr;
+		   Jump,
+           JumpEq,	   // to program counter: jump  //TODO:: get rid of ??
+		   JumpNeq,
+		   JumpEqEn,
+		   JumpNeqEn,
+		   r3Val;
+		//    DataAddr;
 
 logic [15:0] CycleCt; // standalone; NOT PC!
 assign Ack      = (Instruction[8:5] == 4'b1101);
@@ -38,9 +41,8 @@ assign InB = ReadB;
 
 assign LoadInst = (Instruction[8:5] == 4'b0110 || Instruction[8:5] == 4'b0101); // calls out load specially
 assign RegWriteValue = LoadInst ? MemReadValue : ALU_out; //
-assign Jump = (JumpInstr && JumpRdy); // when OP == JEQ && r4 == 1 (JumpRdy)
-assign DataAddr = LoadInst ? RF1.Registers[ Instruction[3:0] ] : {3'b000, Instruction[4:0]};
-
+assign Jump = (JumpEqEn && JumpEq) || (JumpNeqEn && JumpNeq); // when OP == JEQ && r4 == 1 (JumpRdy)
+// assign DataAddr = LoadInst ? RF1.Registers[ Instruction[3:0] ] : {3'b000, Instruction[4:0]};
 
 // Instruction fetch
 InstFetch InstFetch1 (
@@ -56,12 +58,13 @@ InstFetch InstFetch1 (
 
 // Control decoder
 Ctrl Ctrl1 (
-	.Instruction (Instruction), // from instr_ROM
-	.Clk         (Clk),
-	.BranchEn    (BranchEn),	 // to PC
-	.JumpEnable  (JumpInstr),
-	.MemWrite    (MemWrite),
-	.RegWrite    (RegWrEn)
+	.Instruction	(Instruction),	// from instr_ROM
+	.Clk			(Clk),
+	.BranchEn		(BranchEn),		// to PC
+	.JumpEqEn  		(JumpEqEn),		// JEQ instr detected
+	.JumpNeqEn		(JumpNeqEn),	// JNEQ instr detected
+	.MemWrite    	(MemWrite),
+	.RegWrite    	(RegWrEn)
 	);
 
 // Instruction ROM
@@ -73,16 +76,19 @@ InstROM #(.W(9)) InstROM1 (
 // Register file
 RegFile #(.W(8),.D(4)) RF1 (
 	.Clk,
-	.WriteEn  (RegWrEn),          // [OPCODE = 8765  | RaddrA = 4321 | RaddarB = 0 ]
-	.RaddrA   (Instruction[4:1]), //  RaddrA = 4321 bits of instruction
-	.RaddrB   (Instruction[0:0]), //  RaddarB = 0   bits of instruction
+	.WriteEn  		(RegWrEn),          // [OPCODE = 8765  | RaddrA = 4321 | RaddarB = 0 ]
+	.RaddrA   		(Instruction[4:1]), //  RaddrA = 4321 bits of instruction
+	.RaddrB   		(Instruction[0:0]), //  RaddarB = 0   bits of instruction
 	//.Waddr    ( (Instruction[8:5] == 4'b1000 ) ? {3'b000, Instruction[0:0]} : Instruction[4:1] ), // if ( move high to low ) -> rs write reg else rd write reg
-	.DataIn   ( RegWriteValue),
-	.DataOutA (ReadA),
-	.DataOutB (ReadB),
-	.MemWriteValue (MemWriteValue),
-	.JumpRdy (JumpRdy),
-	.OP (Instruction[8:5])
+	.DataIn   		(RegWriteValue),
+	.OP 			(Instruction[8:5]),
+	.ALUzero		(Zero),
+	.DataOutA 		(ReadA),
+	.DataOutB 		(ReadB),
+	// .MemWriteValue 	(MemWriteValue),
+	.JumpEq			(JumpEq),
+	.JumpNeq		(JumpNeq),
+	.r3Val			(r3Val)
 	);
 
 // ALU
@@ -94,7 +100,6 @@ ALU ALU1 (
 	.Zero
 	);
 
-
 LUT_Imm LUT_IMM(
     .index     (Instruction[4:0]), // RD portion of instruction
     .immediate (MemWriteValue)
@@ -105,7 +110,7 @@ LUT_Imm LUT_IMM(
 // The default index points to random jibberish if none of the occupied indices
 // are chosen by instruction bits [4:0]
 LUT_Add LUT_ADD(
-	.index		(instruction[4:0]), 
+	.index		(Instruction[4:0]), 
 	.address	(PCTarg)
 );
 
@@ -118,7 +123,7 @@ DataMem DM1 (
 		.Reset		 (Reset),
 		.WriteEn     (MemWrite),
 		.DataAddress (MemWriteValue),
-		.DataIn      (RF1.Registers[3]), // Note: DataIn is only used for STORE inst. so we can hard set value to r3
+		.DataIn      (r3Val), // Note: DataIn is only used for STORE inst. so we can hard set value to r3
 		.DataOut     (MemReadValue)
 	);
 
