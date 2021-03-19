@@ -1,6 +1,6 @@
 # assemble_helpers.py: helper definitions and functions for assemble.py
-from collections import defaultdict  # dictionary with default initialization
-import sys                           # for creating errors with exit()
+import collections as col  # for defaultdict()
+import sys                 # for exit()
 
 
 # create a table of {operation: [type, opcode]}
@@ -23,6 +23,11 @@ ops_dict = {
     "sbt": ["IM", "1111"]
 }
 
+# names of input and output files
+filenames = [("program1.as", "program1.mc"),
+             ("program2.as", "program2.mc"),
+             ("program3.as", "program3.mc")]
+
 
 # deal with comments, formatting, capitalization
 def processInstruction(inst):
@@ -32,35 +37,36 @@ def processInstruction(inst):
     return inst                  # inst[0] is operation, inst[1], inst[2] are operands
 
 
-# build a table of {label: {"index": int, "address": int}} from the file ahead of time
-def processLabels(filename):
-    # TODO fix addr_table to have an index in it too instead of only an address
-    addr_table = defaultdict(lambda: {"index": -1, "address": -1})
+# build a table of {label: {"index": int, "address": int}} from the files ahead of time
+def processLabels():
+    addr_table = col.defaultdict(lambda: {"index": -1, "address": -1})
     line       = 0
     inst_addr  = 0
     num_labels = 0
 
     # parse each line of assembly
-    for inst in open(filename, "r"):
-        line += 1                        # increment the line number at the beginning of each line
-        inst = processInstruction(inst)  # inst[0] is operation, inst[1], inst[2] are operands
+    # TODO this current code probably requires unique label names across all files, which might be a problem especially if they are generated automatically
+    for a_code, _ in filenames:
+        for inst in open(a_code, "r"):
+            line += 1                        # increment the line number at the beginning of each line
+            inst = processInstruction(inst)  # inst[0] is operation, inst[1], inst[2] are operands
 
-        # BLANK LINE OR ONLY COMMENT
-        if not inst: continue
+            # BLANK LINE OR ONLY COMMENT
+            if not inst: continue
 
-        # OPERATION
-        if inst[0] in ops_dict.keys(): inst_addr += 1  # instruction address only increases from operations
+            # OPERATION
+            if inst[0] in ops_dict.keys(): inst_addr += 1  # instruction address only increases from operations
 
-        # LABEL
-        elif inst[0].find(":") == len(inst[0]) - 1:  # must have a single colon, and it must be at the end
-            label = inst[0][:(len(inst[0]) - 1)]
-            if addr_table[label]["address"] == -1:  # error if it isn't the default
-                addr_table[label]["address"] = inst_addr
-                addr_table[label]["index"]   = num_labels
-                num_labels += 1
+            # LABEL
+            elif inst[0].find(":") == len(inst[0]) - 1:  # must have a single colon, and it must be at the end
+                label = inst[0][:(len(inst[0]) - 1)]
+                if addr_table[label]["address"] == -1:  # error if it isn't the default
+                    addr_table[label]["address"] = inst_addr
+                    addr_table[label]["index"]   = num_labels
+                    num_labels += 1
 
-            else:
-                sys.exit("TERMINATING: label on line " + str(line) + " has already been defined")
+                else:
+                    sys.exit("TERMINATING: label on line " + str(line) + " has already been defined")
 
     return addr_table  # {label: {"index": int, "address": int}}
 
@@ -73,10 +79,10 @@ def intToBinaryString(num, num_bits):
 
 
 # builds LUT_Add.sv from the table of {label: address}
-def buildLUTAdd(addr_table):
+def writeLUTAdd(addr_table):
     table_size = len(addr_table)
     if table_size > 32: sys.exit("TERMINATING: LUT_Add size " + str(table_size) + " exceeds maximum: 32")
-    LUT_Add = open("LUT_Add.sv", "w")
+    file = open("LUT_Add.sv", "w")
 
     # turn addr_table into a list
     addr_list = [None] * table_size
@@ -84,7 +90,7 @@ def buildLUTAdd(addr_table):
         addr_list[addr_table[label]["index"]] = addr_table[label]["address"]
 
     # write everything up to the addresses
-    LUT_Add.write("module LUT_Add (\n"             +
+    file.write("module LUT_Add (\n"             +
                   "\tinput        [4:0] index,\n"  +
                   "\toutput logic [9:0] address\n" +
                   ");\n"                           +
@@ -92,19 +98,18 @@ def buildLUTAdd(addr_table):
                   "\tcase (index)\n")
 
     # write each address
-    for i in range(len(addr_list)):
-        LUT_Add.write("\t\t5'd" + str(i) + ":    address = 10'd" + str(addr_list[i]) + ";\n")
+    for i in range(table_size):
+        file.write("\t\t5'd" + str(i) + ":    address = 10'd" + str(addr_list[i]) + ";\n")
 
     # write everything else
-    LUT_Add.write("\t\tdefault: address = 10'd1023;\n" +
+    file.write("\t\tdefault: address = 10'd1023;\n" +
                   "\tendcase\n"                        +
                   "endmodule")
 
-    LUT_Add.close()
+    file.close()
 
 
 def decodeInstruction(inst, raw_inst, addr_table, line):
-    # TODO fix this to use the new addr_table format
     # use the operation to get the opcode from the dictionary, then write the opcode
     to_write = ops_dict[inst[0]][1]
 
