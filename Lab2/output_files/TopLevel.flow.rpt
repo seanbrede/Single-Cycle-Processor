@@ -1,5 +1,5 @@
 Flow report for TopLevel
-Fri Mar 19 01:50:11 2021
+Fri Mar 19 13:50:34 2021
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -40,26 +40,28 @@ refer to the applicable agreement for further details.
 +---------------------------------------------------------------------------------+
 ; Flow Summary                                                                    ;
 +-----------------------------------+---------------------------------------------+
-; Flow Status                       ; Flow Failed - Fri Mar 19 01:50:11 2021      ;
+; Flow Status                       ; Successful - Fri Mar 19 13:50:34 2021       ;
 ; Quartus Prime Version             ; 18.1.0 Build 625 09/12/2018 SJ Lite Edition ;
 ; Revision Name                     ; TopLevel                                    ;
 ; Top-level Entity Name             ; TopLevel                                    ;
 ; Family                            ; Arria II GX                                 ;
-; Logic utilization                 ; N/A until Partition Merge                   ;
-;     Combinational ALUTs           ; N/A until Partition Merge                   ;
-;     Memory ALUTs                  ; N/A until Partition Merge                   ;
-;     Dedicated logic registers     ; N/A until Partition Merge                   ;
-; Total registers                   ; N/A until Partition Merge                   ;
-; Total pins                        ; N/A until Partition Merge                   ;
-; Total virtual pins                ; N/A until Partition Merge                   ;
-; Total block memory bits           ; N/A until Partition Merge                   ;
-; DSP block 18-bit elements         ; N/A until Partition Merge                   ;
-; Total GXB Receiver Channel PCS    ; N/A until Partition Merge                   ;
-; Total GXB Receiver Channel PMA    ; N/A until Partition Merge                   ;
-; Total GXB Transmitter Channel PCS ; N/A until Partition Merge                   ;
-; Total GXB Transmitter Channel PMA ; N/A until Partition Merge                   ;
-; Total PLLs                        ; N/A until Partition Merge                   ;
-; Total DLLs                        ; N/A until Partition Merge                   ;
+; Logic utilization                 ; < 1 %                                       ;
+;     Combinational ALUTs           ; 206 / 36,100 ( < 1 % )                      ;
+;     Memory ALUTs                  ; 0 / 18,050 ( 0 % )                          ;
+;     Dedicated logic registers     ; 139 / 36,100 ( < 1 % )                      ;
+; Total registers                   ; 139                                         ;
+; Total pins                        ; 4 / 176 ( 2 % )                             ;
+; Total virtual pins                ; 0                                           ;
+; Total block memory bits           ; 0 / 2,939,904 ( 0 % )                       ;
+; DSP block 18-bit elements         ; 0 / 232 ( 0 % )                             ;
+; Total GXB Receiver Channel PCS    ; 0 / 4 ( 0 % )                               ;
+; Total GXB Receiver Channel PMA    ; 0 / 4 ( 0 % )                               ;
+; Total GXB Transmitter Channel PCS ; 0 / 4 ( 0 % )                               ;
+; Total GXB Transmitter Channel PMA ; 0 / 4 ( 0 % )                               ;
+; Total PLLs                        ; 0 / 4 ( 0 % )                               ;
+; Total DLLs                        ; 0 / 2 ( 0 % )                               ;
+; Device                            ; EP2AGX45CU17I3                              ;
+; Timing Models                     ; Final                                       ;
 +-----------------------------------+---------------------------------------------+
 
 
@@ -68,7 +70,7 @@ refer to the applicable agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 03/19/2021 01:49:58 ;
+; Start date & time ; 03/19/2021 13:49:40 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; TopLevel            ;
 +-------------------+---------------------+
@@ -79,7 +81,7 @@ refer to the applicable agreement for further details.
 +-------------------------------------+----------------------------------------+---------------+-------------+----------------+
 ; Assignment Name                     ; Value                                  ; Default Value ; Entity Name ; Section Id     ;
 +-------------------------------------+----------------------------------------+---------------+-------------+----------------+
-; COMPILER_SIGNATURE_ID               ; 154537905362592.161614379729580        ; --            ; --          ; --             ;
+; COMPILER_SIGNATURE_ID               ; 154537905362592.161618697909688        ; --            ; --          ; --             ;
 ; EDA_OUTPUT_DATA_FORMAT              ; Systemverilog Hdl                      ; --            ; --          ; eda_simulation ;
 ; EDA_SIMULATION_TOOL                 ; ModelSim-Altera (SystemVerilog)        ; <None>        ; --          ; --             ;
 ; EDA_TIME_SCALE                      ; 1 ps                                   ; --            ; --          ; eda_simulation ;
@@ -95,8 +97,12 @@ refer to the applicable agreement for further details.
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name          ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis ; 00:00:14     ; 1.0                     ; 4777 MB             ; 00:00:34                           ;
-; Total                ; 00:00:14     ; --                      ; --                  ; 00:00:34                           ;
+; Analysis & Synthesis ; 00:00:16     ; 1.0                     ; 4857 MB             ; 00:00:35                           ;
+; Fitter               ; 00:00:22     ; 1.0                     ; 5970 MB             ; 00:00:23                           ;
+; Assembler            ; 00:00:03     ; 1.0                     ; 4795 MB             ; 00:00:03                           ;
+; Timing Analyzer      ; 00:00:04     ; 1.0                     ; 4926 MB             ; 00:00:03                           ;
+; EDA Netlist Writer   ; 00:00:03     ; 1.0                     ; 4729 MB             ; 00:00:02                           ;
+; Total                ; 00:00:48     ; --                      ; --                  ; 00:01:06                           ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
@@ -106,6 +112,10 @@ refer to the applicable agreement for further details.
 ; Module Name          ; Machine Hostname ; OS Name    ; OS Version ; Processor type ;
 +----------------------+------------------+------------+------------+----------------+
 ; Analysis & Synthesis ; LAPTOP-Q81KKRPF  ; Windows 10 ; 10.0       ; x86_64         ;
+; Fitter               ; LAPTOP-Q81KKRPF  ; Windows 10 ; 10.0       ; x86_64         ;
+; Assembler            ; LAPTOP-Q81KKRPF  ; Windows 10 ; 10.0       ; x86_64         ;
+; Timing Analyzer      ; LAPTOP-Q81KKRPF  ; Windows 10 ; 10.0       ; x86_64         ;
+; EDA Netlist Writer   ; LAPTOP-Q81KKRPF  ; Windows 10 ; 10.0       ; x86_64         ;
 +----------------------+------------------+------------+------------+----------------+
 
 
@@ -113,6 +123,10 @@ refer to the applicable agreement for further details.
 ; Flow Log ;
 ------------
 quartus_map --read_settings_files=on --write_settings_files=off TopLevel -c TopLevel
+quartus_fit --read_settings_files=off --write_settings_files=off TopLevel -c TopLevel
+quartus_asm --read_settings_files=off --write_settings_files=off TopLevel -c TopLevel
+quartus_sta TopLevel -c TopLevel
+quartus_eda --read_settings_files=off --write_settings_files=off TopLevel -c TopLevel
 
 
 

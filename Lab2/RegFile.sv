@@ -37,26 +37,27 @@ logic [W-1:0] Registers[2**D];	  // or just Registers[16] if we know D=4 always
 assign      DataOutA = Registers[RaddrA];	// can't read from addr 0, just like MIPS
 always_comb DataOutB = Registers[RaddrB];  // can read from addr 0, just like ARM
 assign		JumpEq  = Registers[0];
-assign		JumpNeq = !Registers[0];
+assign		JumpNeq = Registers[0];
 assign		r1Val = Registers[1];
-assign		Registers[0] = ALUzero;
+// assign		Registers[0] = ALUzero;
 
 // sequential (clocked) writes 
 always_ff @ (posedge Clk)
 	if (WriteEn) begin // works just like data_memory writes
 
-	    // if SLT or SEQ,  write into R4
+	    // if SLT or SEQ,  write into R0
 	    if( OP == 4'b1011 || OP == 4'b1100 ) 
 		    Registers[0] <= DataIn;  // R4 = ALU_OUTPUT
+		// Standard ALU operations write into R0
+		else if (OP == kADD || OP == kR_XOR || OP == kXOR || OP == kAND || OP == kLSH || OP == kOR) // all ALU operations store into R0
+		    Registers[0] <= DataIn;
 		else if ( OP == 4'b0101 || OP == 4'b0110 )// if LOAD TABLE or LOAD
-		    Registers[1] <= DataIn;//   R2 = ALU_OUTPUT
-		else if ( OP == 4'b1000 ) // if Move High to Low (  R[rs] = R[rd] )
+		    Registers[1] <= DataIn;	//   R1 = ALU_OUTPUT
+		else if ( OP == 4'b1000 ) 	// if Move High to Low (  R[rs] = R[rd] )
 		    Registers[RaddrB] <=  Registers[RaddrA]; // write into RS
 		else if ( OP == 4'b1001 ) begin // if Move LOW to HIGH (  R[rd] = R[rs] )
 		    Registers[RaddrA] <=  Registers[RaddrB]; // write into RD the higher register
 		end
-		else if (OP == kADD || OP == kR_XOR || OP == kAND || OP == kLSH || OP == kOR) // all ALU operations store into R0
-		    Registers[0] <= DataIn;
 		else
 		    Registers[RaddrA] <=  DataIn; // otherwise, write into RD
     end

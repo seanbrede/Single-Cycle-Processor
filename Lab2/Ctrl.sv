@@ -10,6 +10,7 @@ module Ctrl (
 	output logic		BranchEn,
 	output logic		JumpEqEn,
 	output logic		JumpNeqEn,
+	output logic		LoadTableEn,
 	output logic		MemWrite,
 	output logic		RegWrite
 	);
@@ -26,9 +27,9 @@ assign BranchEn = (Instruction[8:5] == 4'b1010); // if OP == JEQ, BranchEn == 1
 assign JumpEqEn = (Instruction[8:5] == 4'b1010);   // if OP == JEQ, JumpEqEn == 1
 assign JumpNeqEn = (Instruction[8:5] == 4'b1111); // if OP == JNEQ, JumpNeqEn == 1
 assign MemWrite = (Instruction[8:5] == 4'b0111);  // mem_store command
-                                       // STORE  instruction        // Jump Equal instruction
-assign RegWrite = ( ((Instruction[8:5] == 4'b0111 || Instruction[8:5] == 4'b1010)  )  ? 'b0 : 'b1);  // mem_store command
-
+// don't write to reg when:   // STORE  instruction        // Jump Equal instr	   // Jump Not Equal Instr
+assign RegWrite = ( ((Instruction[8:5] == 4'b0111 || Instruction[8:5] == 4'b1010 || Instruction[8:5] == 4'b1111)  )  ? 'b0 : 'b1);  // mem_store command
+assign LoadTableEn = (Instruction[8:5] == 4'b0101); // Checks if LOAD TABLE called, else defaults to LOAD (DataMem)
 // program counter can clear to 0, increment, or jump
 //always_comb begin	            // or just always; always_ff is a linting construct
 //	if(Reset)

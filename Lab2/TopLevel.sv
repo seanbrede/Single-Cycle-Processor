@@ -20,28 +20,38 @@ wire [7:0] InA, InB, 	 // ALU operand inputs
 
 wire [7:0] RegWriteValue, // data in to reg file
            MemWriteValue, // data in to data_memory
-	   	   MemReadValue;  // data out from data_memory
+	   	   MemReadValue,  // data out from data_memory
+		   ImmReadValue; // data out of LUT_IMM
 
 wire       MemWrite,	// data_memory write enable
 		     RegWrEn,	// reg_file write enable
 			    Zero,		// ALU output = 0 flag
            BranchEn,	// to program counter: branch enable
-		   Jump,
-           JumpEq,	   // to program counter: jump
+		   Jump,		// to program counter: jump 
+           JumpEq,	   
 		   JumpNeq,
 		   JumpEqEn,
 		   JumpNeqEn,
-		   r1Val;
+		   r1Val, 
+		   LoadTableEn, 
+		   LoadValue;
 		//    DataAddr;
 
 logic [15:0] CycleCt; // standalone; NOT PC!
-assign Ack      = (Instruction[8:5] == 4'b1101);
+assign Ack = (Instruction[8:5] == 4'b1101);
 assign InA = ReadA; // connect RF out to ALU in
 assign InB = ReadB;
 
 assign LoadInst = (Instruction[8:5] == 4'b0110 || Instruction[8:5] == 4'b0101); // calls out load specially
-assign RegWriteValue = LoadInst ? MemReadValue : ALU_out; //
-assign Jump = (JumpEqEn && JumpEq) || (JumpNeqEn && JumpNeq); // when OP == JEQ && r4 == 1 (JumpRdy)
+// check what type of load it is: LOAD or LOAD TABLE, defaults to DataMem i.e. MemReadValue
+assign LoadValue = LoadTableEn ? ImmReadValue : MemReadValue; 
+// if its a Load instruction, take the Load Value (either from LUT_IMM or DM), if not, take ALU 
+assign RegWriteValue = LoadInst ? LoadValue : ALU_out; 
+// assign RegWriteValue = LoadInst ? MemReadValue : ALU_out; 
+
+// if JumpEqual instr and r0 value is 0 (i.e. !JumpEq == 0)
+// or if JumpNotEqual instr and r0 value is 0 (i.e. JumpNeq == 1)
+assign Jump = (JumpEqEn && !JumpEq) || (JumpNeqEn && JumpNeq); // when OP == JEQ && r4 == 1 (JumpRdy)
 // assign DataAddr = LoadInst ? RF1.Registers[ Instruction[3:0] ] : {3'b000, Instruction[4:0]};
 
 // Instruction fetch
@@ -63,6 +73,7 @@ Ctrl Ctrl1 (
 	.BranchEn		(BranchEn),		// to PC
 	.JumpEqEn  		(JumpEqEn),		// JEQ instr detected
 	.JumpNeqEn		(JumpNeqEn),	// JNEQ instr detected
+	.LoadTableEn	(LoadTableEn),
 	.MemWrite    	(MemWrite),
 	.RegWrite    	(RegWrEn)
 	);
@@ -102,7 +113,8 @@ ALU ALU1 (
 
 LUT_Imm LUT_IMM(
     .index     (Instruction[4:0]), // everything but the opcode 5 bit number [0-31]
-    .immediate (MemWriteValue)
+    // .immediate (MemWriteValue)
+    .immediate (ImmReadValue)
 );
 
 // We'll need to decide what index pertains to what instruction (addresses) 
