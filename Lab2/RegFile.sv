@@ -15,7 +15,6 @@ module RegFile #(parameter W=8, D=4) (		  // W = data path width; D = pointer wi
                         WriteEn,
 	input        [D-1:0] RaddrA,		      // address pointers
     input                RaddrB,
-    //input        [D-1:0]  Waddr,
 	input		 [W-1:0] ALUzero, 			// takes the zero flag from ALU, sets SLT && SEQ
 	input        [W-1:0] DataIn,
 	input        [3:0] OP,            		// ALU opcode, part of microcode
@@ -24,7 +23,7 @@ module RegFile #(parameter W=8, D=4) (		  // W = data path width; D = pointer wi
 	output       [W-1:0] MemWriteValue,
 	output		 [W-1:0] JumpEq,
 	output		 [W-1:0] JumpNeq,
-	output		 [W-1:0] r3Val
+	output		 [W-1:0] r1Val
 );
 
 // W bits wide [W-1:0] and 2**4 registers deep 	 
@@ -37,10 +36,9 @@ logic [W-1:0] Registers[2**D];	  // or just Registers[16] if we know D=4 always
  */
 assign      DataOutA = Registers[RaddrA];	// can't read from addr 0, just like MIPS
 always_comb DataOutB = Registers[RaddrB];  // can read from addr 0, just like ARM
-// assign      MemWriteValue = Registers[RaddrA];
-assign		JumpEq = Registers[4];
-assign		JumpNeq = !Registers[4];	
-assign		r3Val = Registers[3];
+assign		JumpEq  = Registers[0];
+assign		JumpNeq = !Registers[0];
+assign		r1Val = Registers[1];
 assign		Registers[0] = ALUzero;
 
 // sequential (clocked) writes 
@@ -49,16 +47,16 @@ always_ff @ (posedge Clk)
 
 	    // if SLT or SEQ,  write into R4
 	    if( OP == 4'b1011 || OP == 4'b1100 ) 
-		    Registers[4] <= DataIn;  // R4 = ALU_OUTPUT
+		    Registers[0] <= DataIn;  // R4 = ALU_OUTPUT
 		else if ( OP == 4'b0101 || OP == 4'b0110 )// if LOAD TABLE or LOAD
-		    Registers[2] <= DataIn;//   R2 = ALU_OUTPUT
+		    Registers[1] <= DataIn;//   R2 = ALU_OUTPUT
 		else if ( OP == 4'b1000 ) // if Move High to Low (  R[rs] = R[rd] )
 		    Registers[RaddrB] <=  Registers[RaddrA]; // write into RS
 		else if ( OP == 4'b1001 ) begin // if Move LOW to HIGH (  R[rd] = R[rs] )
 		    Registers[RaddrA] <=  Registers[RaddrB]; // write into RD the higher register
 		end
-		// else if (OP == kADD || OP == kR_XOR || OP == kAND || OP == kLSH || OP == kOR) // all ALU operations store into R0
-		// 	Registers[0] <= DataIn;
+		else if (OP == kADD || OP == kR_XOR || OP == kAND || OP == kLSH || OP == kOR) // all ALU operations store into R0
+		    Registers[0] <= DataIn;
 		else
 		    Registers[RaddrA] <=  DataIn; // otherwise, write into RD
     end

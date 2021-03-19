@@ -30,23 +30,20 @@ always_comb begin
 		Out = {InputA[6:0], 1'b0};
 	else if (OP == SEQ) begin			// subtract for instructions { SEQ } , JEQ and SLT might need to be in a diff condition
 		// Out = InputA - InputB; 
-		if ((InputA - InputB) == 0) 
-			// take output of Zero assign to r4
-			Out = 1; // lets r4 = 1
+		if ((InputA - InputB) == 0)
+			Out = 0; //r0
 		else 
-			Out = 0; // we store r4 = 0
+			Out = 1;//r0
 	end
 	else if (OP == SLT) begin 			
 		Out = InputA - InputB; 	
 		// assuming InputA (Rd) and InputB (Rs)
 		// check to see if Rd (InputA) < Rs (InputB)
 		if (Out[7] == 1) // if true, then Rd (InputA) < Rs (InputB)
-			// r4 = 1
-			Out = 1; 
+			Out = 0; //r0
 		else 
-			// means Rd (A) >= Rs (B) 
-			// r4 = 0
-			Out = 0; 
+			// means Rd (A) >= Rs (B)
+			Out = 1; ;//r0
 	end 
 	else if (OP == kOR) // OR operation
 		Out = (InputA | InputB);

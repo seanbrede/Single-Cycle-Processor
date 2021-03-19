@@ -27,11 +27,11 @@ wire       MemWrite,	// data_memory write enable
 			    Zero,		// ALU output = 0 flag
            BranchEn,	// to program counter: branch enable
 		   Jump,
-           JumpEq,	   // to program counter: jump  //TODO:: get rid of ??
+           JumpEq,	   // to program counter: jump
 		   JumpNeq,
 		   JumpEqEn,
 		   JumpNeqEn,
-		   r3Val;
+		   r1Val;
 		//    DataAddr;
 
 logic [15:0] CycleCt; // standalone; NOT PC!
@@ -88,7 +88,7 @@ RegFile #(.W(8),.D(4)) RF1 (
 	// .MemWriteValue 	(MemWriteValue),
 	.JumpEq			(JumpEq),
 	.JumpNeq		(JumpNeq),
-	.r3Val			(r3Val)
+	.r1Val			(r1Val)
 	);
 
 // ALU
@@ -101,7 +101,7 @@ ALU ALU1 (
 	);
 
 LUT_Imm LUT_IMM(
-    .index     (Instruction[4:0]), // RD portion of instruction
+    .index     (Instruction[4:0]), // everything but the opcode 5 bit number [0-31]
     .immediate (MemWriteValue)
 );
 
@@ -123,7 +123,7 @@ DataMem DM1 (
 		.Reset		 (Reset),
 		.WriteEn     (MemWrite),
 		.DataAddress (MemWriteValue),
-		.DataIn      (r3Val), // Note: DataIn is only used for STORE inst. so we can hard set value to r3
+		.DataIn      (r1Val), // Note: DataIn is only used for STORE inst. so we can hard set value to r1
 		.DataOut     (MemReadValue)
 	);
 
