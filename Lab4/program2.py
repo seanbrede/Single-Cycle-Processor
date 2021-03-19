@@ -1,6 +1,6 @@
 import compile_helpers as chs; MEM = chs.initMemory1()
 # *** DEBUG ONLY ****
-#f = open('./Tests/p2t60s1.txt', "r")
+f = open('./Tests/p2taphex60seedhex1spaces10.txt', "r")
 #f = open('./Tests/p2taphex48seedhex20space26.txt', "r")
 #f = open('./Tests/p2taphex69seedhex18spaces26.txt', "r")
 a = []
@@ -35,22 +35,13 @@ parity          = 0              # r14
 # r15
 # cannot h
 
-
-def cycle_LFSR( LFSR_st, tap):
-    x       = LFSR_st & tap
-    new_bit =  chs.redXOR(x)
-############# *** DEBUG ONLY **** ###################  b/c verilog shift left will clear the last bit
-    #GET MSB
-    MSB     = (LFSR_st >> 6) & 1
-    MSB = MSB << 6
-    # CLEAR MSB
-    LFSR_st  = LFSR_st ^ MSB
-############ *** DEBUG ONLY **** ###################
-    #SHIFT LEFT
-    LFSR_st   = LFSR_st << 1
-    #lfsr_st = shift_left(LFSR_st)
-    nextState = LFSR_st | new_bit
-    return  nextState
+def cycle_LFSR( LFSR_st, LFSR_tap):
+    new_bit = LFSR_st & LFSR_tap  # extract the tap bits
+    new_bit = chs.redXOR(new_bit)  # get the new bit; use reduction-xor
+    LFSR_st = LFSR_st << 1  # shift left by 1
+    LFSR_st = LFSR_st | new_bit  # put in the new bit
+    LFSR_st = LFSR_st & 127  # set MSB to 0
+    return LFSR_st
 
 # 0. remove the parity for init
 parity = lfsr_st_init  & 128
