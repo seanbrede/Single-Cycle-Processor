@@ -45,21 +45,25 @@ module encrypt_tb ()        ;
   assign LFSR_ptrn[6] = 7'h5C;
   assign LFSR_ptrn[7] = 7'h7E;
   assign LFSR_ptrn[8] = 7'h7B;
+
+  int v1 = $random >> 2;
+  int v2 = $random >> 5;
+
   always_comb begin
-    pt_no = 0;//$random;  //TODO:: change back
+    pt_no = $random;  //TODO:: change back
     if(pt_no==8) pt_no1 = pt_no[3:0];
     else         pt_no1 = pt_no[2:0];  // restrict to 0 through 8 (our legal patterns)
     lfsr_ptrn = LFSR_ptrn[pt_no1];  // engage the selected pattern
   end
 // now select a starting LFSR state -- any nonzero value will do
   always_comb begin					   
-    LFSR_init = 8'b1;//$random>>2;          // or set a value, such as 7'b1, for debug  //TODO:: change back
+    LFSR_init = $random>>2;          // or set a value, such as 7'b1, for debug  //TODO:: change back
     if(!LFSR_init) LFSR_init = 7'b1; // prevents illegal starting state = 7'b0; 
   end
 
 // set preamble length for the program run (always > 9 but < 26)
   always_comb begin
-    pre_length = 10;//$random>>10 ;        // program 1 run  //TODO:: change back
+    pre_length = $random>>10 ;        // program 1 run  //TODO:: change back
     pre_length1 = pre_length; 
     if(pre_length < 10) pre_length = 10;   // prevents pre_length < 10
 	else if(pre_length > 26) pre_length = 26; 

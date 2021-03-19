@@ -1,6 +1,8 @@
 import compile_helpers as chs; MEM = chs.initMemory1()
 # *** DEBUG ONLY ****
-f = open('./Tests/p2t60s1.txt', "r")
+#f = open('./Tests/p2t60s1.txt', "r")
+#f = open('./Tests/p2taphex48seedhex20space26.txt', "r")
+#f = open('./Tests/p2taphex69seedhex18spaces26.txt', "r")
 a = []
 for line in f:
     last4 = line[-5:]
@@ -11,10 +13,6 @@ f.close()
 for i in range(len(a)):
     MEM[64+i] = a[i]
 # *** DEBUG ONLY ****
-
-# labels are all caps as var name with string values  JUMP and HERE
-# TAP_SELECT = "HERE"
-# TAP_SELECT = "JUMP"
 
 # Encrypted message in DataMem[64:127]
 #   The MSB of each data word is the parity of the other 7
@@ -32,25 +30,30 @@ expected_state  = 0              # r10
 found           = 0              # r10
 write_ptr       = 0              # r11
 write_end       = 64             # r12
-echar_no_parity = 0             # r13
-parity          = 0             # r14
+echar_no_parity = 0              # r13
+parity          = 0              # r14
 # r15
 # cannot h
+
 
 def cycle_LFSR( LFSR_st, tap):
     x       = LFSR_st & tap
     new_bit =  chs.redXOR(x)
 ############# *** DEBUG ONLY **** ###################  b/c verilog shift left will clear the last bit
-    # GET MSB
+    #GET MSB
     MSB     = (LFSR_st >> 6) & 1
     MSB = MSB << 6
     # CLEAR MSB
     LFSR_st  = LFSR_st ^ MSB
-############# *** DEBUG ONLY **** ###################
-    # SHIFT LEFT
+############ *** DEBUG ONLY **** ###################
+    #SHIFT LEFT
     LFSR_st   = LFSR_st << 1
+    #lfsr_st = shift_left(LFSR_st)
     nextState = LFSR_st | new_bit
     return  nextState
+
+parity = lfsr_st_init  & 128
+lfsr_st_init = lfsr_st_init ^ parity
 
 # 1. Figure out the tap pattern
 while found == 0:
@@ -107,7 +110,7 @@ while write_ptr < write_end:
 # The decoded message should be in MEM[0] - MEM[64]
 s = ""
 for i in range(64):
-    v = int(MEM[i])
+    v = MEM[i]
     s += chr(v)
-print(s)
+print('start->',s,'<-end')
 # *** DEBUG ONLY ****
