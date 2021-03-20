@@ -184,7 +184,7 @@ initial begin
     else $display("MEM[7] is not the expected value of 9!");
 
 	// ############################################################################
-	// Next test 4: SEQ r2, r3
+	// Next test 4: LDT #6   (LOAD TABLE) 
     // ###########################################################################
 
     $display("TEST 5:  SEQ r2, r3 :  R[r2] == R[r3], then r0 = 0 ");
@@ -197,29 +197,6 @@ initial begin
         #10ns $stop;
     end
 
-    // if (  DUT.Instruction[4:0]  != 4'b00110) begin
-    //     $display(" rd != 6 ");
-    //     $display(" rd =  %b ", DUT.Instruction[8:5]  );
-    //     #10ns $stop;
-    // end
-
-    // if (  DUT.DM1.Core[54]  != 8'b00001111) begin
-    //     $display("  MEM[54] != 15   ");
-    //     $display("  DUT.DM1.Core[54] =  %b ",  DUT.DM1.Core[11]  );
-    //     #10ns $stop;
-    // end
-
-    // if (  DUT.MemReadValue  != 8'b00001111) begin
-    //     $display("  MemReadValue != 15   ");
-    //     $display(" MemReadValue =  %b ",  DUT.MemReadValue  );
-    //     #10ns $stop;
-    // end
-
-    // if (  DUT.RegWriteValue  != 8'b00001111) begin
-    //     $display("  RegWriteValue != 15   ");
-    //     $display("  RegWriteValue =  %b ",  DUT.MemReadValue  );
-    //     #10ns $stop;
-    // end
     #5ns
     assert(DUT.LUT_IMM.immediate == 8'd54) begin
         $display("LUT Immediate value is correct");
@@ -371,7 +348,9 @@ initial begin
     $display("instruction out %b ", DUT.Instruction);
     #5ns // half cycle for SEQ 
     $display("instruction out %b ", DUT.Instruction);
+    $display("r0 value %b ", DUT.RF1.Registers[0]);
     #5ns  // full cycle for SEQ
+    $display("r0 value %b ", DUT.RF1.Registers[0]);
     $display("instruction out %b ", DUT.Instruction);
     assert(DUT.RF1.OP == 4'b1111) 
     else begin
@@ -383,9 +362,9 @@ initial begin
         $display("PC is not the value we expected!");
     end
 
-    assert(DUT.Instruction[4:0] == 5'b00011) 
+    assert(DUT.Instruction[4:0] == 5'd21) 
     else begin 
-        $display("the Target jump address is wrong!");
+        $display("the index to access LUT_ADD is wrong!");
     end
 
     #5ns // half cycle for JNEQ
@@ -397,45 +376,18 @@ initial begin
         $display("The instruction is not STR (0111) as expected!");
     end
 
+    assert(DUT.LUT_ADD.index == 5'd21)
+    else $display("the Idx into LUT_ADD is not correct!");
+
+    assert(DUT.LUT_ADD.address == 10'd3)
+    else $display("the value OUT of LUT_ADD is NOT correct!");
+
+    assert(DUT.PCTarg == 10'd3)
+    else $display("the value of PCTarg is NOT correct!");
+
     #5ns // full cycle
     $display("instruction out %b ", DUT.Instruction);
     $display("Program Counter after Test 8 %d ", DUT.PgmCtr);
-
-    if ( DUT.Instruction[8:5] != 4'b1111) begin
-        $display("operation is not Jump Absolute");
-        $display("OP= %b ", DUT.Instruction[8:5] );
-        #10ns $stop;
-    end
-
-    if ( DUT.Instruction[4:0] != 5'b10101) begin
-        $display("immediate was not 25");
-        $display("immediate = %b ", DUT.Instruction[4:0] );
-        #10ns $stop;
-    end
-
-    if (DUT.r0IsZeroFlag == 1'b0) begin
-        $display(" r0IsZeroFlag is 0, i.e. r0 ");
-        $display(" r0IsZeroFlag= %b ",  DUT.r0IsZeroFlag );
-        #10ns $stop;
-    end
-
-     if ( DUT.Jump != 1'b1) begin
-        $display("Jump Enable is not 1 ");
-        $display("Jump Enable = %b ",  DUT.Jump);
-        #10ns $stop;
-    end
-
-    if ( DUT.PgmCtr != 9'b000000101) begin
-        $display("PC was not 5 ");
-        $display("PC  = %b ",  DUT.PgmCtr);
-        #10ns $stop;
-    end
-
-    if ( DUT.PCTarg != 9'b000001010) begin
-        $display("PC TARGET was not 10");
-        $display("PC TARGET = %b ",  DUT.PCTarg );
-        #10ns $stop;
-    end
 
 
     assert(DUT.PgmCtr == 8'd3) begin
