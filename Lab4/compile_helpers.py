@@ -155,10 +155,6 @@ def initMemory2():
                    125, 83, 20, 23, 68, 160, 116, 80, 160, 165, 54, 101, 249, 68, 6, 160, 105, 154, 129, 5, 116, 90,
                    54, 66, 111, 102, 209, 136, 212, 212, 72, 240, 129, 99, 39, 46, 60, 24, 209, 66, 228, 169]
     for i in range(len(enc_message)):
-        MEM[64+i] = enc_message[i]
+        MEM[64 + i] = enc_message[i]
 
     return MEM
-
-
-def initMemory3():
-    return []  # TODO

@@ -1,39 +1,20 @@
 import compile_helpers as chs; MEM = chs.initMemory2()
-# *** DEBUG ONLY ****
-# f = open('./Tests/p2taphex60seedhex1spaces10.txt', "r")
-# f = open('./Tests/p2taphex48seedhex20space26.txt', "r")
-# f = open('./Tests/p2taphex69seedhex18spaces26.txt', "r")
-# a = []
-# for line in f:
-#    last4 = line[-5:]
-#    last4 = last4[0:4]
-#    h = int(last4, 16)
-#    a.append(h)
-# f.close()
-# for i in range(len(a)):
-#    MEM[64+i] = a[i]
-# *** DEBUG ONLY ****
 
-# Encrypted message in DataMem[64:127]
-#   The MSB of each data word is the parity of the other 7
-#            7 6 5 4 3 2 1 0
-#   word1 =  0 0 0 0 1 1 1 1  # even number of ones -> parity 1
-#   word2 =  1 0 0 0 0 1 1 1  # odd number of  ones -> parity 0
 
-# variable                           # register location
-lfsr_st_init    = MEM[64]            # r2
-lfsr_st         = 0                  # r3
-tap_select      = 0                  # r4
-last_ptr        = 75                 # r5
-read_ptr        = 0                  # r6
-expected_state  = 0                  # r7
-found           = 0                  # r8
-write_ptr       = 0                  # r9
-write_end       = 64                 # r10
-echar_no_parity = 0                  # r11
-parity          = 0                  # r12
-curr_tap        = 0                  # r13
-new_bit         = 0                  # r14
+# variable        value    register location
+lfsr_st_init    = MEM[64]  # r2
+lfsr_st         = 0        # r3
+tap_select      = 0        # r4
+last_ptr        = 75       # r5
+read_ptr        = 0        # r6
+expected_state  = 0        # r7
+found           = 0        # r8
+write_ptr       = 0        # r9
+write_end       = 64       # r10
+echar_no_parity = 0        # r11
+parity          = 0        # r12
+curr_tap        = 0        # r13
+new_bit         = 0        # r14
 # r15
 # cannot have more variables after r15
 
@@ -117,13 +98,3 @@ while write_ptr < write_end:
 
 # print results for testing
 print(MEM[0:64])
-
-
-# *** DEBUG ONLY ****
-# The decoded message should be in MEM[0] - MEM[64]
-# s = ""
-# for i in range(64):
-#     v = MEM[i]
-#    s += chr(v)
-# print('start->',s,'<-end')
-# *** DEBUG ONLY ****
