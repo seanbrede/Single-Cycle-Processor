@@ -36,13 +36,13 @@ for read, write in chs.filenames:
         # END IF or END WHILE
         if next_tabs < curr_tabs:
             # take the next if/while end out of the cf_stack and write it to the file
-            for _ in range(curr_tabs - next_tabs):
+            for i in range(curr_tabs - next_tabs):
                 if cf_stack[len(cf_stack) - 1][0:5] == "label":
                     chs.writeWithTabs(0, write_file, "\n")
-                    chs.writeWithTabs(curr_tabs - 1, write_file, cf_stack.pop())
+                    chs.writeWithTabs(curr_tabs - (1+i), write_file, cf_stack.pop())
                 else:
                     chs.writeWithTabs(0, write_file, "\n")
-                    chs.writeWithTabs(curr_tabs, write_file, cf_stack.pop())
+                    chs.writeWithTabs(curr_tabs - i, write_file, cf_stack.pop())
             curr_tabs = next_tabs
         elif next_tabs > curr_tabs:
             curr_tabs = next_tabs
@@ -230,7 +230,7 @@ for read, write in chs.filenames:
     # add ACK at the end
     chs.writeWithTabs(0, write_file, "\nACK")
     # TODO debug
-    print(var_table)
+    # print(var_table)
 
     # close the file that we've been writing to
     write_file.close()
