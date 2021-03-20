@@ -129,14 +129,17 @@ def writeWithTabs(num_tabs, write_file, towrite):
 
 # set up the memory for program1
 def initMemory1():
-    MEM     = ([32] * 54) + ([0] * (256 - 54))
+    MEM     = ([32] * 54) + ([0] * (256 - 54))  # initialize the array
+
     MEM[61] = 10  # number of spaces
-    MEM[62] = 0   # LFSR tap pattern index
+    MEM[62] = 5   # LFSR tap pattern index
     MEM[63] = 1   # LFSR initial state
 
+    # embed the tap_LUT in MEM[128:137]
     for i in range(len(tap_LUT)):
         MEM[i + 128] = tap_LUT[i]
 
+    # set the plaintext message
     message = "Mr. Watson, come here. I want to see you."
     for i in range(len(message)):
         MEM[i] = ord(message[i])  # convert character literal to int
@@ -146,14 +149,16 @@ def initMemory1():
 
 # set up the memory for program1
 def initMemory2():
-    MEM = [0] * 256
+    MEM = [0] * 256  # initialize the array
 
+    # embed the tap_LUT in MEM[128:137]
     for i in range(len(tap_LUT)):
         MEM[i + 128] = tap_LUT[i]
 
-    enc_message = [33, 34, 36, 40, 48, 0, 225, 163, 166, 172, 85, 66, 207, 226, 210, 235, 96, 219, 190, 77, 235, 175,
-                   125, 83, 20, 23, 68, 160, 116, 80, 160, 165, 54, 101, 249, 68, 6, 160, 105, 154, 129, 5, 116, 90,
-                   54, 66, 111, 102, 209, 136, 212, 212, 72, 240, 129, 99, 39, 46, 60, 24, 209, 66, 228, 169]
+    # set the encrypted message; output of program1
+    enc_message = [33, 163, 39, 175, 190, 29, 219, 86, 204, 249, 126, 20, 226, 184, 102, 3, 48, 250, 125, 202, 101, 51,
+                   68, 33, 113, 92, 83, 15, 170, 237, 219, 210, 89, 187, 68, 63, 113, 78, 53, 34, 240, 231, 177, 80,
+                   163, 232, 58, 204, 5, 160, 132, 116, 9, 243, 6, 237, 187, 150, 77, 250, 20, 201, 114, 5]
     for i in range(len(enc_message)):
         MEM[64 + i] = enc_message[i]
 

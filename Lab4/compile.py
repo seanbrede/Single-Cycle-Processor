@@ -57,8 +57,8 @@ for read, write in chs.filenames:
         # ASSIGNMENT
         if len(line) >= 2 and line[1] == "=":
             # add the variable if it doesn't exist
-            # if var_table[line[0]] == -1 and not (len(line[0]) >= 4 and line[0][0:4] == "mem["):
-            if var_table[line[0]] == -1 and not line[0] == 'mem[write_ptr]':
+            # if var_table[line[0]] == -1 and not line[0] == 'mem[write_ptr]':
+            if var_table[line[0]] == -1 and not (len(line[0]) >= 4 and line[0][0:4] == "mem["):
                 var_table[line[0]] = var_index
                 var_index += 1
 
@@ -230,7 +230,7 @@ for read, write in chs.filenames:
     # add ACK at the end
     chs.writeWithTabs(0, write_file, "\nACK")
     # TODO debug
-    # print(var_table)
+    print(var_table)
 
     # close the file that we've been writing to
     write_file.close()

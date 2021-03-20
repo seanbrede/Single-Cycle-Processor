@@ -8,14 +8,14 @@ LFSR_st         = 0        # r4
 tap_select      = 0        # r5
 last_ptr        = 75       # r6
 read_ptr        = 0        # r7
-expected_state  = 0        # r9
-found           = 0        # r8
+expected_state  = 0        # r8
+found           = 0        # r9
 write_ptr       = 0        # r10
 echar_no_parity = 0        # r11
 parity          = 0        # r12
 dummyLoad       = 0        # r13
 curr_tap        = 0        # r14
-# r15
+new_bit         = 0        # r15
 # cannot have more variables after r15
 
 
@@ -40,7 +40,7 @@ while found == 0:
         echar_no_parity = dummyLoad ^ parity
 
         # compute expected lfsr and lfsr with the selected tap
-        expected_state   = echar_no_parity ^ 32          # what we should be get if its the correct LSFR
+        expected_state = echar_no_parity ^ 32          # what we should be get if its the correct LSFR
 
         # cycle the lfsr
         new_bit = LFSR_st & curr_tap   # extract the tap bits
@@ -103,11 +103,8 @@ print('found first non space at index =', read_ptr - 64)
 while read_ptr < 128:
     # check the global parity at bit 7
     dummyLoad       = MEM[read_ptr]
-    # print("dummyLoad is:", dummyLoad)
     parity          = dummyLoad & 128
     echar_no_parity = dummyLoad ^ parity
-    # echar_no_parity = echar_no_parity ^ LFSR_st
-    # print("decrypted:", echar_no_parity)
 
     if parity == 128:
         parity = 1
@@ -118,12 +115,10 @@ while read_ptr < 128:
     # if parity does not match, insert 0x80 into MEM[i]
     if parity < parityExpected:
         MEM[write_ptr] = 128
-
-    # if parity does not match, insert 0x80 into MEM[i]
     if parityExpected < parity:
         MEM[write_ptr] = 128
 
-    # insert MEM[i] as is
+    # if parity does match, insert MEM[i] as is
     if parity == parityExpected:
         MEM[write_ptr] = echar_no_parity
 
