@@ -1,7 +1,7 @@
 import compile_helpers as chs; MEM = chs.initMemory1()
 
 
-# variable            # register location
+# variable   value      register location
 num_spaces = MEM[61]  # r2
 LFSR_tap   = MEM[62]  # r3
 LFSR_st    = MEM[63]  # r4

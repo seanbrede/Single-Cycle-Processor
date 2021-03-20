@@ -15,6 +15,7 @@ echar_no_parity = 0        # r11
 parity          = 0        # r12
 dummyLoad       = 0        # r13
 curr_tap        = 0        # r14
+# r15
 # cannot have more variables after r15
 
 
