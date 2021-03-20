@@ -362,6 +362,9 @@ initial begin
     $display("TEST 7 PASSED ");
     $display("***************************************");
 
+    // Do SEQ on 2 non-equal values and do JEQ Again
+    $display("Testing JNEQ, where r0=8'd1");
+    $display("We Expect PC to be unchanged since r0==1 means");
 
 
 
