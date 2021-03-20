@@ -96,8 +96,10 @@ initial begin
     #5ns // half cycle
 	$display("TEST 2  MOVE  r15(=0), r0(=14)   ");
     $display("(Low to High)    after r15 =14   ");
-    $display("OP= %b ", DUT.RF1.OP);
+    $display("OP = %b ", DUT.RF1.OP);
+    $display("R15 has value: %d ", DUT.RF1.Registers[15]);
 
+    #5ns // completed cycle
 	// ############################################################################
 	// Verify the register values were changed by examining them at next instruction!
     // ############################################################################
@@ -109,12 +111,12 @@ initial begin
         $display("Program Counter after Test 2 %d ", DUT.PgmCtr);
         $display("instruction out %b ", DUT.Instruction);
     end
-
-    #5ns // completed cycle
+    else begin
+        $display("TEST 2 Failed!");
+    end
 	// ############################################################################
-	// Next test
+	// test 3 STORE
     // ############################################################################
-
 	$display("***************************************");
     $display("TEST 3:  STORE  MEM[ LUT [ rd ]  ] = r1  ");
     $display("  Rd=7 , r1=9     where  MEM[ LUT_Imm[7] ] = 9 is MEM[61] = 9  ");
@@ -142,13 +144,15 @@ initial begin
     end
 
 
-    if (  DUT.DM1.DataAddress != 8'b00111101) begin
-        $display(" not writing into MEM[61] ");
-        $display("  ( MEM [DataAddress] ) where DataAddress = %b ", DUT.DM1.DataAddress   );
+    assert(DUT.DM1.DataAddress == 8'd61) begin
+        $display("Success, accessing MEM[61] where DataAddress = %d ", DUT.DM1.DataAddress);
+    end
+    else begin
+        $display("Error: not writing into MEM[61] ");
     end
 
 	// ############################################################################
-	// Verify the register values were changed by examining them at next instruction!
+	// Verify the register values were changed 
     // ############################################################################
     #5ns // completed cycle
 
