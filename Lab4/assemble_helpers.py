@@ -24,7 +24,7 @@ ops_dict = {
 }
 
 # names of input and output files
-filenames = [("program1.as", "program1.mc"),
+filenames = [("program1.as", "program1.txt"),
              ("program2.as", "program2.mc"),
              ("program3.as", "program3.mc")]
 

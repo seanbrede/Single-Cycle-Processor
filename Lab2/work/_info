@@ -13,7 +13,7 @@ vALU
 Z0 DXx6 sv_std 3 std 0 22 VYECXdT12H8WgbUP_5Y6:3
 Z1 DXx4 work 11 definitions 0 22 XSOjl@2i5YF8gh:ge7G@i3
 DXx4 work 11 ALU_sv_unit 0 22 ]?aXMlU5zaFojgPC^D<Dh3
-Z2 !s110 1616274860
+Z2 !s110 1616279623
 Z3 VDg1SIo80bB@j0V0VzS_@n1
 r1
 !s85 0
@@ -26,11 +26,11 @@ Z4 dE:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2
 Z5 w1616271341
 Z6 8E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/ALU.sv
 Z7 FE:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/ALU.sv
-!i122 1740
+!i122 1762
 L0 8 54
 Z8 OV;L;2020.3;71
 31
-Z9 !s108 1616274860.000000
+Z9 !s108 1616279623.000000
 Z10 !s107 E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/ALU.sv|
 Z11 !s90 -reportprogress|300|-work|work|-sv|-stats=none|E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/ALU.sv|
 !i113 1
@@ -53,7 +53,7 @@ R4
 R5
 R6
 R7
-!i122 1740
+!i122 1762
 L0 5 0
 R8
 31
@@ -78,10 +78,10 @@ I?=QUhFA2e`UeY1]`R1diG2
 !s105 Ctrl_sv_unit
 S1
 R4
-Z14 w1616274700
+Z14 w1616275053
 Z15 8E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/Ctrl.sv
 Z16 FE:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/Ctrl.sv
-!i122 1741
+!i122 1763
 L0 7 35
 R8
 31
@@ -108,7 +108,7 @@ R4
 R14
 R15
 R16
-!i122 1741
+!i122 1763
 L0 2 0
 R8
 31
@@ -131,7 +131,7 @@ R4
 w1614815908
 8E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/DataMem.sv
 FE:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/DataMem.sv
-!i122 1742
+!i122 1764
 L0 6 35
 R3
 R8
@@ -157,7 +157,7 @@ R4
 R5
 8E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/Definitions.sv
 FE:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/Definitions.sv
-!i122 1743
+!i122 1765
 L0 3 0
 VXSOjl@2i5YF8gh:ge7G@i3
 R8
@@ -179,10 +179,10 @@ R19
 I:W`3`RW=M3?b3X=0180Z]0
 S1
 R4
-Z20 w1614549107
+w1614549107
 8E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/InstFetch.sv
 FE:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/InstFetch.sv
-!i122 1744
+!i122 1766
 L0 8 25
 R3
 R8
@@ -200,15 +200,15 @@ vInstROM
 R0
 R2
 !i10b 1
-!s100 cO_?cL6gTV^4]ocT]2I??0
+!s100 =hHClIZ52PaAacSOc_RCO1
 R19
-IOWgf27YzXVCKaad849meB1
+I@S0_D=Ch@mZP9NNA=YhjT1
 S1
 R4
-R20
+w1616279570
 8E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/InstROM.sv
 FE:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/InstROM.sv
-!i122 1745
+!i122 1767
 L0 11 37
 R3
 R8
@@ -226,16 +226,16 @@ vLUT_Add
 R0
 R2
 !i10b 1
-!s100 4GO<`oV6jJ;0bcbc=fQWV2
+!s100 EN?dX`=F05lI2QUD;1<zG3
 R19
-I`O^nDnJo?e?28:mI_E6Kg1
+I<Eh]:bm`?]`IGFHJ=MTC72
 S1
 R4
-w1616274712
+w1616277988
 8E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/LUT_Add.sv
 FE:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/LUT_Add.sv
-!i122 1746
-L0 2 17
+!i122 1768
+L0 1 38
 R3
 R8
 r1
@@ -252,16 +252,16 @@ vLUT_Imm
 R0
 R2
 !i10b 1
-!s100 I[]nH>7hzZJ`WccIna=e:1
+!s100 Z=8^?bHkbLmQ3ZXIO;L9i0
 R19
-Ie1P[zQ3Xkd=`NXH^`S?:C3
+I`4<3>LXM[QlI7]f=[<8od2
 S1
 R4
-R20
+w1616277982
 8E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/LUT_Imm.sv
 FE:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/LUT_Imm.sv
-!i122 1747
-L0 2 22
+!i122 1769
+L0 1 24
 R3
 R8
 r1
@@ -278,7 +278,7 @@ vRegFile
 R0
 R1
 DXx4 work 15 RegFile_sv_unit 0 22 G^2N2N=DW@HFQ^`2BMN_@1
-R2
+Z20 !s110 1616279624
 R3
 r1
 !s85 0
@@ -288,10 +288,10 @@ I5UM5`WHe6J9Gjh_UU^WOC3
 !s105 RegFile_sv_unit
 S1
 R4
-Z21 w1616274735
+Z21 w1616277873
 Z22 8E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/RegFile.sv
 Z23 FE:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/RegFile.sv
-!i122 1748
+!i122 1770
 L0 13 53
 R8
 31
@@ -305,7 +305,7 @@ n@reg@file
 XRegFile_sv_unit
 R0
 R1
-R2
+R20
 VG^2N2N=DW@HFQ^`2BMN_@1
 r1
 !s85 0
@@ -318,7 +318,7 @@ R4
 R21
 R22
 R23
-!i122 1748
+!i122 1770
 L0 8 0
 R8
 31
@@ -331,7 +331,7 @@ R13
 n@reg@file_sv_unit
 vTopLevel
 R0
-Z26 !s110 1616274861
+R20
 !i10b 1
 !s100 oP>PoB6O8hHOCiP[kC_<N0
 R19
@@ -341,14 +341,14 @@ R4
 R5
 8E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/TopLevel.sv
 FE:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/TopLevel.sv
-!i122 1749
+!i122 1771
 L0 6 132
 R3
 R8
 r1
 !s85 0
 31
-R9
+Z26 !s108 1616279624.000000
 !s107 E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/TopLevel.sv|
 !s90 -reportprogress|300|-work|work|-sv|-stats=none|E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/TopLevel.sv|
 !i113 1
@@ -357,24 +357,24 @@ R13
 n@top@level
 vTopLevel_tb
 R0
-R26
+R20
 !i10b 1
 !s100 YjoGPIAz4M21d9gYJi@B>0
 R19
 IW_k4E_gSJRA3fd>81^7iX0
 S1
 R4
-w1616274833
+R21
 8E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/TopLevel_tb.sv
 FE:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/TopLevel_tb.sv
-!i122 1750
+!i122 1772
 L0 8 396
 R3
 R8
 r1
 !s85 0
 31
-!s108 1616274861.000000
+R26
 !s107 E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/TopLevel_tb.sv|
 !s90 -reportprogress|300|-work|work|-sv|-stats=none|E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/TopLevel_tb.sv|
 !i113 1
