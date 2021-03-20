@@ -37,7 +37,6 @@ initial begin
 		DUT.DM1.Core[4] = 8'hfb;
 	end
 
-    //DUT.DM1.Core[11] = 8'b00001111;
     DUT.DM1.Core[54] = 8'b00001111;
 
 	// students may also pre_load desired constants into DM
@@ -347,9 +346,13 @@ initial begin
         #10ns $stop;
     end
 
+
 	// ############################################################################
 	// Increment To next test
-	#10ns
+	#5ns
+    DUT.RF1.Registers[1]  = 8'b00001001; // R1 = 9
+    DUT.RF1.Registers[5]  = 8'b00010100; // R5 = 20
+	#5ns
     // ############################################################################
 
     if ( DUT.RF1.Registers[0] != 8'b00000000) begin
@@ -362,13 +365,67 @@ initial begin
     $display("TEST 7 PASSED ");
     $display("***************************************");
 
-    // Do SEQ on 2 non-equal values and do JEQ Again
-    $display("Testing JNEQ, where r0=8'd1");
-    $display("We Expect PC to be unchanged since r0==1 means");
 
 
+	$display("***************************************");
+    $display("TEST 8:  STORE  MEM[ R[rd] ] = r1  ");
+    $display("           where  MEM[ 20 ]  = 9  ");
+
+    if (  DUT.Instruction[8:5]  != 4'b0111) begin
+        $display(" Opcode != store{0111} ");
+        $display(" Opcode =  %b ", DUT.Instruction[8:5]  );
+        #10ns $stop;
+    end
+
+     if (  DUT.Instruction[4:1]  != 4'b0101) begin
+        $display(" rd != 5 ");
+        $display(" rd =  %b ",  DUT.Instruction[4:1]   );
+        #10ns $stop;
+    end
 
 
+    if (  DUT.RF1.Registers[1] != 8'b00001001) begin
+        $display("Reg File:  R1 value != 9 ");
+        $display(" r1value = %b ", DUT.RF1.Registers[1]  );
+        #10ns $stop;
+    end
+
+    if (  DUT.RF1.Registers[5] != 8'b00010100) begin
+        $display(" rd value != 20");
+        $display(" rd value = %b ", DUT.RF1.Registers[5]  );
+        #10ns $stop;
+    end
+
+    if (  DUT.DM1.WriteEn != 1'b1) begin
+        $display("WriteEnable is NOT enabled. Will not allow data to be written");
+        #10ns $stop;
+    end
+
+    if (  DUT.DM1.DataAddress != 8'b00010100) begin
+        $display(" not writing into MEM[20] ");
+        $display("  ( MEM [DataAddress] ) where DataAddress = %b ", DUT.DM1.DataAddress   );
+        #10ns $stop;
+    end
+
+    if (  DUT.DM1.DataIn != 8'b00001001) begin
+        $display("DataIn is NOT 9.  Mem[..] = 9 is the goal.  ");
+        $display(" DataIn = %b ", DUT.DM1.DataIn  );
+        #10ns $stop;
+    end
+
+	// ############################################################################
+	#10ns // Verify the register values were changed by examining them at next instruction!
+    // ############################################################################
+
+
+    if (  DUT.DM1.Core[20] != 8'b00001001) begin
+        $display(" MEM[20] != 9 ");
+        $display(" MEM[20] =  %b ",DUT.DM1.Core[20] );
+        #10ns $stop;
+    end
+
+    $display("TEST 8 PASSED ");
+    $display("***************************************");
 
 
 

@@ -10,4 +10,5 @@
 110100000  // 4 # PC = 9
 000110000  // RDX r8 x    where r8 = 7  -->  Reg[0] = 1
 101110101  // SLT r10 r1    | where  r10 = 15 , r1 = 240    | TRUE: r10 is less than r1 so r0 = 0
-110100001
+011101010  // STORE r5    where r5 = 9
+110100001  //
