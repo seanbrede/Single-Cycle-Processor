@@ -344,10 +344,18 @@ initial begin
     else begin
         $display("PC is not the value we expected!");
     end
+
     #5ns 
-    assert(DUT.InstFetch.ProgCtr == 8'd7)
+    assert(DUT.InstFetch.ProgCtr == 8'd8) begin
+        $display("PgmCtr incremented by 1, and did not change to 3, which is what we expected!");        
+        $display("Program Counter after Test 7 %d ", DUT.PgmCtr);
+        $display("instruction out %b ", DUT.Instruction);
+        $display("***************************************");
+        $display("TEST 7 PASSED ");
+        $display("***************************************");
+    end
     else begin
-        $display("PC is not the value we expected!");
+        $display("PC value jumped, not what we expected!");
     end	
 
 
