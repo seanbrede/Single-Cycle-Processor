@@ -1,7 +1,3 @@
-run encryption program; original message = 
-Mr. Watson, come here. I want to see you.
-space_pad_length=18
-LFSR_ptrn = 0x6a, LFSR_init = 0x6d
 i=          0, msg_pad=0x20, lfsr=1101101 msg_crypt w/ parity = 0x4d
 i=          1, msg_pad=0x20, lfsr=1011011 msg_crypt w/ parity = 0x7b
 i=          2, msg_pad=0x20, lfsr=0110111 msg_crypt w/ parity = 0x17
@@ -66,9 +62,7 @@ i=         60, msg_pad=0x20, lfsr=0011101 msg_crypt w/ parity = 0xbd
 i=         61, msg_pad=0x20, lfsr=0111011 msg_crypt w/ parity = 0x1b
 i=         62, msg_pad=0x20, lfsr=1110111 msg_crypt w/ parity = 0xd7
 i=         63, msg_pad=0x20, lfsr=1101111 msg_crypt w/ parity = 0xcf
-encrypted string =  
-mõ7nú8p`ÄABEJT(ê!ÉküU6[Xf7Gû,ÅÄàÇõ<040@EVÑöb*Xxòd.Çóçî"]ÜÜ)é];wo
-
+#######################################################################
 i=          0, NOTflipped , DM[i]=0x4d
 i=          1, NOTflipped , DM[i]=0x7b
 i=          2, NOTflipped , DM[i]=0x17
@@ -133,70 +127,3 @@ i=         60, NOTflipped , DM[i]=0xbd
 i=         61, NOTflipped , DM[i]=0x1b
 i=         62, NOTflipped , DM[i]=0xd7
 i=         63, NOTflipped , DM[i]=0xcf
-
-program 3:
-          0 bench msg: M 20 dut msg: 00  OOPS!
-          1 bench msg: r 20 dut msg: 00  OOPS!
-          2 bench msg: . 20 dut msg: 00  OOPS!
-          3 bench msg:   20 dut msg: 00  OOPS!
-          4 bench msg: W 20 dut msg: 00  OOPS!
-          5 bench msg: a 20 dut msg: 00  OOPS!
-          6 bench msg: t 20 dut msg: 00  OOPS!
-          7 bench msg: s 20 dut msg: 00  OOPS!
-          8 bench msg: o 20 dut msg: 00  error missed
-          9 bench msg: n 20 dut msg: 00  OOPS!
-         10 bench msg: , 20 dut msg: 00  OOPS!
-         11 bench msg:   20 dut msg: 00  OOPS!
-         12 bench msg: c 20 dut msg: 00  OOPS!
-         13 bench msg: o 20 dut msg: 00  OOPS!
-         14 bench msg: m 20 dut msg: 00  OOPS!
-         15 bench msg: e 20 dut msg: 00  error missed
-         16 bench msg:   20 dut msg: 7e  OOPS!
-         17 bench msg: h 20 dut msg: 00  OOPS!
-         18 bench msg: e 4d dut msg: 00  OOPS!
-         19 bench msg: r 72 dut msg: 00  OOPS!
-         20 bench msg: e 2e dut msg: 00  OOPS!
-         21 bench msg: . 20 dut msg: 00  OOPS!
-         22 bench msg:   57 dut msg: 00  error missed
-         23 bench msg: I 61 dut msg: 00  error missed
-         24 bench msg:   74 dut msg: 00  OOPS!
-         25 bench msg: w 73 dut msg: 00  OOPS!
-         26 bench msg: a 6f dut msg: 00  OOPS!
-         27 bench msg: n 6e dut msg: 00  OOPS!
-         28 bench msg: t 2c dut msg: 00  OOPS!
-         29 bench msg:   20 dut msg: 00  OOPS!
-         30 bench msg: t 63 dut msg: 00  OOPS!
-         31 bench msg: o 6f dut msg: 00  OOPS!
-         32 bench msg:   6d dut msg: 00  error missed
-         33 bench msg: s 65 dut msg: 00  OOPS!
-         34 bench msg: e 20 dut msg: 00  OOPS!
-         35 bench msg: e 68 dut msg: 00  OOPS!
-         36 bench msg:   65 dut msg: 00  OOPS!
-         37 bench msg: y 72 dut msg: 00  OOPS!
-         38 bench msg: o 65 dut msg: 00  OOPS!
-         39 bench msg: u 2e dut msg: 00  error missed
-         40 bench msg: . 20 dut msg: 00  OOPS!
-         41 bench msg:   49 dut msg: 00  OOPS!
-         42 bench msg:   20 dut msg: 00  OOPS!
-         43 bench msg:   77 dut msg: 00  OOPS!
-         44 bench msg:   61 dut msg: 00  OOPS!
-         45 bench msg:   6e dut msg: 00  OOPS!
-         46 bench msg:   74 dut msg: 00  OOPS!
-         47 bench msg:   20 dut msg: 00  OOPS!
-         48 bench msg:   74 dut msg: 00  OOPS!
-         49 bench msg:   6f dut msg: 00  OOPS!
-         50 bench msg:   20 dut msg: 00  OOPS!
-         51 bench msg:   73 dut msg: 00  OOPS!
-         52 bench msg:   65 dut msg: 00  OOPS!
-         53 bench msg:   65 dut msg: 00  OOPS!
-         54 bench msg:   20 dut msg: 00  OOPS!
-         55 bench msg:   79 dut msg: 00  OOPS!
-         56 bench msg:   6f dut msg: 00  OOPS!
-         57 bench msg:   75 dut msg: 00  OOPS!
-         58 bench msg:   2e dut msg: 00  OOPS!
-         59 bench msg:   20 dut msg: 00  OOPS!
-         60 bench msg:   20 dut msg: 00  OOPS!
-         61 bench msg:   20 dut msg: xx  OOPS!
-         62 bench msg:   20 dut msg: 00  OOPS!
-         63 bench msg:   20 dut msg: 00  OOPS!
-score =           0/         33

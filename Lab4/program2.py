@@ -47,34 +47,44 @@ def cycle_LFSR( LFSR_st, LFSR_tap):
 parity = lfsr_st_init  & 128
 lfsr_st_init = lfsr_st_init ^ parity
 
-# 1. Figure out the tap pattern
 while found == 0:
     curr_tap = chs.tap_LUT[tap_select]
-    lfsr_st  = lfsr_st_init
+    LFSR_st  = lfsr_st_init
     read_ptr = 65  # start at the space after the seed value
     last_ptr = 74  # read up until the last space value
 
     # For given tap, cycle through lfsr each state and check expected_state of true lfsr vs guess lfsr
     while read_ptr < last_ptr:
-        parity          = MEM[read_ptr] & 128
-        echar_no_parity = MEM[read_ptr] ^ parity
+        dummyLoad       = MEM[read_ptr]
+        parity          = dummyLoad & 128
+        echar_no_parity = dummyLoad ^ parity
+
         # compute expected lfsr and lfsr with the selected tap
         expected_state   = echar_no_parity ^ 32          # what we should be get if its the correct LSFR
-        lfsr_st          = cycle_LFSR(lfsr_st, curr_tap) # what the current tap pattern produces
 
-        # actual    != expected, go to next tap
-        if lfsr_st < expected_state:
-            tap_select += 1
-            read_ptr = last_ptr
+        # cycle the lfsr
+        new_bit = LFSR_st & curr_tap  # extract the tap bits
+        new_bit = chs.redXOR(new_bit)  # get the new bit; use reduction-xor
+        LFSR_st = LFSR_st << 1  # shift left by 1
+        LFSR_st = LFSR_st | new_bit  # put in the new bit
+        LFSR_st = LFSR_st & 127  # set MSB to 0
 
-        if expected_state < lfsr_st:
-            tap_select += 1
-            read_ptr = last_ptr
-
-        if read_ptr == 74:
+        # no more chars to check, made it to the last one, therefore found tap
+        if read_ptr == 73:
             found = 1
+
+        # actual    != expected, go to next tap  (first check since != comparitor not available )
+        if LFSR_st < expected_state:
+            tap_select = tap_select + 1
+            read_ptr = last_ptr
+
+        # actual    != expected, go to next tap  (second check since != comparitor not available )
+        if expected_state < LFSR_st:
+            tap_select = tap_select + 1
+            read_ptr   = last_ptr
+
         # read in the next MEM value and continue checking
-        read_ptr += 1
+        read_ptr = read_ptr + 1
 
 print('tap selection done.  tap selected -> ', hex(curr_tap) )
 

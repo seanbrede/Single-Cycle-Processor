@@ -1,7 +1,0 @@
-
-LDT 0  # load immediate 64 from look up table. value will be in r2
-LOD r2
-MVH r2 r1
-MVL r1 r5
-
-xor r5

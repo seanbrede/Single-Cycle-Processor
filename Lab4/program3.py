@@ -1,4 +1,4 @@
-import compile_helpers as chs; MEM = chs.initMemory3()
+import compile_helpers as chs;  TEST = 2; MEM = chs.initMemory3(TEST)
 
 # variable            # register location
 parityExpected  = 0              # r2
@@ -21,11 +21,8 @@ dummyLoad       = 0              # r15
 parity = lfsr_st_init  & 128
 lfsr_st_init = lfsr_st_init ^ parity
 
-print('started tap search')
-
 while found == 0:
     curr_tap = chs.tap_LUT[tap_select]
-    print('curr tap = ', curr_tap )
     LFSR_st  = lfsr_st_init
     read_ptr = 65  # start at the space after the seed value
     last_ptr = 74  # read up until the last space value
@@ -57,7 +54,7 @@ while found == 0:
             read_ptr   = last_ptr
 
         # no more chars to check, made it to the last one, therefore found tap
-        if read_ptr == 74:
+        if read_ptr == 73:
             found = 1
 
         # read in the next MEM value and continue checking
@@ -95,35 +92,44 @@ while found == 0:
         LFSR_st = LFSR_st & 127  # set MSB to 0
         read_ptr  = read_ptr + 1
 
-print("done detecting the first non-space char")
-
-DEBUG_VAR_CORRECT = 0
-DEBUG_VAR_WRONG   = 0
+print('found first non space at index = ' , read_ptr-64)
+### DEBUG ###### DEBUG ###### DEBUG ###### DEBUG ###### DEBUG ###### DEBUG ###### DEBUG ###
+DEBUG_FIRST_NON_SPACE_INDEX = read_ptr -64
+DEBUG_ARR = []
+### DEBUG ###### DEBUG ###### DEBUG ###### DEBUG ###### DEBUG ###### DEBUG ###### DEBUG ###
 
 # 4. check parity and copy over char.  ( copy first non-space character into MEM[0] )
 while read_ptr < read_end:
     # check the global parity at bit 7
-    dummyLoad = MEM[read_ptr]
-    parity = dummyLoad & 128
-    parityExpected = chs.redXOR( dummyLoad )
+    dummyLoad       = MEM[read_ptr]
+    parity          =  (dummyLoad & 128)
     echar_no_parity = dummyLoad ^ parity
 
-    # if parity does not match:
+    if parity == 128:
+        parity = 1
+
+    parityExpected  = chs.redXOR( echar_no_parity )
+
+    # if parity does not match,  insert 0x80 into MEM[i]
     if parity < parityExpected:
-        # insert 0x80 into MEM[i]
         MEM[write_ptr] = 0x80
-        DEBUG_VAR_WRONG += 1
+        ### DEBUG ###### DEBUG ###### DEBUG ###### DEBUG ###### DEBUG ###### DEBUG ###### DEBUG ###
+        DEBUG_ARR.append(1)
+        ### DEBUG ###### DEBUG ###### DEBUG ###### DEBUG ###### DEBUG ###### DEBUG ###### DEBUG ###
 
-
-    # if parity does not match:
+    # if parity does not match,  insert 0x80 into MEM[i]
     if parityExpected < parity:
         MEM[write_ptr] = 0x80
-        DEBUG_VAR_WRONG += 1
+        ### DEBUG ###### DEBUG ###### DEBUG ###### DEBUG ###### DEBUG ###### DEBUG ###### DEBUG ###
+        DEBUG_ARR.append(1)
+        ### DEBUG ###### DEBUG ###### DEBUG ###### DEBUG ###### DEBUG ###### DEBUG ###### DEBUG ###
 
     # insert MEM[i] as is
     if parity == parityExpected:
-        MEM[write_ptr] = echar_no_parity
-        DEBUG_VAR_CORRECT += 1
+        MEM[write_ptr] = dummyLoad
+        ### DEBUG ###### DEBUG ###### DEBUG ###### DEBUG ###### DEBUG ###### DEBUG ###### DEBUG ###
+        DEBUG_ARR.append(0)
+        ### DEBUG ###### DEBUG ###### DEBUG ###### DEBUG ###### DEBUG ###### DEBUG ###### DEBUG ###
 
     # cycle the lfsr
     new_bit = LFSR_st & curr_tap  # extract the tap bits
@@ -135,15 +141,13 @@ while read_ptr < read_end:
     read_ptr  = read_ptr  + 1
     write_ptr = write_ptr + 1
 
-print('done checking the parity')
 
 # 5. if message stops early, lets say at x, pad with spaces until MEM[63]
 while write_ptr < 64:
     MEM[write_ptr] = 0x20
     write_ptr = write_ptr + 1
 
-print('wrote rest of message as spaces')
+### DEBUG ###### DEBUG ###### DEBUG ###### DEBUG ###### DEBUG ###### DEBUG ###### DEBUG ###
+chs.program3CheckWork(TEST, DEBUG_FIRST_NON_SPACE_INDEX, DEBUG_ARR, MEM )
+### DEBUG ###### DEBUG ###### DEBUG ###### DEBUG ###### DEBUG ###### DEBUG ###### DEBUG ###
 
-
-print('correct -> ', DEBUG_VAR_CORRECT )
-print('wrong   -> ', DEBUG_VAR_WRONG )

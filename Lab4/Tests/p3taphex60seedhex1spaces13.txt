@@ -62,3 +62,68 @@ i=         60, msg_pad=0x20, lfsr=1110001 msg_crypt w/ parity = 0xd1
 i=         61, msg_pad=0x20, lfsr=1100010 msg_crypt w/ parity = 0x42
 i=         62, msg_pad=0x20, lfsr=1000100 msg_crypt w/ parity = 0xe4
 i=         63, msg_pad=0x20, lfsr=0001001 msg_crypt w/ parity = 0xa9
+#########################################################################################################
+i=          0, NOTflipped , DM[i]=0x21
+i=          1, NOTflipped , DM[i]=0x22
+i=          2, NOTflipped , DM[i]=0x24
+i=          3, NOTflipped , DM[i]=0x28
+i=          4, NOTflipped , DM[i]=0x30
+i=          5, NOTflipped , DM[i]=0x00
+i=          6, NOTflipped , DM[i]=0xe1
+i=          7, NOTflipped , DM[i]=0xa3
+i=          8, NOTflipped , DM[i]=0xa6
+i=          9, NOTflipped , DM[i]=0xac
+i=         10, NOTflipped , DM[i]=0xb8
+i=         11, NOTflipped , DM[i]=0x90
+i=         12, NOTflipped , DM[i]=0x41
+i=         13, NOTflipped , DM[i]=0x0f
+i=         14, NOTflipped , DM[i]=0x77
+i=         15, NOTflipped , DM[i]=0x24
+i=         16, NOTflipped , DM[i]=0xb4
+i=         17, NOTflipped , DM[i]=0xff
+i=         18, NOTflipped , DM[i]=0x30
+i=         19, NOTflipped , DM[i]=0xd7
+i=         20, NOTflipped , DM[i]=0xb4
+i=         21, NOTflipped , DM[i]=0x60
+i=         22, NOTflipped , DM[i]=0xf0
+i=         23, NOTflipped , DM[i]=0x90
+i=         24, NOTflipped , DM[i]=0x59
+i=         25, NOTflipped , DM[i]=0x11
+i=         26, fBit= 1 , DM[i]=0x89
+i=         27, NOTflipped , DM[i]=0xa5
+i=         28, NOTflipped , DM[i]=0x74
+i=         29, NOTflipped , DM[i]=0x82
+i=         30, NOTflipped , DM[i]=0x2d
+i=         31, NOTflipped , DM[i]=0xee
+i=         32, NOTflipped , DM[i]=0xe4
+i=         33, fBit= 1 , DM[i]=0xcb
+i=         34, NOTflipped , DM[i]=0x77
+i=         35, NOTflipped , DM[i]=0x93
+i=         36, NOTflipped , DM[i]=0x2e
+i=         37, NOTflipped , DM[i]=0xee
+i=         38, NOTflipped , DM[i]=0x6a
+i=         39, NOTflipped , DM[i]=0xdb
+i=         40, fBit= 6 , DM[i]=0x5b
+i=         41, fBit= 5 , DM[i]=0x3e
+i=         42, NOTflipped , DM[i]=0x74
+i=         43, NOTflipped , DM[i]=0xdd
+i=         44, NOTflipped , DM[i]=0x3c
+i=         45, NOTflipped , DM[i]=0x87
+i=         46, NOTflipped , DM[i]=0x3c
+i=         47, NOTflipped , DM[i]=0xfa
+i=         48, NOTflipped , DM[i]=0xdb
+i=         49, NOTflipped , DM[i]=0xdd
+i=         50, fBit= 5 , DM[i]=0x23
+i=         51, NOTflipped , DM[i]=0x1b
+i=         52, NOTflipped , DM[i]=0x1d
+i=         53, NOTflipped , DM[i]=0x7e
+i=         54, NOTflipped , DM[i]=0x81
+i=         55, NOTflipped , DM[i]=0x63
+i=         56, NOTflipped , DM[i]=0x27
+i=         57, fBit= 0 , DM[i]=0x2f
+i=         58, NOTflipped , DM[i]=0x3c
+i=         59, NOTflipped , DM[i]=0x18
+i=         60, NOTflipped , DM[i]=0xd1
+i=         61, NOTflipped , DM[i]=0x42
+i=         62, NOTflipped , DM[i]=0xe4
+i=         63, NOTflipped , DM[i]=0xa9

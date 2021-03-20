@@ -1,0 +1,129 @@
+i=          0, msg_pad=0x20, lfsr=0100000 msg_crypt w/ parity = 0x00
+i=          1, msg_pad=0x20, lfsr=1000001 msg_crypt w/ parity = 0xe1
+i=          2, msg_pad=0x20, lfsr=0000011 msg_crypt w/ parity = 0xa3
+i=          3, msg_pad=0x20, lfsr=0000110 msg_crypt w/ parity = 0xa6
+i=          4, msg_pad=0x20, lfsr=0001100 msg_crypt w/ parity = 0xac
+i=          5, msg_pad=0x20, lfsr=0011001 msg_crypt w/ parity = 0x39
+i=          6, msg_pad=0x20, lfsr=0110010 msg_crypt w/ parity = 0x12
+i=          7, msg_pad=0x20, lfsr=1100100 msg_crypt w/ parity = 0x44
+i=          8, msg_pad=0x20, lfsr=1001000 msg_crypt w/ parity = 0xe8
+i=          9, msg_pad=0x20, lfsr=0010000 msg_crypt w/ parity = 0x30
+i=         10, msg_pad=0x20, lfsr=0100001 msg_crypt w/ parity = 0x81
+i=         11, msg_pad=0x20, lfsr=1000011 msg_crypt w/ parity = 0x63
+i=         12, msg_pad=0x20, lfsr=0000111 msg_crypt w/ parity = 0x27
+i=         13, msg_pad=0x4d, lfsr=0001110 msg_crypt w/ parity = 0xc3
+i=         14, msg_pad=0x72, lfsr=0011101 msg_crypt w/ parity = 0x6f
+i=         15, msg_pad=0x2e, lfsr=0111010 msg_crypt w/ parity = 0x14
+i=         16, msg_pad=0x20, lfsr=1110101 msg_crypt w/ parity = 0x55
+i=         17, msg_pad=0x57, lfsr=1101011 msg_crypt w/ parity = 0x3c
+i=         18, msg_pad=0x61, lfsr=1010111 msg_crypt w/ parity = 0x36
+i=         19, msg_pad=0x74, lfsr=0101110 msg_crypt w/ parity = 0x5a
+i=         20, msg_pad=0x73, lfsr=1011100 msg_crypt w/ parity = 0xaf
+i=         21, msg_pad=0x6f, lfsr=0111001 msg_crypt w/ parity = 0x56
+i=         22, msg_pad=0x6e, lfsr=1110011 msg_crypt w/ parity = 0x1d
+i=         23, msg_pad=0x2c, lfsr=1100111 msg_crypt w/ parity = 0x4b
+i=         24, msg_pad=0x20, lfsr=1001110 msg_crypt w/ parity = 0xee
+i=         25, msg_pad=0x63, lfsr=0011100 msg_crypt w/ parity = 0xff
+i=         26, msg_pad=0x6f, lfsr=0111000 msg_crypt w/ parity = 0xd7
+i=         27, msg_pad=0x6d, lfsr=1110001 msg_crypt w/ parity = 0x9c
+i=         28, msg_pad=0x65, lfsr=1100011 msg_crypt w/ parity = 0x06
+i=         29, msg_pad=0x20, lfsr=1000110 msg_crypt w/ parity = 0x66
+i=         30, msg_pad=0x68, lfsr=0001101 msg_crypt w/ parity = 0x65
+i=         31, msg_pad=0x65, lfsr=0011011 msg_crypt w/ parity = 0x7e
+i=         32, msg_pad=0x72, lfsr=0110110 msg_crypt w/ parity = 0x44
+i=         33, msg_pad=0x65, lfsr=1101100 msg_crypt w/ parity = 0x09
+i=         34, msg_pad=0x2e, lfsr=1011001 msg_crypt w/ parity = 0x77
+i=         35, msg_pad=0x20, lfsr=0110011 msg_crypt w/ parity = 0x93
+i=         36, msg_pad=0x49, lfsr=1100110 msg_crypt w/ parity = 0xaf
+i=         37, msg_pad=0x20, lfsr=1001100 msg_crypt w/ parity = 0x6c
+i=         38, msg_pad=0x77, lfsr=0011000 msg_crypt w/ parity = 0x6f
+i=         39, msg_pad=0x61, lfsr=0110000 msg_crypt w/ parity = 0xd1
+i=         40, msg_pad=0x6e, lfsr=1100000 msg_crypt w/ parity = 0x8e
+i=         41, msg_pad=0x74, lfsr=1000000 msg_crypt w/ parity = 0xb4
+i=         42, msg_pad=0x20, lfsr=0000001 msg_crypt w/ parity = 0x21
+i=         43, msg_pad=0x74, lfsr=0000010 msg_crypt w/ parity = 0xf6
+i=         44, msg_pad=0x6f, lfsr=0000100 msg_crypt w/ parity = 0xeb
+i=         45, msg_pad=0x20, lfsr=0001000 msg_crypt w/ parity = 0x28
+i=         46, msg_pad=0x73, lfsr=0010001 msg_crypt w/ parity = 0xe2
+i=         47, msg_pad=0x65, lfsr=0100011 msg_crypt w/ parity = 0xc6
+i=         48, msg_pad=0x65, lfsr=1000111 msg_crypt w/ parity = 0x22
+i=         49, msg_pad=0x20, lfsr=0001111 msg_crypt w/ parity = 0xaf
+i=         50, msg_pad=0x79, lfsr=0011111 msg_crypt w/ parity = 0x66
+i=         51, msg_pad=0x6f, lfsr=0111110 msg_crypt w/ parity = 0xd1
+i=         52, msg_pad=0x75, lfsr=1111101 msg_crypt w/ parity = 0x88
+i=         53, msg_pad=0x2e, lfsr=1111010 msg_crypt w/ parity = 0xd4
+i=         54, msg_pad=0x20, lfsr=1110100 msg_crypt w/ parity = 0xd4
+i=         55, msg_pad=0x20, lfsr=1101001 msg_crypt w/ parity = 0xc9
+i=         56, msg_pad=0x20, lfsr=1010011 msg_crypt w/ parity = 0xf3
+i=         57, msg_pad=0x20, lfsr=0100110 msg_crypt w/ parity = 0x06
+i=         58, msg_pad=0x20, lfsr=1001101 msg_crypt w/ parity = 0xed
+i=         59, msg_pad=0x20, lfsr=0011010 msg_crypt w/ parity = 0x3a
+i=         60, msg_pad=0x20, lfsr=0110100 msg_crypt w/ parity = 0x14
+i=         61, msg_pad=0x20, lfsr=1101000 msg_crypt w/ parity = 0x48
+i=         62, msg_pad=0x20, lfsr=1010001 msg_crypt w/ parity = 0x71
+i=         63, msg_pad=0x20, lfsr=0100010 msg_crypt w/ parity = 0x82
+######################################################################
+i=          0, NOTflipped , DM[i]=0x00
+i=          1, NOTflipped , DM[i]=0xe1
+i=          2, NOTflipped , DM[i]=0xa3
+i=          3, NOTflipped , DM[i]=0xa6
+i=          4, NOTflipped , DM[i]=0xac
+i=          5, NOTflipped , DM[i]=0x39
+i=          6, NOTflipped , DM[i]=0x12
+i=          7, NOTflipped , DM[i]=0x44
+i=          8, NOTflipped , DM[i]=0xe8
+i=          9, NOTflipped , DM[i]=0x30
+i=         10, NOTflipped , DM[i]=0x81
+i=         11, NOTflipped , DM[i]=0x63
+i=         12, NOTflipped , DM[i]=0x27
+i=         13, NOTflipped , DM[i]=0xc3
+i=         14, NOTflipped , DM[i]=0x6f
+i=         15, NOTflipped , DM[i]=0x14
+i=         16, NOTflipped , DM[i]=0x55
+i=         17, NOTflipped , DM[i]=0x3c
+i=         18, NOTflipped , DM[i]=0x36
+i=         19, NOTflipped , DM[i]=0x5a
+i=         20, NOTflipped , DM[i]=0xaf
+i=         21, NOTflipped , DM[i]=0x56
+i=         22, NOTflipped , DM[i]=0x1d
+i=         23, NOTflipped , DM[i]=0x4b
+i=         24, NOTflipped , DM[i]=0xee
+i=         25, NOTflipped , DM[i]=0xff
+i=         26, NOTflipped , DM[i]=0xd7
+i=         27, NOTflipped , DM[i]=0x9c
+i=         28, NOTflipped , DM[i]=0x06
+i=         29, NOTflipped , DM[i]=0x66
+i=         30, NOTflipped , DM[i]=0x65
+i=         31, fBit= 1 , DM[i]=0x7c
+i=         32, NOTflipped , DM[i]=0x44
+i=         33, NOTflipped , DM[i]=0x09
+i=         34, NOTflipped , DM[i]=0x77
+i=         35, NOTflipped , DM[i]=0x93
+i=         36, NOTflipped , DM[i]=0xaf
+i=         37, NOTflipped , DM[i]=0x6c
+i=         38, fBit= 6 , DM[i]=0x2f
+i=         39, fBit= 5 , DM[i]=0xf1
+i=         40, NOTflipped , DM[i]=0x8e
+i=         41, NOTflipped , DM[i]=0xb4
+i=         42, NOTflipped , DM[i]=0x21
+i=         43, NOTflipped , DM[i]=0xf6
+i=         44, NOTflipped , DM[i]=0xeb
+i=         45, NOTflipped , DM[i]=0x28
+i=         46, NOTflipped , DM[i]=0xe2
+i=         47, NOTflipped , DM[i]=0xc6
+i=         48, fBit= 5 , DM[i]=0x02
+i=         49, NOTflipped , DM[i]=0xaf
+i=         50, NOTflipped , DM[i]=0x66
+i=         51, NOTflipped , DM[i]=0xd1
+i=         52, NOTflipped , DM[i]=0x88
+i=         53, NOTflipped , DM[i]=0xd4
+i=         54, NOTflipped , DM[i]=0xd4
+i=         55, fBit= 0 , DM[i]=0xc8
+i=         56, NOTflipped , DM[i]=0xf3
+i=         57, NOTflipped , DM[i]=0x06
+i=         58, NOTflipped , DM[i]=0xed
+i=         59, NOTflipped , DM[i]=0x3a
+i=         60, NOTflipped , DM[i]=0x14
+i=         61, NOTflipped , DM[i]=0x48
+i=         62, NOTflipped , DM[i]=0x71
+i=         63, NOTflipped , DM[i]=0x82

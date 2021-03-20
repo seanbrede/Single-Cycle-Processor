@@ -57,19 +57,20 @@ module decrypt_depad_tb ()        ;
   assign LFSR_ptrn[15] = 7'h7E;		 // same as LFSR_ptrn[7]
 // select an LFSR feedback tap pattern
   always_comb begin
-    pt_no = 0; //$random>>22;        // specific pattern for debug, random for verification  //TODO:: change to random
-    pt_no1 = pt_no[3:0];
+    pt_no = $random>>22;        // specific pattern for debug, random for verification
+    //pt_no1 = pt_no[3:0];  //TODO:: UNCOMMENT
+    pt_no1 = 4;
     lfsr_ptrn = LFSR_ptrn[pt_no1];    // engage the selected pattern
   end
 // select a starting LFSR state -- any nonzero value will do
   always_comb begin					   
-    LFSR_init = 7'b1; //$random>>2;  // specific value for debug, random for verification //TODO:: change to random
+    LFSR_init = 7'h6D;//random>>2;  // specific value for debug, random for verification //TODO:: change back to random
     if(!LFSR_init) LFSR_init = 7'b1; // prevents illegal starting state = 7'b0; 
   end
 
 // set preamble lengths for the program  (always > 9 but < 16)
   always_comb begin
-    pre_length = $random>>10 ;             // program 1 run
+    pre_length = 18;//$random>>10 ;             // program 1 run  //TODO:: change spaces back to 100
     if(pre_length < 10) pre_length = 10;   // prevents pre_length < 10
     else if(pre_length > 26) pre_length = 26;
   end
@@ -132,12 +133,24 @@ module decrypt_depad_tb ()        ;
 //    dut.DM.core[61] = pre_length;     // number of bytes preceding message
 //    dut.DM.core[62] = lfsr_ptrn;      // LFSR feedback tap positions (9 possible ptrns)
 //    dut.DM.core[63] = LFSR_init;      // LFSR starting state (nonzero)
-    for(int m=0; m<26; m++)             // load first 26 characters of encrypted message into data memory
+    for(int m=0; m<26; m++)  begin           // load first 26 characters of encrypted message into data memory
       dut.DM1.Core[m+64] = msg_crypto1[m];	 // this guarantees all space prepend characters are clean
+      $fwrite(file_no,"i=%d, NOTflipped , DM[i]=0x%h", (m), dut.DM1.Core[m+64]);
+      $fdisplay(file_no,"");
+    end
     for(int n=26; n<64; n++) begin	  	// load subsequent, possibly corrupt, encrypted message into data memory
 	  flipper = $random;                // value between 0 and 63, inclusive
       dut.DM1.Core[n+64] = msg_crypto1[n]^(1<<flipper);
-      if(flipper<8) flipped[n]=1;		// if flipper>7, it is out of range, has no impact on message
+      if(flipper<8) begin
+        $fwrite(file_no,"i=%d, fBit=%d , DM[i]=0x%h", (n), flipper, dut.DM1.Core[n+64]);
+        $fdisplay(file_no,"");
+        flipped[n]=1;		// if flipper>7, it is out of range, has no impact on message
+      end
+      else begin
+          $fwrite(file_no,"i=%d, NOTflipped , DM[i]=0x%h", (n), dut.DM1.Core[n+64]);
+          $fdisplay(file_no,"");
+      end
+
 	end
     #20ns init  = 1'b0;				  // suggestion: reset = 1 forces your program counter to 0
 	#10ns start = 1'b0; 			  //   request/start = 1 holds your program counter 
