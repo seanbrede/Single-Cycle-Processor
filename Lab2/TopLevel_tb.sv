@@ -243,29 +243,8 @@ initial begin
     $display("TEST 5 PASSED ");
     $display("***************************************");
 
-
-     if ( DUT.ALU1.OP != 3'b100) begin
-        $display("ALU operation was not shift left (100)");
-        $display("ALU OP= %b ", DUT.ALU1.OP);
-        #10ns $stop;
-    end
-
-    if ( DUT.ALU1.InputA != 8'b00001111) begin
-        $display("ALU register A did not have value 00001111");
-        $display("Input A data = %b ", DUT.ALU1.InputA);
-        #10ns $stop;
-    end
-
-    if ( DUT.ALU_out != 8'b00011110) begin
-        $display("ALU was not equal to 00011110");
-        $display("ALU = %b ", DUT.ALU_out);
-        #10ns $stop;
-    end
-
-
-
     $display("***************************************");
-    $display("TEST 7 SET LESS THAN ");
+    $display("TEST 6 SET LESS THAN ");
     $display("***************************************");
 
     if ( DUT.Instruction[8:5] != 4'b1011) begin
@@ -322,7 +301,7 @@ initial begin
     end
 
     $display("***************************************");
-    $display("TEST 7 PASSED ");
+    $display("TEST 6 PASSED ");
     $display("***************************************");
 
 
