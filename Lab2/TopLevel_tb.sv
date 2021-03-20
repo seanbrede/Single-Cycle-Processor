@@ -56,6 +56,10 @@ initial begin
     $display("setting r5 value to 11");
     DUT.RF1.Registers[4] = 8'd7;
     $display("setting r4 value to 7");
+    // DUT.RF1.Registers[2] = 8'd121;
+    // $display("setting r2 value to 121");
+    DUT.RF1.Registers[3] = 8'd15;
+    $display("setting r3 value to 15");
 
     //#1ns
     Req = 'b0;
@@ -119,8 +123,8 @@ initial begin
 	// test 3 STORE
     // ############################################################################
 	$display("***************************************");
-    $display("TEST 3:  STORE  MEM[ LUT [ rd ]  ] = r1  ");
-    $display("  Rd=7 , r1=9     where  MEM[ LUT_Imm[7] ] = 9 is MEM[61] = 9  ");
+    $display("TEST 3:  STORE  MEM[ R [ rd ]  ] = r1  ");
+    $display("  Rd=7 , r1=9     where  MEM[ R[rd] ] = 9 is MEM[7] = 9  ");
 
     #5ns // half cycle
     assert(DUT.Instruction[8:5]  == 4'b0111) 
@@ -146,17 +150,17 @@ initial begin
 
 
     assert(DUT.DM1.DataAddress == 8'd61) begin
-        $display("Success, accessing MEM[61] where DataAddress = %d ", DUT.DM1.DataAddress);
+        $display("Success, accessing MEM[7] where DataAddress = %d ", DUT.DM1.DataAddress);
     end
     else begin
-        $display("Error: not writing into MEM[61] ");
+        $display("Error: not writing into MEM[7] ");
     end
 
 	// ############################################################################
 	// Verify the register values were changed 
     // ############################################################################
 
-    $display(" MEM[61] =  %d ", DUT.DM1.Core[61] );
+    $display(" MEM[61] =  %d ", DUT.DM1.Core[7] );
     $display(" Instruction =  %b ", DUT.Instruction);
     $display(" LUT immediate value =  %d ", DUT.LUT_IMM.immediate);
     $display(" MemWriteValue =  %d ", DUT.RF1.MemWriteValue);
@@ -169,24 +173,22 @@ initial begin
     #5ns // completed cycle
 
     assert(DUT.DM1.Core[7] == 8'd9) begin
-    // assert(DUT.RF1.Registers[1] == 8'd61) begin
         $display(" MEM[7] has the right value stored! ");
         $display(" MEM[7] =  %d ", DUT.DM1.Core[61] );
         $display("***************************************");
         $display("TEST 3 PASSED ");
         $display("***************************************");        
-        $display("Program Counter after Test 3 %b ", DUT.PgmCtr);
+        $display("Program Counter after Test 3 %d ", DUT.PgmCtr);
         $display("instruction out %b ", DUT.Instruction);
     end
     else $display("MEM[7] is not the expected value of 9!");
 
 	// ############################################################################
-	// Next test 4: LDT 6
+	// Next test 4: SEQ r2, r3
     // ###########################################################################
 
-    $display("TEST 4:  LDT 6  : R[r1] =  LUT_IMM[6] ");
+    $display("TEST 5:  SEQ r2, r3 :  R[r2] == R[r3], then r0 = 0 ");
     // $display(" where,  rd=6,  LUT[6]=54,  MEM[54]=15 ");
-    $display("  so r1 = 54 after load  ");
 
     $display(" Opcode =  %b ", DUT.Instruction);
     if (  DUT.Instruction[8:5]  != 4'b0101) begin
@@ -239,7 +241,7 @@ initial begin
     #5ns // Cycle Complete
     assert(DUT.RF1.Registers[1] == 8'd54) begin
         $display("r1 is the right value!");        
-        $display("Program Counter after Test 4 %b ", DUT.PgmCtr);
+        $display("Program Counter after Test 4 %d ", DUT.PgmCtr);
         $display("instruction out %b ", DUT.Instruction);
         $display("***************************************");
         $display("TEST 4 PASSED ");
@@ -263,17 +265,94 @@ initial begin
     #5ns // Complete cycle
     assert(DUT.RF1.Registers[1] == 8'd15) begin
         $display("r1 is the right value!");        
-        $display("Program Counter after Test 5 %b ", DUT.PgmCtr);
+        $display("Program Counter after Test 5 %d ", DUT.PgmCtr);
         $display("instruction out %b ", DUT.Instruction);
         $display("***************************************");
         $display("TEST 5 PASSED ");
         $display("***************************************");
     end
     else begin
-        $display("expected r1 to be 15, but it is %d instead", DUT.RF1.Registers[1]);
+        $display("expected r1 to be 8'd15, but it is %d instead", DUT.RF1.Registers[1]);
+    end
+    // ############################################################################
+	// Next test 6 SEQ r3, r0 
+    // ###########################################################################
+    #5ns // half-cyc
+    $display(" where,  r3=8'd15,  r1=8'd15");
+    $display(" We Expect r3 == r1, then r0 = 0");
+
+    assert(DUT.RF1.Registers[3] == 8'd15) begin
+        $display(" r3 is correct value"); 
+    end
+    else begin 
+        $display(" r3 is NOT correct!"); 
     end
 
-	// launch prodvgram in DUT
+    assert(DUT.RF1.Registers[1] == 8'd15) begin
+        $display(" r1 is correct value"); 
+    end
+    else begin 
+        $display(" r1 is NOT correct!"); 
+    end
+
+    assert(DUT.ALU1.InputA == 8'd15) begin
+        $display(" InputA is correct value"); 
+    end
+    else begin 
+        $display(" InputA is NOT correct!"); 
+    end
+
+    assert(DUT.ALU1.InputB == 8'd15) begin
+        $display(" InputB is correct value"); 
+    end
+    else begin 
+        $display(" InputB is NOT correct!"); 
+    end
+    assert(DUT.ALU1.Out == 8'd0) begin
+        $display(" ALU Ouput is correct value"); 
+    end
+    else begin 
+        $display(" ALU Output is NOT correct!"); 
+    end
+    assert(DUT.RF1.DataIn == 8'd0) begin
+        $display(" ALU Ouput is correct value"); 
+    end
+    else begin 
+        $display(" ALU Output is NOT correct!"); 
+    end
+    #5ns // Complete Cycle
+
+    assert(DUT.RF1.Registers[0] == 8'd0) begin
+        $display("r0 is the right value!");        
+        $display("Program Counter after Test 6 %d ", DUT.PgmCtr);
+        $display("instruction out %b ", DUT.Instruction);
+        $display("***************************************");
+        $display("TEST 6 PASSED ");
+        $display("***************************************");
+    end
+    else begin
+        $display("expected r1 to be 8'd15, but it is %d instead", DUT.RF1.Registers[1]);
+    end
+    // ############################################################################
+	// Next test 7 JNEQ #15 
+    // ###########################################################################
+    $display("Testing JNEQ, where r0=8'd1");
+    $display("We Expect PC to be unchanged since r0==1 means");
+    #5ns 
+
+    assert(DUT.InstFetch.ProgCtr == 8'd7)
+    else begin
+        $display("PC is not the value we expected!");
+    end
+    #5ns 
+    assert(DUT.InstFetch.ProgCtr == 8'd7)
+    else begin
+        $display("PC is not the value we expected!");
+    end	
+
+
+
+    // launch program in DUT
 	#10ns Req = 0;
 	// Wait for done flag, then display results
 	wait (Ack);

@@ -1,15 +1,15 @@
-Fitter Status : Successful - Fri Mar 19 14:37:15 2021
+Fitter Status : Successful - Sat Mar 20 11:12:03 2021
 Quartus Prime Version : 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 Revision Name : TopLevel
 Top-level Entity Name : TopLevel
 Family : Arria II GX
 Device : EP2AGX45CU17I3
 Timing Models : Final
-Logic utilization : 2 %
-    Combinational ALUTs : 593 / 36,100 ( 2 % )
+Logic utilization : 8 %
+    Combinational ALUTs : 1,249 / 36,100 ( 3 % )
     Memory ALUTs : 0 / 18,050 ( 0 % )
-    Dedicated logic registers : 394 / 36,100 ( 1 % )
-Total registers : 394
+    Dedicated logic registers : 2,098 / 36,100 ( 6 % )
+Total registers : 2098
 Total pins : 4 / 176 ( 2 % )
 Total virtual pins : 0
 Total block memory bits : 0 / 2,939,904 ( 0 % )

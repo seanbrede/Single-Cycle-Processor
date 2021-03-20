@@ -10,6 +10,7 @@ module Ctrl (
 	input				r0IsZeroFlag,
 	output logic		BranchEn,
 	output logic		LoadInst,
+	output logic		Jump,
 	// output logic		JumpEqEn,
 	// output logic		JumpNeqEn,
 	output logic		LoadTableEn,
@@ -38,7 +39,9 @@ assign LoadTableEn = (Instruction[8:5] == 4'b0101); // Checks if LOAD TABLE call
 
 // assign Jump = (JumpEqEn && JumpEq==0) || (JumpNeqEn && JumpNeq); // when OP == JEQ && r4 == 1 (JumpRdy)
 // If the instruction is either JEQ or JNEQ, and r0 == 0, send JUMP signal to instr-fetch to JUMP
-assign Jump = ( ( (Instruction[8:5] == 4'b1010) || (Instruction[8:5] == 4'b1111) )  && r0IsZeroFlag) ? 1'b1 : 1'b0 ;
+// to Jump, either: (instr is JEQ && r0 == 0 i.e SEQ was true) or (instr is JNEQ && r0 == 1 i.e SEQ was false which sets r0=1)
+assign Jump = ( ((Instruction[8:5] == 4'b1010) && r0IsZeroFlag) || ((Instruction[8:5] == 4'b1111) && !r0IsZeroFlag) ) ? 1'b1 : 1'b0 ;
+
 // program counter can clear to 0, increment, or jump
 //always_comb begin	            // or just always; always_ff is a linting construct
 //	if(Reset)

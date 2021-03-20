@@ -77,6 +77,7 @@ Ctrl Ctrl1 (
 	.r0IsZeroFlag	(r0IsZeroFlag),
 	.BranchEn		(BranchEn),		// to PC
 	.LoadInst		(LoadInst),
+	.Jump			(Jump),
 	// .JumpEqEn  		(JumpEqEn),		// JEQ instr detected
 	// .JumpNeqEn		(JumpNeqEn),	// JNEQ instr detected
 	.LoadTableEn	(LoadTableEn),
