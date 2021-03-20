@@ -13,7 +13,7 @@ vALU
 Z0 DXx6 sv_std 3 std 0 22 VYECXdT12H8WgbUP_5Y6:3
 Z1 DXx4 work 11 definitions 0 22 XSOjl@2i5YF8gh:ge7G@i3
 DXx4 work 11 ALU_sv_unit 0 22 ]?aXMlU5zaFojgPC^D<Dh3
-Z2 !s110 1616274860
+Z2 !s110 1616279623
 Z3 VDg1SIo80bB@j0V0VzS_@n1
 r1
 !s85 0
@@ -26,11 +26,11 @@ Z4 dE:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2
 Z5 w1616271341
 Z6 8E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/ALU.sv
 Z7 FE:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/ALU.sv
-!i122 1740
+!i122 1762
 L0 8 54
 Z8 OV;L;2020.3;71
 31
-Z9 !s108 1616274860.000000
+Z9 !s108 1616279623.000000
 Z10 !s107 E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/ALU.sv|
 Z11 !s90 -reportprogress|300|-work|work|-sv|-stats=none|E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/ALU.sv|
 !i113 1
@@ -53,7 +53,7 @@ R4
 R5
 R6
 R7
-!i122 1740
+!i122 1762
 L0 5 0
 R8
 31
@@ -78,10 +78,10 @@ I?=QUhFA2e`UeY1]`R1diG2
 !s105 Ctrl_sv_unit
 S1
 R4
-Z14 w1616274700
+Z14 w1616275053
 Z15 8E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/Ctrl.sv
 Z16 FE:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/Ctrl.sv
-!i122 1741
+!i122 1763
 L0 7 35
 R8
 31
@@ -108,7 +108,7 @@ R4
 R14
 R15
 R16
-!i122 1741
+!i122 1763
 L0 2 0
 R8
 31
@@ -120,322 +120,263 @@ R12
 R13
 n@ctrl_sv_unit
 vDataMem
-Z19 DXx6 sv_std 3 std 0 22 AD7iAPLo6nTIKk<N0eo=D3
-Z20 !s110 1616280248
+R0
+R2
 !i10b 1
-!s100 Dd@9Lm;JHT@=NSKkaPh_L2
-Icc?MQW[ZCL3QL3WK9P]Bn1
-R3
-!s105 DataMem_sv_unit
+!s100 WbaIRTFAY4k=BA7hheO^R3
+Z19 !s11b Dg1SIo80bB@j0V0VzS_@n1
+Ic`kIWVR5oM<jfSDVeD7?f3
 S1
-Z21 dC:/Users/seanb/PycharmProjects/CSE-141L/Lab2
-Z22 w1615924453
-8C:/Users/seanb/PycharmProjects/CSE-141L/Lab2/DataMem.sv
-FC:/Users/seanb/PycharmProjects/CSE-141L/Lab2/DataMem.sv
-L0 6
-Z23 OV;L;10.5b;63
+R4
+w1614815908
+8E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/DataMem.sv
+FE:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/DataMem.sv
+!i122 1764
+L0 6 35
+R3
+R8
 r1
 !s85 0
 31
-Z24 !s108 1616280248.000000
-!s107 C:/Users/seanb/PycharmProjects/CSE-141L/Lab2/DataMem.sv|
-!s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/seanb/PycharmProjects/CSE-141L/Lab2/DataMem.sv|
+R9
+!s107 E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/DataMem.sv|
+!s90 -reportprogress|300|-work|work|-sv|-stats=none|E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/DataMem.sv|
 !i113 1
 R12
 R13
 n@data@mem
-vdecrypt_depad_tb
-R19
-R20
-!i10b 1
-!s100 SQki>Sl^Db?MYA9>X=Qd81
-IG1;ggP;SBP[7Ph8?efVII1
-R3
-!s105 program3_tb_sv_unit
-S1
-R21
-Z25 w1616280048
-8C:/Users/seanb/PycharmProjects/CSE-141L/Lab2/program3_tb.sv
-FC:/Users/seanb/PycharmProjects/CSE-141L/Lab2/program3_tb.sv
-L0 6
-R23
-r1
-!s85 0
-31
-R24
-!s107 C:/Users/seanb/PycharmProjects/CSE-141L/Lab2/program3_tb.sv|
-!s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/seanb/PycharmProjects/CSE-141L/Lab2/program3_tb.sv|
-!i113 1
-R12
-R13
-vdecrypt_tb
-R19
-R20
-!i10b 1
-!s100 f3H6VeeE=f^IYL5zU`1UU3
-I>U0di73SG<1[<HI4?Skb@0
-R3
-!s105 program2_tb_sv_unit
-S1
-R21
-R25
-8C:/Users/seanb/PycharmProjects/CSE-141L/Lab2/program2_tb.sv
-FC:/Users/seanb/PycharmProjects/CSE-141L/Lab2/program2_tb.sv
-L0 5
-R23
-r1
-!s85 0
-31
-R24
-!s107 C:/Users/seanb/PycharmProjects/CSE-141L/Lab2/program2_tb.sv|
-!s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/seanb/PycharmProjects/CSE-141L/Lab2/program2_tb.sv|
-!i113 1
-R12
-R13
 Xdefinitions
-R19
-R20
+R0
+R2
 !i10b 1
-!s100 GaTN=nje2Aj[QKLLOzjJ42
-IXAd5ILQZdeoA<Z>8KAMlA0
-VXAd5ILQZdeoA<Z>8KAMlA0
+!s100 o<U;A9U?RS:ib:FZ6:`_H2
+R19
+IXSOjl@2i5YF8gh:ge7G@i3
 S1
-R21
-Z26 w1616276091
-8C:/Users/seanb/PycharmProjects/CSE-141L/Lab2/Definitions.sv
-FC:/Users/seanb/PycharmProjects/CSE-141L/Lab2/Definitions.sv
-L0 3
-R23
+R4
+R5
+8E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/Definitions.sv
+FE:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/Definitions.sv
+!i122 1765
+L0 3 0
+VXSOjl@2i5YF8gh:ge7G@i3
+R8
 r1
 !s85 0
 31
-R24
-!s107 C:/Users/seanb/PycharmProjects/CSE-141L/Lab2/Definitions.sv|
-!s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/seanb/PycharmProjects/CSE-141L/Lab2/Definitions.sv|
-!i113 1
-R12
-R13
-vencrypt_tb
-R19
-R20
-!i10b 1
-!s100 GNU:i_ClAd4P2?I5=^H0>1
-IR=QeViEMhPi@Az@NW_eWY3
-R3
-!s105 program1_tb1_sv_unit
-S1
-R21
-R25
-8C:/Users/seanb/PycharmProjects/CSE-141L/Lab2/program1_tb1.sv
-FC:/Users/seanb/PycharmProjects/CSE-141L/Lab2/program1_tb1.sv
-L0 7
-R23
-r1
-!s85 0
-31
-R24
-!s107 C:/Users/seanb/PycharmProjects/CSE-141L/Lab2/program1_tb1.sv|
-!s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/seanb/PycharmProjects/CSE-141L/Lab2/program1_tb1.sv|
+R9
+!s107 E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/Definitions.sv|
+!s90 -reportprogress|300|-work|work|-sv|-stats=none|E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/Definitions.sv|
 !i113 1
 R12
 R13
 vInstFetch
-R19
-R20
+R0
+R2
 !i10b 1
-!s100 7gn63P@2`a5Abf]A]9^n:2
-If4e0BQOTYHK0hF_7_Y_o02
-R3
-!s105 InstFetch_sv_unit
+!s100 TKZDKUZ43YcX=4zglHEDH3
+R19
+I:W`3`RW=M3?b3X=0180Z]0
 S1
-R21
-R22
-8C:/Users/seanb/PycharmProjects/CSE-141L/Lab2/InstFetch.sv
-FC:/Users/seanb/PycharmProjects/CSE-141L/Lab2/InstFetch.sv
-L0 8
-R23
+R4
+w1614549107
+8E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/InstFetch.sv
+FE:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/InstFetch.sv
+!i122 1766
+L0 8 25
+R3
+R8
 r1
 !s85 0
 31
-R24
-!s107 C:/Users/seanb/PycharmProjects/CSE-141L/Lab2/InstFetch.sv|
-!s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/seanb/PycharmProjects/CSE-141L/Lab2/InstFetch.sv|
+R9
+!s107 E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/InstFetch.sv|
+!s90 -reportprogress|300|-work|work|-sv|-stats=none|E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/InstFetch.sv|
 !i113 1
 R12
 R13
 n@inst@fetch
 vInstROM
-R19
-R20
+R0
+R2
 !i10b 1
-!s100 @K[knH0X^jWe=GD2g73QJ1
-ImTn8j[[HAJ2zS70XPiOj=2
-R3
-!s105 InstROM_sv_unit
+!s100 =hHClIZ52PaAacSOc_RCO1
+R19
+I@S0_D=Ch@mZP9NNA=YhjT1
 S1
-R21
-R22
-8C:/Users/seanb/PycharmProjects/CSE-141L/Lab2/InstROM.sv
-FC:/Users/seanb/PycharmProjects/CSE-141L/Lab2/InstROM.sv
-L0 11
-R23
+R4
+w1616279570
+8E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/InstROM.sv
+FE:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/InstROM.sv
+!i122 1767
+L0 11 37
+R3
+R8
 r1
 !s85 0
 31
-R24
-!s107 C:/Users/seanb/PycharmProjects/CSE-141L/Lab2/InstROM.sv|
-!s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/seanb/PycharmProjects/CSE-141L/Lab2/InstROM.sv|
+R9
+!s107 E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/InstROM.sv|
+!s90 -reportprogress|300|-work|work|-sv|-stats=none|E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/InstROM.sv|
 !i113 1
 R12
 R13
 n@inst@r@o@m
 vLUT_Add
-R19
-R20
+R0
+R2
 !i10b 1
-!s100 5a;V7eR4;[bSfHVIan<_73
-Id0S4malkO_T?MOILi5[mE3
-R3
-!s105 LUT_Add_sv_unit
+!s100 EN?dX`=F05lI2QUD;1<zG3
+R19
+I<Eh]:bm`?]`IGFHJ=MTC72
 S1
-R21
-R25
-8C:/Users/seanb/PycharmProjects/CSE-141L/Lab2/LUT_Add.sv
-FC:/Users/seanb/PycharmProjects/CSE-141L/Lab2/LUT_Add.sv
-L0 1
-R23
+R4
+w1616277988
+8E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/LUT_Add.sv
+FE:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/LUT_Add.sv
+!i122 1768
+L0 1 38
+R3
+R8
 r1
 !s85 0
 31
-R24
-!s107 C:/Users/seanb/PycharmProjects/CSE-141L/Lab2/LUT_Add.sv|
-!s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/seanb/PycharmProjects/CSE-141L/Lab2/LUT_Add.sv|
+R9
+!s107 E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/LUT_Add.sv|
+!s90 -reportprogress|300|-work|work|-sv|-stats=none|E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/LUT_Add.sv|
 !i113 1
 R12
 R13
 n@l@u@t_@add
 vLUT_Imm
-R19
-R20
+R0
+R2
 !i10b 1
-!s100 nBi8`3bLYNM=OI9nP5]P`1
-IhDZN6NUj[kABncEgkEK2A2
-R3
-!s105 LUT_Imm_sv_unit
+!s100 Z=8^?bHkbLmQ3ZXIO;L9i0
+R19
+I`4<3>LXM[QlI7]f=[<8od2
 S1
-R21
-R25
-8C:/Users/seanb/PycharmProjects/CSE-141L/Lab2/LUT_Imm.sv
-FC:/Users/seanb/PycharmProjects/CSE-141L/Lab2/LUT_Imm.sv
-L0 1
-R23
+R4
+w1616277982
+8E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/LUT_Imm.sv
+FE:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/LUT_Imm.sv
+!i122 1769
+L0 1 24
+R3
+R8
 r1
 !s85 0
 31
-R24
-!s107 C:/Users/seanb/PycharmProjects/CSE-141L/Lab2/LUT_Imm.sv|
-!s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/seanb/PycharmProjects/CSE-141L/Lab2/LUT_Imm.sv|
+R9
+!s107 E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/LUT_Imm.sv|
+!s90 -reportprogress|300|-work|work|-sv|-stats=none|E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/LUT_Imm.sv|
 !i113 1
 R12
 R13
 n@l@u@t_@imm
 vRegFile
-R19
-Z27 DXx4 work 11 definitions 0 22 XAd5ILQZdeoA<Z>8KAMlA0
-DXx4 work 15 RegFile_sv_unit 0 22 cAmF3GXz:;k_gFID?;Q@G3
+R0
+R1
+DXx4 work 15 RegFile_sv_unit 0 22 G^2N2N=DW@HFQ^`2BMN_@1
+Z20 !s110 1616279624
 R3
 r1
 !s85 0
-31
 !i10b 1
-!s100 GCbQBj>;GZLzh6M4mK0M23
-I0JjY]3@MGiD0=i0h:cZO12
+!s100 Nf9AIE_Bgg^k5SeP<^20m0
+I5UM5`WHe6J9Gjh_UU^WOC3
 !s105 RegFile_sv_unit
 S1
-R21
-R26
-Z28 8C:/Users/seanb/PycharmProjects/CSE-141L/Lab2/RegFile.sv
-Z29 FC:/Users/seanb/PycharmProjects/CSE-141L/Lab2/RegFile.sv
-L0 13
-R23
-R24
-Z30 !s107 C:/Users/seanb/PycharmProjects/CSE-141L/Lab2/RegFile.sv|
-Z31 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/seanb/PycharmProjects/CSE-141L/Lab2/RegFile.sv|
+R4
+Z21 w1616277873
+Z22 8E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/RegFile.sv
+Z23 FE:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/RegFile.sv
+!i122 1770
+L0 13 53
+R8
+31
+R9
+Z24 !s107 E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/RegFile.sv|
+Z25 !s90 -reportprogress|300|-work|work|-sv|-stats=none|E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/RegFile.sv|
 !i113 1
 R12
 R13
 n@reg@file
 XRegFile_sv_unit
-R19
-R27
-VcAmF3GXz:;k_gFID?;Q@G3
+R0
+R1
+R20
+VG^2N2N=DW@HFQ^`2BMN_@1
 r1
 !s85 0
-31
 !i10b 1
-!s100 z:^_mK7o>02e>4]bRT]Oi1
-IcAmF3GXz:;k_gFID?;Q@G3
+!s100 :JbM82bGl=OOG6aZl2Of<3
+IG^2N2N=DW@HFQ^`2BMN_@1
 !i103 1
 S1
+R4
 R21
-R26
-R28
-R29
-L0 8
+R22
 R23
+!i122 1770
+L0 8 0
+R8
+31
+R9
 R24
-R30
-R31
+R25
 !i113 1
 R12
 R13
 n@reg@file_sv_unit
 vTopLevel
-R19
-!s110 1616280249
+R0
+R20
 !i10b 1
-!s100 6R3EF6fcA1`O`URPU@h210
-IRSJ7HLQ4^jzbdHXU9nfCK0
-R3
-!s105 TopLevel_sv_unit
+!s100 oP>PoB6O8hHOCiP[kC_<N0
+R19
+I96G`ezNToNM:FX3jPlf4j2
 S1
-R21
-R26
-8C:/Users/seanb/PycharmProjects/CSE-141L/Lab2/TopLevel.sv
-FC:/Users/seanb/PycharmProjects/CSE-141L/Lab2/TopLevel.sv
-L0 6
-R23
+R4
+R5
+8E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/TopLevel.sv
+FE:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/TopLevel.sv
+!i122 1771
+L0 6 132
+R3
+R8
 r1
 !s85 0
 31
-!s108 1616280249.000000
-!s107 C:/Users/seanb/PycharmProjects/CSE-141L/Lab2/TopLevel.sv|
-!s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/seanb/PycharmProjects/CSE-141L/Lab2/TopLevel.sv|
+Z26 !s108 1616279624.000000
+!s107 E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/TopLevel.sv|
+!s90 -reportprogress|300|-work|work|-sv|-stats=none|E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/TopLevel.sv|
 !i113 1
 R12
 R13
 n@top@level
 vTopLevel_tb
-R19
-!s110 1616280247
+R0
+R20
 !i10b 1
-!s100 AkL4;<[h=ID=CEfb<9RYI1
-I04OBCGJGhz7Uk8S9XHza02
-R3
-!s105 TopLevel_tb_sv_unit
+!s100 YjoGPIAz4M21d9gYJi@B>0
+R19
+IW_k4E_gSJRA3fd>81^7iX0
 S1
+R4
 R21
-R26
-8C:/Users/seanb/PycharmProjects/CSE-141L/Lab2/TopLevel_tb.sv
-FC:/Users/seanb/PycharmProjects/CSE-141L/Lab2/TopLevel_tb.sv
-L0 8
-R23
+8E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/TopLevel_tb.sv
+FE:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/TopLevel_tb.sv
+!i122 1772
+L0 8 396
+R3
+R8
 r1
 !s85 0
 31
-!s108 1616280247.000000
-!s107 C:/Users/seanb/PycharmProjects/CSE-141L/Lab2/TopLevel_tb.sv|
-!s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/seanb/PycharmProjects/CSE-141L/Lab2/TopLevel_tb.sv|
+R26
+!s107 E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/TopLevel_tb.sv|
+!s90 -reportprogress|300|-work|work|-sv|-stats=none|E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/TopLevel_tb.sv|
 !i113 1
 R12
 R13
