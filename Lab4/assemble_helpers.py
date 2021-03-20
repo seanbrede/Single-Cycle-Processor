@@ -40,14 +40,12 @@ def processInstruction(inst):
 # build a table of {label: {"index": int, "address": int}} from the files ahead of time
 def processLabels():
     addr_table = col.defaultdict(lambda: {"index": -1, "address": -1})
-    line       = 0
-    inst_addr  = 0
     num_labels = 0
 
     # parse each line of assembly
-    # TODO this current code probably requires unique label names across all files, which might be a problem especially if they are generated automatically
-    # TODO I've taken care of this problem in compile.py
     for a_code, _ in filenames:
+        line      = 0
+        inst_addr = 0
         for inst in open(a_code, "r"):
             line += 1                        # increment the line number at the beginning of each line
             inst = processInstruction(inst)  # inst[0] is operation, inst[1], inst[2] are operands
@@ -91,7 +89,7 @@ def writeLUTAdd(addr_table):
         addr_list[addr_table[label]["index"]] = addr_table[label]["address"]
 
     # write everything up to the addresses
-    file.write("module LUT_Add (\n"             +
+    file.write("module LUT_Add (\n"                +
                   "\tinput        [4:0] index,\n"  +
                   "\toutput logic [9:0] address\n" +
                   ");\n"                           +
@@ -104,7 +102,7 @@ def writeLUTAdd(addr_table):
 
     # write everything else
     file.write("\t\tdefault: address = 10'd1023;\n" +
-                  "\tendcase\n"                        +
+                  "\tendcase\n"                     +
                   "endmodule")
 
     file.close()
@@ -154,12 +152,16 @@ def decodeInstruction(inst, raw_inst, addr_table, line):
             if addr_table[inst[1]]["address"] != -1:
                 to_write += intToBinaryString(addr_table[inst[1]]["index"], 5)
             else:
+                print("1 " + inst[1])
+                print(addr_table)
                 sys.exit("TERMINATING: label referred to on line " + str(line) + " has not been defined")
         # if the instruction is jne
         elif inst[0] == "jne":
             if addr_table[inst[1]]["address"] != -1:
                 to_write += intToBinaryString(addr_table[inst[1]]["index"], 5)
             else:
+                print("2 " + inst[1])
+                print(addr_table)
                 sys.exit("TERMINATING: label referred to on line " + str(line) + " has not been defined")
         else:
             to_write += intToBinaryString(int(inst[1]), 5)

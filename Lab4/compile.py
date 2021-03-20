@@ -5,10 +5,10 @@ import sys
 
 num_labels = 0
 # var_index  = 2
-#curr_tabs  = 0
-#cf_stack   = []
+# curr_tabs  = 0
+# cf_stack   = []
 # var_table  = col.defaultdict(lambda: -1)
-imm_table  = chs.buildImmTable()  # TODO probably want to modify this to have all keys be strings
+imm_table  = chs.buildImmTable()
 
 
 # write LUT_Imm.sv
@@ -18,7 +18,6 @@ chs.writeLUTImm(imm_table)
 # parse each line of Python code
 for read, write in chs.filenames:
     write_file = open(write, "w")
-    # TODO trying it here
     var_index = 2
     var_table = col.defaultdict(lambda: -1)
     cf_stack  = []

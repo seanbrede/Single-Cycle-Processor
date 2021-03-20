@@ -4,7 +4,7 @@ import sys                      # for exit()
 
 
 line      = 0  # keep track of the line number, mostly for errors
-inst_addr = 0  # how many operations have been parsed
+# inst_addr = 0  # how many operations have been parsed
 
 
 addr_table = ash.processLabels()  # create a table of {label: address}
@@ -26,7 +26,7 @@ for read, write in ash.filenames:
         if inst[0] in ash.ops_dict.keys():  # if operation exists in the dictionary
             m_inst = ash.decodeInstruction(inst, a_inst, addr_table, line)
             m_code.write(m_inst)
-            inst_addr += 1  # instruction address only increases from operations
+            # inst_addr += 1  # instruction address only increases from operations
 
         # LABEL
         elif inst[0].find(":") == len(inst[0]) - 1:  # only one colon, and it must be at the end
