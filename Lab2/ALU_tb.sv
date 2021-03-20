@@ -52,7 +52,7 @@ module ALU_tb();
         // Out = 1
         assign InputA = 2; 
         assign InputB = 0;  
-        assign OP = kRSH; 
+        assign OP = kLSH; 
         #30ns   
         // test SEQ 
         // Out = 1, 

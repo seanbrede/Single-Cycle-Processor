@@ -1,6 +1,13 @@
 111111111
-000001101  //  ADD: rd = rd + rs               | where  r6 =5 , r1 = 3        |  r6 = 8
-100111111  //  MVL: rd = rs (Move low to High) | where
-011100111  //  STR: MEM[LUT[rd]] = r3          | where       r3 =9,   rd=9,   |  MEM[61] = 9
-011000110  //  LOD: r2 = MEM[LUT[rd]]          | where MEM[54]= 15,   rd=6,   |  r2 = 15
+000001101  //  ADD r6, r1 : rd = rd + rs               | where  r6 =5 , r1 = 9        |  r6 = 8
+100111110  //  MVL r15, r0:  rd = rs (Move low to High)| where  rd is r7, rs is r0
+010010110  //  SHL r11    : r0 = r11 << 1              | where before r11 = 00001111 ; after r11 = 00011110
+100011100  //  MVH r14 r0
+101011001  //  JEQ  25    # branch is taken  -->  PC = LUT[25] = 10
+110100000  // 1
+110100000  // 2
+110100000  // 3
+110100000  // 4 # PC = 9
+000110000  // RDX r8 x    where r8 = 7  -->  Reg[0] = 1
+101110101  // SLT r10 r1    | where  r10 = 15 , r1 = 240    | TRUE: r10 is less than r1 so r0 = 0
 110100001

@@ -16,7 +16,7 @@ module ALU (
 op_mne op_mnemonic; // type enum: used for convenient waveform viewing
 
 always_comb begin
-    Out = 0; // No Op = default
+    // Out = 0; // No Op = default
 
 	if (OP == kADD)                          // add
 		Out = InputA + InputB;
@@ -26,29 +26,27 @@ always_comb begin
 		Out = InputA ^ InputB;
 	else if (OP == kAND)                    // bitwise AND
 		Out = InputA & InputB;
-	else if (OP == kRSH)                    // shift right
-		Out = {1'b0, InputA[7:1]};
+	else if (OP == kLSH)                    // shift left
+		Out = {InputA[6:0], 1'b0};
 	else if (OP == SEQ) begin			// subtract for instructions { SEQ } , JEQ and SLT might need to be in a diff condition
-		Out = InputA - InputB; 
-		if (Out == 0) 
-			// take output of Zero assign to r4
-			// or take output Out assign to r4
-			Out = 1;
+		// Out = InputA - InputB; 
+		if ((InputA - InputB) == 0)
+			Out = 0; //r0
 		else 
-			Out = 0;
+			Out = 1;//r0
 	end
-	else if (OP == SLT) begin 			// subtr and shift for SLT
-		Out = (InputA - InputB); 	// assuming InputA (Rs) and InputB (Rd)  
-		if (Out[7] == 0) // if true, means Rs > Rd
-			// set Out = 1, assign val to r4
-			Out = 1;
-		else 
-			// set Out = 0, assign val to r4
-			Out = 0;
+	else if (OP == SLT) begin
+		// assuming InputA (Rd) and InputB (Rs)
+		// check to see if Rd (InputA) < Rs (InputB)
+		if ( InputA < InputB ) // if true, then Rd (InputA) < Rs (InputB)
+			Out = 0; //r0
+		else
+			Out = 1;//r0 // means Rd (A) >= Rs (B)
 	end 
+	else if (OP == kOR) // OR operation
+		Out = (InputA | InputB);
 	else 
 		Out = 0; // No Op = default
-	// Remaining to be done: JEQ instr case
 end
 
 always_comb	// assign Zero = !Out;
