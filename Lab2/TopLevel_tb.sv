@@ -38,7 +38,7 @@ initial begin
 	end
 
     //DUT.DM1.Core[11] = 8'b00001111;
-    DUT.DM1.Core[54] = 8'b00001111;
+    DUT.DM1.Core[54] = 8'd15;
 
 	// students may also pre_load desired constants into DM
 	// initialize DUT's register file
@@ -54,6 +54,12 @@ initial begin
     $display("setting r1 value to 9");
     DUT.RF1.Registers[5] = 8'b00001011;
     $display("setting r5 value to 11");
+    DUT.RF1.Registers[4] = 8'd7;
+    $display("setting r4 value to 7");
+    // DUT.RF1.Registers[2] = 8'd121;
+    // $display("setting r2 value to 121");
+    DUT.RF1.Registers[3] = 8'd15;
+    $display("setting r3 value to 15");
 
     DUT.RF1.Registers[10] = 8'b11110000;
     DUT.RF1.Registers[11] = 8'b00001111;
@@ -162,12 +168,48 @@ initial begin
         $display("OP= %b ", DUT.Instruction[8:5] );
         #10ns $stop;
     end
+	// ############################################################################
+	// Verify the register values were changed by examining them at next instruction!
+    // ############################################################################
+    #5ns // Cycle Complete
+    assert(DUT.RF1.Registers[1] == 8'd54) begin
+        $display("r1 is the right value!");        
+        $display("Program Counter after Test 4 %d ", DUT.PgmCtr);
+        $display("instruction out %b ", DUT.Instruction);
+        $display("***************************************");
+        $display("TEST 4 PASSED ");
+        $display("***************************************");
+    end
+    else begin
+        $display("expected r1 to be 54, but it is %d instead", DUT.RF1.Registers[1]);
+    end
 
     if ( DUT.RF1.Registers[14] != 8'b00000000) begin
         $display("DUT.RF1.Registers[15] was not equal to 0");
         $display("DUT.RF1.Registers[015] = %b ", DUT.RF1.Registers[14]);
         #10ns $stop;
     end
+    else begin
+        $display("Expected DataMem DataOut value to be 15, but its: %d", DUT.DM1.DataOut);
+    end
+    #5ns // Complete cycle
+    assert(DUT.RF1.Registers[1] == 8'd15) begin
+        $display("r1 is the right value!");        
+        $display("Program Counter after Test 5 %d ", DUT.PgmCtr);
+        $display("instruction out %b ", DUT.Instruction);
+        $display("***************************************");
+        $display("TEST 5 PASSED ");
+        $display("***************************************");
+    end
+    else begin
+        $display("expected r1 to be 8'd15, but it is %d instead", DUT.RF1.Registers[1]);
+    end
+    // ############################################################################
+	// Next test 6 SEQ r3, r0 
+    // ###########################################################################
+    #5ns // half-cyc
+    $display(" where,  r3=8'd15,  r1=8'd15");
+    $display(" We Expect r3 == r1, then r0 = 0");
 
 	// ############################################################################
 	// Increment To next test
@@ -178,6 +220,9 @@ initial begin
         $display("DUT.RF1.Registers[0] was not equal to 0");
         $display("DUT.RF1.Registers[0] = %b ", DUT.RF1.Registers[0]);
         #10ns $stop;
+    end
+    else begin 
+        $display(" InputA is NOT correct!"); 
     end
 
     $display("***************************************");

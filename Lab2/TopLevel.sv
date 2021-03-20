@@ -66,6 +66,7 @@ Ctrl Ctrl1 (
 	.r0IsZeroFlag	(r0IsZeroFlag),
 	.BranchEn		(BranchEn),		// to PC
 	.LoadInst		(LoadInst),
+	.Jump			(Jump),
 	.LoadTableEn	(LoadTableEn),
 	.MemWrite    	(MemWrite),
 	.RegWrite    	(RegWrEn)

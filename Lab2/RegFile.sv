@@ -47,16 +47,16 @@ always_ff @ (posedge Clk)
 	if (WriteEn) begin // works just like data_memory writes
 
 	    // if SLT or SEQ,  write into R0
-	    if( OP == 4'b1011 || OP == 4'b1100 ) 
+	    if( OP == SLT || OP == SEQ ) 
 		    Registers[0] <= DataIn;  // R4 = ALU_OUTPUT
 		// Standard ALU operations write into R0
-		else if (OP == 4'b0000 || OP == kR_XOR || OP == kXOR || OP == kAND || OP == kLSH || OP == kOR) // all ALU operations store into R0
+		else if (OP == kADD || OP == kR_XOR || OP == kXOR || OP == kAND || OP == kLSH || OP == kOR) // all ALU operations store into R0
 		    Registers[0] <= DataIn;
-		else if ( OP == 4'b0101 || OP == 4'b0110 )// if LOAD TABLE or LOAD
+		else if ( OP == LDT || OP == LOD )// if LOAD TABLE or LOAD
 		    Registers[1] <= DataIn;	//   R1 = ALU_OUTPUT
-		else if ( OP == 4'b1000 ) 	// if Move High to Low (  R[rs] = R[rd] )
+		else if ( OP == MVH ) 	// if Move High to Low (  R[rs] = R[rd] )
 		    Registers[RaddrB] <=  Registers[RaddrA]; // write into RS
-		else if ( OP == 4'b1001 ) begin // if Move LOW to HIGH (  R[rd] = R[rs] )
+		else if ( OP == MVL ) begin // if Move LOW to HIGH (  R[rd] = R[rs] )
 		    Registers[RaddrA] <=  Registers[RaddrB]; // write into RD the higher register
 		end
 		else
