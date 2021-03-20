@@ -38,7 +38,7 @@ initial begin
 	end
 
     //DUT.DM1.Core[11] = 8'b00001111;
-    DUT.DM1.Core[54] = 8'd15;
+    DUT.DM1.Core[54] = 8'b00001111;
 
 	// students may also pre_load desired constants into DM
 	// initialize DUT's register file
@@ -54,12 +54,6 @@ initial begin
     $display("setting r1 value to 9");
     DUT.RF1.Registers[5] = 8'b00001011;
     $display("setting r5 value to 11");
-    DUT.RF1.Registers[4] = 8'd7;
-    $display("setting r4 value to 7");
-    // DUT.RF1.Registers[2] = 8'd121;
-    // $display("setting r2 value to 121");
-    DUT.RF1.Registers[3] = 8'd15;
-    $display("setting r3 value to 15");
 
     DUT.RF1.Registers[10] = 8'b11110000;
     DUT.RF1.Registers[11] = 8'b00001111;
@@ -161,27 +155,12 @@ initial begin
     $display("***************************************");
 
     $display("***************************************");
-    $display("TEST 4  ");
+    $display("TEST 4 Move High To Low ");
     $display("***************************************");
     if ( DUT.Instruction[8:5] != 4'b1000) begin
         $display("operation is not MOVE HIGH TO LOW");
         $display("OP= %b ", DUT.Instruction[8:5] );
         #10ns $stop;
-    end
-	// ############################################################################
-	// Verify the register values were changed by examining them at next instruction!
-    // ############################################################################
-    #5ns // Cycle Complete
-    assert(DUT.RF1.Registers[1] == 8'd54) begin
-        $display("r1 is the right value!");        
-        $display("Program Counter after Test 4 %d ", DUT.PgmCtr);
-        $display("instruction out %b ", DUT.Instruction);
-        $display("***************************************");
-        $display("TEST 4 PASSED ");
-        $display("***************************************");
-    end
-    else begin
-        $display("expected r1 to be 54, but it is %d instead", DUT.RF1.Registers[1]);
     end
 
     if ( DUT.RF1.Registers[14] != 8'b00000000) begin
@@ -189,27 +168,6 @@ initial begin
         $display("DUT.RF1.Registers[015] = %b ", DUT.RF1.Registers[14]);
         #10ns $stop;
     end
-    else begin
-        $display("Expected DataMem DataOut value to be 15, but its: %d", DUT.DM1.DataOut);
-    end
-    #5ns // Complete cycle
-    assert(DUT.RF1.Registers[1] == 8'd15) begin
-        $display("r1 is the right value!");        
-        $display("Program Counter after Test 5 %d ", DUT.PgmCtr);
-        $display("instruction out %b ", DUT.Instruction);
-        $display("***************************************");
-        $display("TEST 5 PASSED ");
-        $display("***************************************");
-    end
-    else begin
-        $display("expected r1 to be 8'd15, but it is %d instead", DUT.RF1.Registers[1]);
-    end
-    // ############################################################################
-	// Next test 6 SEQ r3, r0 
-    // ###########################################################################
-    #5ns // half-cyc
-    $display(" where,  r3=8'd15,  r1=8'd15");
-    $display(" We Expect r3 == r1, then r0 = 0");
 
 	// ############################################################################
 	// Increment To next test
@@ -221,20 +179,151 @@ initial begin
         $display("DUT.RF1.Registers[0] = %b ", DUT.RF1.Registers[0]);
         #10ns $stop;
     end
-    else begin 
-        $display(" InputA is NOT correct!"); 
-    end
 
     $display("***************************************");
     $display("TEST 4 PASSED ");
     $display("***************************************");
 
-    if ( DUT.Instruction[8:5] != 4'b1000) begin
-        $display("operation is not MOVE HIGH TO LOW");
+    $display("***************************************");
+    $display("TEST 5 JUMP ABSOLUTE EQUAL  ");
+    $display("***************************************");
+
+    if ( DUT.Instruction[8:5] != 4'b1010) begin
+        $display("operation is not Jump Absolute");
         $display("OP= %b ", DUT.Instruction[8:5] );
         #10ns $stop;
     end
 
+    if ( DUT.Instruction[4:0] != 5'b11001) begin
+        $display("immediate was not 25");
+        $display("immediate = %b ", DUT.Instruction[4:0] );
+        #10ns $stop;
+    end
+
+    if ( DUT.r0IsZeroFlag != 1'b1) begin
+        $display(" r0IsZeroFlag is Not 1 ");
+        $display(" r0IsZeroFlag= %b ",  DUT.r0IsZeroFlag );
+        #10ns $stop;
+    end
+
+     if ( DUT.Jump != 1'b1) begin
+        $display("Jump Enable is not 1 ");
+        $display("Jump Enable = %b ",  DUT.Jump);
+        #10ns $stop;
+    end
+
+    if ( DUT.PgmCtr != 9'b000000101) begin
+        $display("PC was not 5 ");
+        $display("PC  = %b ",  DUT.PgmCtr);
+        #10ns $stop;
+    end
+
+    if ( DUT.PCTarg != 9'b000001010) begin
+        $display("PC TARGET was not 10");
+        $display("PC TARGET = %b ",  DUT.PCTarg );
+        #10ns $stop;
+    end
+
+   // DUT.RF1.Registers[0]  = 8'b00000001;
+    DUT.RF1.Registers[1]  = 8'b11110000; // RS
+    DUT.RF1.Registers[10] = 8'b00001111; // RD
+
+	// ############################################################################
+	// Increment To next test
+	#10ns
+    // ############################################################################
+
+     if ( DUT.PgmCtr != 9'b000001010) begin
+        $display("PC was not 10 ");
+        $display("PC  = %b ",  DUT.PgmCtr);
+        #10ns $stop;
+    end
+
+    $display("***************************************");
+    $display("TEST 5 PASSED ");
+    $display("***************************************");
+
+
+     if ( DUT.ALU1.OP != 3'b100) begin
+        $display("ALU operation was not shift left (100)");
+        $display("ALU OP= %b ", DUT.ALU1.OP);
+        #10ns $stop;
+    end
+
+    if ( DUT.ALU1.InputA != 8'b00001111) begin
+        $display("ALU register A did not have value 00001111");
+        $display("Input A data = %b ", DUT.ALU1.InputA);
+        #10ns $stop;
+    end
+
+    if ( DUT.ALU_out != 8'b00011110) begin
+        $display("ALU was not equal to 00011110");
+        $display("ALU = %b ", DUT.ALU_out);
+        #10ns $stop;
+    end
+
+
+
+    $display("***************************************");
+    $display("TEST 7 SET LESS THAN ");
+    $display("***************************************");
+
+    if ( DUT.Instruction[8:5] != 4'b1011) begin
+        $display("operation is not SET LESS THAN ");
+        $display("OP= %b ", DUT.Instruction[8:5] );
+        #10ns $stop;
+    end
+
+    if ( DUT.Instruction[4:1] != 4'b1010) begin
+        $display("inst rd is not 10 ");
+        $display("inst rd = %b ", DUT.Instruction[4:1] );
+        #10ns $stop;
+    end
+
+    if ( DUT.Instruction[0:0] != 1'b1) begin
+        $display("inst rs is not 1 ");
+        $display("inst rs = %b ", DUT.Instruction[0:0] );
+        #10ns $stop;
+    end
+
+    if ( DUT.ALU1.InputA != 8'b00001111) begin
+        $display("ALU register A did not have value 15");
+        $display("Input A data = %b ", DUT.ALU1.InputA);
+        #10ns $stop;
+    end
+
+    if ( DUT.ALU1.InputB != 8'b11110000) begin
+        $display("ALU register B did not have value 240");
+        $display("Input B data = %b ", DUT.ALU1.InputB);
+        #10ns $stop;
+    end
+
+    if ( DUT.ALU1.OP != 4'b1011) begin
+        $display("ALU operation was not SLT (1011)");
+        $display("ALU OP= %b ", DUT.ALU1.OP);
+        #10ns $stop;
+    end
+
+    if ( DUT.ALU_out != 8'b00000000) begin
+        $display("ALU was not equal to 0");
+        $display("ALU = %b ", DUT.ALU_out);
+        #10ns $stop;
+    end
+
+	// ############################################################################
+	// Increment To next test
+	#10ns
+    // ############################################################################
+
+    if ( DUT.RF1.Registers[0] != 8'b00000000) begin
+        $display("DUT.RF1.Registers[0] was not equal to 0");
+        $display("DUT.RF1.Registers[0] = %b ", DUT.RF1.Registers[0]);
+        #10ns $stop;
+    end
+
+    $display("***************************************");
+    $display("TEST 7 PASSED ");
+    $display("***************************************");
 
 
     $display("");

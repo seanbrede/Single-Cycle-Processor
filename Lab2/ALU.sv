@@ -35,15 +35,13 @@ always_comb begin
 		else 
 			Out = 1;//r0
 	end
-	else if (OP == SLT) begin 			
-		Out = InputA - InputB; 	
+	else if (OP == SLT) begin
 		// assuming InputA (Rd) and InputB (Rs)
 		// check to see if Rd (InputA) < Rs (InputB)
-		if (Out[7] == 1) // if true, then Rd (InputA) < Rs (InputB)
+		if ( InputA < InputB ) // if true, then Rd (InputA) < Rs (InputB)
 			Out = 0; //r0
-		else 
-			// means Rd (A) >= Rs (B)
-			Out = 1; ;//r0
+		else
+			Out = 1;//r0 // means Rd (A) >= Rs (B)
 	end 
 	else if (OP == kOR) // OR operation
 		Out = (InputA | InputB);

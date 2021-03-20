@@ -6,7 +6,8 @@ module LUT_Add (
 
 always_comb 
 	case (index)
-		5'd01:   address = 10'd0000; 
+		5'd01:   address = 10'd0000;
+		5'd25:   address = 10'd010;
 		// more addresses to go here
 		// TODO:
 		// find which index corresponds to which instr address
