@@ -149,8 +149,14 @@ def decodeInstruction(inst, raw_inst, addr_table, line):
     elif ops_dict[inst[0]][0] == "IM":
         if len(inst) != 2: sys.exit("TERMINATING: operation on line " + str(line) + " has improper number of operands: " + str(len(inst) - 1))
 
-        # if the instruction is jeq
-        if inst[0] == "jeq":
+        # if the instruction is je
+        if inst[0] == "je":
+            if addr_table[inst[1]]["address"] != -1:
+                to_write += intToBinaryString(addr_table[inst[1]]["index"], 5)
+            else:
+                sys.exit("TERMINATING: label referred to on line " + str(line) + " has not been defined")
+        # if the instruction is jne
+        elif inst[0] == "jne":
             if addr_table[inst[1]]["address"] != -1:
                 to_write += intToBinaryString(addr_table[inst[1]]["index"], 5)
             else:

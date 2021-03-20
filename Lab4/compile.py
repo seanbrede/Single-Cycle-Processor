@@ -4,10 +4,10 @@ import sys
 
 
 num_labels = 0
-var_index  = 2
-curr_tabs  = 0
-cf_stack   = []
-var_table  = col.defaultdict(lambda: -1)
+# var_index  = 2
+#curr_tabs  = 0
+#cf_stack   = []
+# var_table  = col.defaultdict(lambda: -1)
 imm_table  = chs.buildImmTable()  # TODO probably want to modify this to have all keys be strings
 
 
@@ -18,6 +18,11 @@ chs.writeLUTImm(imm_table)
 # parse each line of Python code
 for read, write in chs.filenames:
     write_file = open(write, "w")
+    # TODO trying it here
+    var_index = 2
+    var_table = col.defaultdict(lambda: -1)
+    cf_stack  = []
+    curr_tabs = 0
 
     # look at each line of Python code
     for raw_line in open(read, "r"):
@@ -53,12 +58,13 @@ for read, write in chs.filenames:
         # ASSIGNMENT
         if len(line) >= 2 and line[1] == "=":
             # add the variable if it doesn't exist
-            if var_table[line[0]] == -1:
+            # if var_table[line[0]] == -1 and not (len(line[0]) >= 4 and line[0][0:4] == "mem["):
+            if var_table[line[0]] == -1 and not line[0] == 'mem[write_ptr]':
                 var_table[line[0]] = var_index
                 var_index += 1
 
             # mem[NUM/VAR] = NUM/VAR
-            if len(line) == 3 and (len(line[0]) >= 5 and line[0][0:5] == "mem["):
+            if len(line) == 3 and (len(line[0]) >= 4 and line[0][0:4] == "mem["):
                 lhs, rhs = line[0][4:len(line[0])-1], line[2]
                 # if lhs is a num, handle that
                 if lhs.isdigit():
@@ -72,7 +78,7 @@ for read, write in chs.filenames:
                 else:
                     chs.writeWithTabs(curr_tabs, write_file, "MVH r" + str(var_table[rhs]) + " r1\n")
                 # now store
-                chs.writeWithTabs(curr_tabs, write_file, "STR r0")
+                chs.writeWithTabs(curr_tabs, write_file, "STR r0\n")
 
             # VAR = chs.redXOR(VAR)
             elif len(line) == 3 and (len(line[2]) >= 12 and line[2][0:11] == "chs.redxor("):
@@ -91,7 +97,7 @@ for read, write in chs.filenames:
                 else:
                     chs.writeWithTabs(curr_tabs, write_file, "LOD r" + str(var_table[mem_loc]) + "\n")
                 # move loaded value into the assigned variable's register
-                chs.writeWithTabs(curr_tabs, write_file, "MVL r" + str(var_table[line[0]]) + " r1\n")  # TODO make sure this is correct later
+                chs.writeWithTabs(curr_tabs, write_file, "MVL r" + str(var_table[line[0]]) + " r1\n")
 
             # VAR = NUM/VAR
             elif len(line) == 3:
@@ -100,12 +106,11 @@ for read, write in chs.filenames:
                 # if the rhs is a num
                 if rhs.isdigit():
                     chs.writeWithTabs(curr_tabs, write_file, "LDT " + str(imm_table[rhs]) + "\n")
-                    # chs.writeWithTabs(curr_tabs, write_file, "LOD r1\n")
                 # else the rhs is a var
                 else:
-                    chs.writeWithTabs(curr_tabs, write_file, "MVH r" + str(var_table[rhs]) + " r1\n")  # TODO make sure this is correct later
+                    chs.writeWithTabs(curr_tabs, write_file, "MVH r" + str(var_table[rhs]) + " r1\n")
                 # move the value to the assigned variable's register
-                chs.writeWithTabs(curr_tabs, write_file, "MVL r" + str(var_table[lhs]) + " r1\n")      # TODO make sure this is correct later
+                chs.writeWithTabs(curr_tabs, write_file, "MVL r" + str(var_table[lhs]) + " r1\n")
 
             # VAR = NUM/VAR OP NUM/VAR
             elif len(line) == 5:
@@ -150,7 +155,7 @@ for read, write in chs.filenames:
                 chs.writeWithTabs(curr_tabs, write_file, "MVH r1 r0\n")
             # if oper1 is a VAR
             else:
-                chs.writeWithTabs(curr_tabs, write_file, "MVH r" + str(var_table[oper1]) + " 0\n")
+                chs.writeWithTabs(curr_tabs, write_file, "MVH r" + str(var_table[oper1]) + " r0\n")
             # if oper2 is a NUM
             if oper2.isdigit():
                 chs.writeWithTabs(curr_tabs, write_file, "LDT " + str(imm_table[oper2]) + "\n")
@@ -221,13 +226,12 @@ for read, write in chs.filenames:
             chs.writeWithTabs(curr_tabs, write_file, cf_stack.pop())
 
     # reset the number of tabs
-    next_tabs = 0
     curr_tabs = 0
 
     # add ACK at the end
     chs.writeWithTabs(0, write_file, "\nACK")
+    # TODO debug
+    print(var_table)
 
     # close the file that we've been writing to
     write_file.close()
-
-# TODO 1. fix annoying tab
