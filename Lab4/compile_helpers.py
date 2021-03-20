@@ -129,7 +129,7 @@ def writeWithTabs(num_tabs, write_file, towrite):
 
 # set up the memory for program1
 def initMemory1():
-    MEM     = ([32] * 54) + ([0] * (256 - 54))  # initialize the array
+    MEM = ([32] * 54) + ([0] * (256 - 54))  # initialize the array
 
     MEM[61] = 10  # number of spaces
     MEM[62] = 5   # LFSR tap pattern index
@@ -147,7 +147,7 @@ def initMemory1():
     return MEM
 
 
-# set up the memory for program1
+# set up the memory for program2
 def initMemory2():
     MEM = [0] * 256  # initialize the array
 
