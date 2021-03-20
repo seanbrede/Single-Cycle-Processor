@@ -15,12 +15,12 @@ ops_dict = {
     "str": ["RF", "0111"],
     "mvh": ["RS", "1000"],
     "mvl": ["RS", "1001"],
-    "jeq": ["IM", "1010"],
+    "je":  ["IM", "1010"],
     "slt": ["RS", "1011"],
     "seq": ["RS", "1100"],
     "ack": ["IO", "1101"],
-    "gbt": ["RF", "1110"],
-    "sbt": ["IM", "1111"]
+    "or":  ["RS", "1110"],
+    "jne": ["IM", "1111"]
 }
 
 # names of input and output files
@@ -40,13 +40,12 @@ def processInstruction(inst):
 # build a table of {label: {"index": int, "address": int}} from the files ahead of time
 def processLabels():
     addr_table = col.defaultdict(lambda: {"index": -1, "address": -1})
-    line       = 0
-    inst_addr  = 0
     num_labels = 0
 
     # parse each line of assembly
-    # TODO this current code probably requires unique label names across all files, which might be a problem especially if they are generated automatically
     for a_code, _ in filenames:
+        line      = 0
+        inst_addr = 0
         for inst in open(a_code, "r"):
             line += 1                        # increment the line number at the beginning of each line
             inst = processInstruction(inst)  # inst[0] is operation, inst[1], inst[2] are operands
@@ -90,7 +89,7 @@ def writeLUTAdd(addr_table):
         addr_list[addr_table[label]["index"]] = addr_table[label]["address"]
 
     # write everything up to the addresses
-    file.write("module LUT_Add (\n"             +
+    file.write("module LUT_Add (\n"                +
                   "\tinput        [4:0] index,\n"  +
                   "\toutput logic [9:0] address\n" +
                   ");\n"                           +
@@ -99,11 +98,14 @@ def writeLUTAdd(addr_table):
 
     # write each address
     for i in range(table_size):
-        file.write("\t\t5'd" + str(i) + ":    address = 10'd" + str(addr_list[i]) + ";\n")
+        if i < 10:
+            file.write("\t\t5'd" + str(i) + ":    address = 10'd" + str(addr_list[i]) + ";\n")
+        else:
+            file.write("\t\t5'd" + str(i) + ":   address = 10'd" + str(addr_list[i]) + ";\n")
 
     # write everything else
     file.write("\t\tdefault: address = 10'd1023;\n" +
-                  "\tendcase\n"                        +
+                  "\tendcase\n"                     +
                   "endmodule")
 
     file.close()
@@ -148,11 +150,21 @@ def decodeInstruction(inst, raw_inst, addr_table, line):
     elif ops_dict[inst[0]][0] == "IM":
         if len(inst) != 2: sys.exit("TERMINATING: operation on line " + str(line) + " has improper number of operands: " + str(len(inst) - 1))
 
-        # if the instruction is jeq
-        if inst[0] == "jeq":
+        # if the instruction is je
+        if inst[0] == "je":
             if addr_table[inst[1]]["address"] != -1:
                 to_write += intToBinaryString(addr_table[inst[1]]["index"], 5)
             else:
+                print("1 " + inst[1])
+                print(addr_table)
+                sys.exit("TERMINATING: label referred to on line " + str(line) + " has not been defined")
+        # if the instruction is jne
+        elif inst[0] == "jne":
+            if addr_table[inst[1]]["address"] != -1:
+                to_write += intToBinaryString(addr_table[inst[1]]["index"], 5)
+            else:
+                print("2 " + inst[1])
+                print(addr_table)
                 sys.exit("TERMINATING: label referred to on line " + str(line) + " has not been defined")
         else:
             to_write += intToBinaryString(int(inst[1]), 5)

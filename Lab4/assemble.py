@@ -4,18 +4,18 @@ import sys                      # for exit()
 
 
 line      = 0  # keep track of the line number, mostly for errors
-inst_addr = 0  # how many operations have been parsed
+# inst_addr = 0  # how many operations have been parsed
 
 
 addr_table = ash.processLabels()  # create a table of {label: address}
 ash.writeLUTAdd(addr_table)       # generate LUT_Add.sv
 
 
-for file in ash.filenames:
-    m_code = open(file[1], "w")  # changes .as to .mc; will create if does not exist
+for read, write in ash.filenames:
+    m_code = open(write, "w")  # changes .as to .mc; will create if does not exist
 
     # parse each line of assembly
-    for a_inst in open(file[0], "r"):
+    for a_inst in open(read, "r"):
         line += 1                               # increment the line number at the beginning
         inst  = ash.processInstruction(a_inst)  # operation as inst[0]; operands as inst[1], inst[2]
 
@@ -26,7 +26,7 @@ for file in ash.filenames:
         if inst[0] in ash.ops_dict.keys():  # if operation exists in the dictionary
             m_inst = ash.decodeInstruction(inst, a_inst, addr_table, line)
             m_code.write(m_inst)
-            inst_addr += 1  # instruction address only increases from operations
+            # inst_addr += 1  # instruction address only increases from operations
 
         # LABEL
         elif inst[0].find(":") == len(inst[0]) - 1:  # only one colon, and it must be at the end

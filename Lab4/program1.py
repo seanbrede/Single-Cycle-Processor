@@ -19,14 +19,19 @@ parity     = 0        # r10
 # cannot have more variables after r15
 
 
-# 1. figure out how many spaces are necessary
+# 1. get LFSR tap pattern
+LFSR_tap = LFSR_tap + 128
+LFSR_tap = MEM[LFSR_tap]
+
+
+# 2. figure out how many spaces are necessary
 if num_spaces < 10:
 	num_spaces = 10
 if 26 < num_spaces:
 	num_spaces = 26
 
 
-# 2. encrypt spaces as preamble
+# 3. encrypt spaces as preamble
 last_ptr = write_ptr + num_spaces
 while write_ptr < last_ptr:
 	# encrypt a space and write it
@@ -42,7 +47,7 @@ while write_ptr < last_ptr:
 	write_ptr = write_ptr + 1
 
 
-# 3. encrypt the message
+# 4. encrypt the message
 last_ptr = 128  # don't write any more than the message buffer can hold
 while write_ptr < last_ptr:
 	# encrypt a character and write it
@@ -60,7 +65,7 @@ while write_ptr < last_ptr:
 	write_ptr = write_ptr + 1
 
 
-# 4. set parity
+# 5. set parity
 write_ptr = 64
 while write_ptr < last_ptr:
 	# read an encrypted character
@@ -75,5 +80,5 @@ while write_ptr < last_ptr:
 	write_ptr = write_ptr + 1
 
 
-# print results
+# print results for testing
 print(MEM[64:128])
