@@ -20,21 +20,32 @@ wire [7:0] InA, InB, 	 // ALU operand inputs
 
 wire [7:0] RegWriteValue, // data in to reg file
            MemWriteValue, // data in to data_memory
-	   	   MemReadValue;  // data out from data_memory
+	   	   MemReadValue,  // data out from data_memory
+		   ImmReadValue; // data out of LUT_IMM
 
 wire       MemWrite,	// data_memory write enable
 		     RegWrEn,	// reg_file write enable
 			    Zero,		// ALU output = 0 flag
-               Jump,	   // to program counter: jump  //TODO:: get rid of ??
-           BranchEn;	// to program counter: branch enable
+           BranchEn,	// to program counter: branch enable
+		   Jump,		// to program counter: jump 
+           JumpEq,	   
+		   JumpNeq,
+		   r0IsZeroFlag, 
+		   LoadTableEn, 
+		   LoadInst;
+
+wire [7:0] r1Val;
+wire [7:0] LoadValue;
 
 logic [15:0] CycleCt; // standalone; NOT PC!
-assign Ack      = (Instruction[8:5] == 4'b1101);
+assign Ack = (Instruction[8:5] == 4'b1101);
 assign InA = ReadA; // connect RF out to ALU in
 assign InB = ReadB;
 
-assign LoadInst = (Instruction[8:5] == 4'b0110 || Instruction[8:5] == 4'b0101); // calls out load specially
-assign RegWriteValue = LoadInst? MemReadValue : ALU_out; //
+// If instr is LOAD TABLE, write LUT_Imm value to r0, else write DataMem into r0 
+assign LoadValue = LoadTableEn ? ImmReadValue : MemReadValue; 
+// if its a Load instruction, take the Load Value (either from LUT_IMM or DM), if not, take ALU 
+assign RegWriteValue = LoadInst ? LoadValue : ALU_out; 
 
 // Instruction fetch
 InstFetch InstFetch1 (
@@ -42,19 +53,23 @@ InstFetch InstFetch1 (
 	.Start       (Start),    // SystemVerilg shorthand for .halt(halt),
 	.Clk         (Clk),      // (Clk) is required in Verilog, optional in SystemVerilog
 	.BranchAbs   (Jump),     // jump enable
-	.BranchRelEn (BranchEn), // branch enable
-	.ALU_flag	 (Zero),
+	.BranchRelEn (BranchEn), // branch anable
+	.ALU_flag	 (Zero),	 // Zero flag, not in use (yet)
 	.Target      (PCTarg),
 	.ProgCtr     (PgmCtr)	 // program count = index to instruction memory
 	);
 
 // Control decoder
 Ctrl Ctrl1 (
-	.Instruction (Instruction), // from instr_ROM
-	.Clk         (Clk),
-	.BranchEn    (BranchEn),	 // to PC
-	.MemWrite    (MemWrite),
-	.RegWrite    (RegWrEn)
+	.Instruction	(Instruction),	// from instr_ROM
+	.Clk			(Clk),
+	.r0IsZeroFlag	(r0IsZeroFlag),
+	.BranchEn		(BranchEn),		// to PC
+	.LoadInst		(LoadInst),
+	.Jump			(Jump),
+	.LoadTableEn	(LoadTableEn),
+	.MemWrite    	(MemWrite),
+	.RegWrite    	(RegWrEn)
 	);
 
 // Instruction ROM
@@ -66,14 +81,17 @@ InstROM #(.W(9)) InstROM1 (
 // Register file
 RegFile #(.W(8),.D(4)) RF1 (
 	.Clk,
-	.WriteEn  (RegWrEn),          // [OPCODE = 8765  | RaddrA = 4321 | RaddarB = 0 ]
-	.RaddrA   (Instruction[4:1]), //  RaddrA = 4321 bits of instruction
-	.RaddrB   (Instruction[0:0]), //  RaddarB = 0   bits of instruction
-	//.Waddr    ( (Instruction[8:5] == 4'b1000 ) ? {3'b000, Instruction[0:0]} : Instruction[4:1] ), // if ( move high to low ) -> rs write reg else rd write reg
-	.DataIn   ( RegWriteValue),
-	.DataOutA (ReadA),
-	.DataOutB (ReadB),
-	.OP (Instruction[8:5])
+	.WriteEn  		(RegWrEn),          // [OPCODE = 8765  | RaddrA = 4321 | RaddarB = 0 ]
+	.RaddrA   		(Instruction[4:1]), //  RaddrA = 4321 bits of instruction
+	.RaddrB   		(Instruction[0:0]), //  RaddarB = 0   bits of instruction
+    .DataIn   		(RegWriteValue),
+	.OP 			(Instruction[8:5]),
+	.ALUzero		(Zero),
+	.DataOutA 		(ReadA),
+	.DataOutB 		(ReadB),
+	.MemWriteValue 	(MemWriteValue),
+	.r0IsZeroFlag	(r0IsZeroFlag),
+	.r1Val			(r1Val)
 	);
 
 // ALU
@@ -85,22 +103,28 @@ ALU ALU1 (
 	.Zero
 	);
 
-
 LUT_Imm LUT_IMM(
-    .index     (Instruction[4:0]), // RD portion of instruction
-    .immediate ( MemWriteValue )
+    .index     (Instruction[4:0]), // everything but the opcode 5 bit number [0-31]
+    .immediate (ImmReadValue)
 );
 
-// .DataAddress ( LoadInst ? RF1.Registers[Instruction[3:0]] : MemWriteValue ),
+// We'll need to decide what index pertains to what instruction (addresses) 
+// so that PCTarg points to the correct next instruction
+// The default index points to random jibberish if none of the occupied indices
+// are chosen by instruction bits [4:0]
+LUT_Add LUT_ADD(
+	.index		(Instruction[4:0]), 
+	.address	(PCTarg)
+);
 
 // Data memory
 DataMem DM1 (
-		.DataAddress (MemWriteValue),
-		.WriteEn     (MemWrite),
-		.DataIn      (RF1.Registers[3]), // Note:: DataIn is only used for STORE inst. so we can hard set value to r3
-		.DataOut     (MemReadValue),
 		.Clk         (Clk),
-		.Reset		 (Reset)
+		.Reset		 (Reset),
+		.WriteEn     (MemWrite),
+		.DataAddress (MemWriteValue),
+		.DataIn      (r1Val), // Note: DataIn is only used for STORE inst. so we can hard set value to r1
+		.DataOut     (MemReadValue)
 	);
 
 // count number of instructions executed
