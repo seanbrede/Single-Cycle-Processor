@@ -55,6 +55,8 @@ initial begin
     DUT.RF1.Registers[5] = 8'b00001011;
     $display("setting r5 value to 11");
 
+    DUT.RF1.Registers[10] = 8'b11110000;
+    DUT.RF1.Registers[11] = 8'b00001111;
 
     //#1ns
     Req = 'b0;
@@ -114,109 +116,80 @@ initial begin
     else begin
         $display("TEST 2 Failed!");
     end
-	// ############################################################################
-	// test 3 STORE
-    // ############################################################################
-	$display("***************************************");
-    $display("TEST 3:  STORE  MEM[ LUT [ rd ]  ] = r1  ");
-    $display("  Rd=7 , r1=9     where  MEM[ LUT_Imm[7] ] = 9 is MEM[61] = 9  ");
 
-    #5ns // half cycle
-    assert(DUT.Instruction[8:5]  == 4'b0111) 
-    else begin 
-        $display("Expected Opcode is not STORE");
-        $display("Opcode is %b ", DUT.Instruction[8:5]  );
-    end
+    $display("***************************************");
+    $display("TEST 3 ");
+    $display("***************************************");
 
-    assert(DUT.DM1.WriteEn == 1'b1)
-    else $display("WriteEnable is NOT enabled. Will not allow data to be written");
-
-    assert(DUT.DM1.DataIn == 8'd9) 
-    else begin
-        $display("Expected DM.DataIn != 9");
-        $display(" DataIn is %b ", DUT.DM1.DataIn);
-    end
-
-
-    if (  DUT.Instruction[4:0]  != 4'b00111) begin
-        $display(" rd != 7 ");
-        $display(" rd =  %b ", DUT.Instruction[8:5]  );
-    end
-
-
-    assert(DUT.DM1.DataAddress == 8'd61) begin
-        $display("Success, accessing MEM[61] where DataAddress = %d ", DUT.DM1.DataAddress);
-    end
-    else begin
-        $display("Error: not writing into MEM[61] ");
-    end
-
-	// ############################################################################
-	// Verify the register values were changed 
-    // ############################################################################
-    #5ns // completed cycle
-
-    assert(DUT.DM1.Core[61] == 8'd9) begin
-        $display(" MEM[61] has the right value stored! ");
-        $display(" MEM[61] =  %d ", DUT.DM1.Core[61] );
-        $display("***************************************");
-        $display("TEST 3 PASSED ");
-        $display("***************************************");        
-        $display("Program Counter after Test 3 %b ", DUT.PgmCtr);
-        $display("instruction out %b ", DUT.Instruction);
-    end
-    else $display("MEM[61] is not the expected value of 9!");
-
-	// ############################################################################
-	// Next test 4
-    // ###########################################################################
-
-    $display("TEST 4:  LOAD  r2 =  MEM[ LUT[rd] ]  ");
-    $display(" where,  rd=6,  LUT[6]=54,  MEM[54]=15 ");
-    $display("  so r2 = 15 after load  ");
-
-    if (  DUT.Instruction[8:5]  != 4'b0110) begin
-        $display(" Opcode != Load{0110} ");
-        $display(" Opcode =  %b ", DUT.Instruction[8:5]  );
+    if ( DUT.ALU1.OP != 3'b100) begin
+        $display("ALU operation was not shift left (100)");
+        $display("ALU OP= %b ", DUT.ALU1.OP);
         #10ns $stop;
     end
 
-    if (  DUT.Instruction[4:0]  != 4'b00110) begin
-        $display(" rd != 6 ");
-        $display(" rd =  %b ", DUT.Instruction[8:5]  );
+    if ( DUT.ALU1.InputA != 8'b00001111) begin
+        $display("ALU register A did not have value 00001111");
+        $display("Input A data = %b ", DUT.ALU1.InputA);
         #10ns $stop;
     end
 
-    if (  DUT.DM1.Core[54]  != 8'b00001111) begin
-        $display("  MEM[54] != 15   ");
-        $display("  DUT.DM1.Core[54] =  %b ",  DUT.DM1.Core[11]  );
-        #10ns $stop;
-    end
-
-    if (  DUT.MemReadValue  != 8'b00001111) begin
-        $display("  MemReadValue != 15   ");
-        $display(" MemReadValue =  %b ",  DUT.MemReadValue  );
-        #10ns $stop;
-    end
-
-    if (  DUT.RegWriteValue  != 8'b00001111) begin
-        $display("  RegWriteValue != 15   ");
-        $display("  RegWriteValue =  %b ",  DUT.MemReadValue  );
+    if ( DUT.ALU_out != 8'b00011110) begin
+        $display("ALU was not equal to 00011110");
+        $display("ALU = %b ", DUT.ALU_out);
         #10ns $stop;
     end
 
 	// ############################################################################
-	#10ns // Verify the register values were changed by examining them at next instruction!
+	// Increment To next test
+	#10ns
     // ############################################################################
 
-    if (  DUT.RF1.Registers[2]  != 8'b00001111) begin
-        $display("  r2 value != 15   ");
-        $display("  r2 value  =  %b ",  DUT.RF1.Registers[2] );
+    if ( DUT.RF1.Registers[0] != 8'b00011110) begin
+        $display("DUT.RF1.Registers[0] was not equal to 00011110");
+        $display("DUT.RF1.Registers[0] = %b ", DUT.RF1.Registers[0]);
         #10ns $stop;
     end
 
+    $display("***************************************");
+    $display("TEST 3 PASSED ");
+    $display("***************************************");
+
+    $display("***************************************");
+    $display("TEST 4  ");
+    $display("***************************************");
+    if ( DUT.Instruction[8:5] != 4'b1000) begin
+        $display("operation is not MOVE HIGH TO LOW");
+        $display("OP= %b ", DUT.Instruction[8:5] );
+        #10ns $stop;
+    end
+
+    if ( DUT.RF1.Registers[14] != 8'b00000000) begin
+        $display("DUT.RF1.Registers[15] was not equal to 0");
+        $display("DUT.RF1.Registers[015] = %b ", DUT.RF1.Registers[14]);
+        #10ns $stop;
+    end
+
+	// ############################################################################
+	// Increment To next test
+	#10ns
+    // ############################################################################
+
+    if ( DUT.RF1.Registers[0] != 8'b00000000) begin
+        $display("DUT.RF1.Registers[0] was not equal to 0");
+        $display("DUT.RF1.Registers[0] = %b ", DUT.RF1.Registers[0]);
+        #10ns $stop;
+    end
+
+    $display("***************************************");
     $display("TEST 4 PASSED ");
     $display("***************************************");
+
+    if ( DUT.Instruction[8:5] != 4'b1000) begin
+        $display("operation is not MOVE HIGH TO LOW");
+        $display("OP= %b ", DUT.Instruction[8:5] );
+        #10ns $stop;
+    end
+
 
 
     $display("");
@@ -224,9 +197,6 @@ initial begin
     $display("***************************************");
     $display("ALL TESTS PASSED ");
     $display("***************************************");
-
-
-
 
 	// launch prodvgram in DUT
 	#10ns Req = 0;

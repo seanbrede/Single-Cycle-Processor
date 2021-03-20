@@ -1,9 +1,57 @@
-E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/InstROM.sv {1 {vlog -work work -sv -stats=none E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/InstROM.sv
+E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/TopLevel.sv {1 {vlog -work work -sv -stats=none E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/TopLevel.sv
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.3 Compiler 2020.07 Jul 22 2020
+-- Compiling module TopLevel
+
+Top level modules:
+	TopLevel
+
+} {} {}} E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/Definitions.sv {1 {vlog -work work -sv -stats=none E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/Definitions.sv
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.3 Compiler 2020.07 Jul 22 2020
+-- Compiling package definitions
+
+Top level modules:
+	--none--
+
+} {} {}} E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/Ctrl.sv {1 {vlog -work work -sv -stats=none E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/Ctrl.sv
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.3 Compiler 2020.07 Jul 22 2020
+-- Compiling package Ctrl_sv_unit
+-- Importing package definitions
+-- Compiling module Ctrl
+
+Top level modules:
+	Ctrl
+
+} {} {}} E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/ALU.sv {1 {vlog -work work -sv -stats=none E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/ALU.sv
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.3 Compiler 2020.07 Jul 22 2020
+-- Compiling package ALU_sv_unit
+-- Importing package definitions
+-- Compiling module ALU
+
+Top level modules:
+	ALU
+
+} {} {}} E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/InstROM.sv {1 {vlog -work work -sv -stats=none E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/InstROM.sv
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.3 Compiler 2020.07 Jul 22 2020
 -- Compiling module InstROM
 
 Top level modules:
 	InstROM
+
+} {} {}} E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/LUT_Add.sv {1 {vlog -work work -sv -stats=none E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/LUT_Add.sv
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.3 Compiler 2020.07 Jul 22 2020
+-- Compiling module LUT_Add
+
+Top level modules:
+	LUT_Add
+
+} {} {}} E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/RegFile.sv {1 {vlog -work work -sv -stats=none E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/RegFile.sv
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.3 Compiler 2020.07 Jul 22 2020
+-- Compiling package RegFile_sv_unit
+-- Importing package definitions
+-- Compiling module RegFile
+
+Top level modules:
+	RegFile
 
 } {} {}} E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/program1_tb1.sv {1 {vlog -work work -sv -stats=none E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/program1_tb1.sv
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.3 Compiler 2020.07 Jul 22 2020

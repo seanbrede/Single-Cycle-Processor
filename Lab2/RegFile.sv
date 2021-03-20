@@ -22,7 +22,6 @@ module RegFile #(parameter W=8, D=4) (		  // W = data path width; D = pointer wi
 	output 		 [W-1:0] DataOutB,		      // pedagogic reasons only
 	output       [W-1:0] MemWriteValue,
 	output		 		 r0IsZeroFlag,
-	// output		 		 JumpNeq,
 	output		 [W-1:0] r1Val
 );
 
