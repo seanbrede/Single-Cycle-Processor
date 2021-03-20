@@ -30,11 +30,14 @@ wire       MemWrite,	// data_memory write enable
 		   Jump,		// to program counter: jump 
            JumpEq,	   
 		   JumpNeq,
-		   JumpEqEn,
-		   JumpNeqEn,
-		   r1Val, 
+		//    JumpEqEn,
+		//    JumpNeqEn,
+		   r0IsZeroFlag, 
 		   LoadTableEn, 
-		   LoadValue;
+		   LoadInst;
+
+wire [7:0] r1Val;
+wire [7:0] LoadValue;
 		//    DataAddr;
 
 logic [15:0] CycleCt; // standalone; NOT PC!
@@ -42,16 +45,17 @@ assign Ack = (Instruction[8:5] == 4'b1101);
 assign InA = ReadA; // connect RF out to ALU in
 assign InB = ReadB;
 
-assign LoadInst = (Instruction[8:5] == 4'b0110 || Instruction[8:5] == 4'b0101); // calls out load specially
-// check what type of load it is: LOAD or LOAD TABLE, defaults to DataMem i.e. MemReadValue
+// assign LoadInst = (Instruction[8:5] == 4'b0110 || Instruction[8:5] == 4'b0101); // calls out load specially
+
+// If instr is LOAD TABLE, write LUT_Imm value to r0, else write DataMem into r0 
 assign LoadValue = LoadTableEn ? ImmReadValue : MemReadValue; 
 // if its a Load instruction, take the Load Value (either from LUT_IMM or DM), if not, take ALU 
 assign RegWriteValue = LoadInst ? LoadValue : ALU_out; 
+
 // assign RegWriteValue = LoadInst ? MemReadValue : ALU_out; 
 
 // if JumpEqual instr and r0 value is 0 (i.e. !JumpEq == 0)
 // or if JumpNotEqual instr and r0 value is 0 (i.e. JumpNeq == 1)
-assign Jump = (JumpEqEn && !JumpEq) || (JumpNeqEn && JumpNeq); // when OP == JEQ && r4 == 1 (JumpRdy)
 // assign DataAddr = LoadInst ? RF1.Registers[ Instruction[3:0] ] : {3'b000, Instruction[4:0]};
 
 // Instruction fetch
@@ -70,9 +74,11 @@ InstFetch InstFetch1 (
 Ctrl Ctrl1 (
 	.Instruction	(Instruction),	// from instr_ROM
 	.Clk			(Clk),
+	.r0IsZeroFlag	(r0IsZeroFlag),
 	.BranchEn		(BranchEn),		// to PC
-	.JumpEqEn  		(JumpEqEn),		// JEQ instr detected
-	.JumpNeqEn		(JumpNeqEn),	// JNEQ instr detected
+	.LoadInst		(LoadInst),
+	// .JumpEqEn  		(JumpEqEn),		// JEQ instr detected
+	// .JumpNeqEn		(JumpNeqEn),	// JNEQ instr detected
 	.LoadTableEn	(LoadTableEn),
 	.MemWrite    	(MemWrite),
 	.RegWrite    	(RegWrEn)
@@ -96,9 +102,9 @@ RegFile #(.W(8),.D(4)) RF1 (
 	.ALUzero		(Zero),
 	.DataOutA 		(ReadA),
 	.DataOutB 		(ReadB),
-	// .MemWriteValue 	(MemWriteValue),
-	.JumpEq			(JumpEq),
-	.JumpNeq		(JumpNeq),
+	.MemWriteValue 	(MemWriteValue),
+	.r0IsZeroFlag	(r0IsZeroFlag),
+	// .JumpNeq		(JumpNeq),
 	.r1Val			(r1Val)
 	);
 
@@ -106,6 +112,8 @@ RegFile #(.W(8),.D(4)) RF1 (
 ALU ALU1 (
 	.InputA (InA),
 	.InputB (InB),
+	// .InputA (ReadA),
+	// .InputB (ReadB),
 	.OP     (Instruction[8:5]), // grab entire opcode and send it into ALU
 	.Out    (ALU_out),          // regWriteValue
 	.Zero
