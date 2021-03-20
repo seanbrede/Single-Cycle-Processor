@@ -15,12 +15,12 @@ ops_dict = {
     "str": ["RF", "0111"],
     "mvh": ["RS", "1000"],
     "mvl": ["RS", "1001"],
-    "jeq": ["IM", "1010"],
+    "je":  ["IM", "1010"],
     "slt": ["RS", "1011"],
     "seq": ["RS", "1100"],
     "ack": ["IO", "1101"],
-    "gbt": ["RF", "1110"],
-    "sbt": ["IM", "1111"]
+    "or":  ["RS", "1110"],
+    "jne": ["IM", "1111"]
 }
 
 # names of input and output files
@@ -46,6 +46,7 @@ def processLabels():
 
     # parse each line of assembly
     # TODO this current code probably requires unique label names across all files, which might be a problem especially if they are generated automatically
+    # TODO I've taken care of this problem in compile.py
     for a_code, _ in filenames:
         for inst in open(a_code, "r"):
             line += 1                        # increment the line number at the beginning of each line

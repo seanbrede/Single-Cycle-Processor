@@ -11,11 +11,11 @@ addr_table = ash.processLabels()  # create a table of {label: address}
 ash.writeLUTAdd(addr_table)       # generate LUT_Add.sv
 
 
-for file in ash.filenames:
-    m_code = open(file[1], "w")  # changes .as to .mc; will create if does not exist
+for read, write in ash.filenames:
+    m_code = open(write, "w")  # changes .as to .mc; will create if does not exist
 
     # parse each line of assembly
-    for a_inst in open(file[0], "r"):
+    for a_inst in open(read, "r"):
         line += 1                               # increment the line number at the beginning
         inst  = ash.processInstruction(a_inst)  # operation as inst[0]; operands as inst[1], inst[2]
 

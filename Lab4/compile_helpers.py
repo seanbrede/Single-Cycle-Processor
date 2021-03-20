@@ -28,38 +28,37 @@ def buildImmTable():
 
 # put immediate entries from the file into the table
 def addImmEntries(file, imm_table, num_imms):
-    print(file)
     for line in open(file, "r"):
         line, _ = processLine(line)  # split line into tokens
 
         # ASSIGNMENT
         if len(line) > 2 and line[1] == "=":
-            # identifier = MEM[int]
-            if line[2][0:3] == "mem":
-                possible_int = line[2][2:len(line[2])-1]
-                if possible_int.isdigit():
-                    imm_table[int(possible_int)] = num_imms
+            # VAR = mem[NUM]
+            if len(line[2]) >= 4 and line[2][0:3] == "mem":
+                possible_int = line[2][4:len(line[2])-1]
+                if possible_int.isdigit() and imm_table[possible_int] == -1:
+                    imm_table[possible_int] = num_imms
                     num_imms += 1
             # identifier = int
-            if line[2].isdigit():
-                imm_table[int(line[2])] = num_imms
+            if line[2].isdigit() and imm_table[line[2]] == -1:
+                imm_table[line[2]] = num_imms
                 num_imms += 1
             # identifier = int? op int?
             if len(line) == 5:
-                if line[2].isdigit():
-                    imm_table[int(line[2])] = num_imms
+                if line[2].isdigit() and imm_table[line[2]] == -1:
+                    imm_table[line[2]] = num_imms
                     num_imms += 1
-                if line[4].isdigit():
-                    imm_table[int(line[4])] = num_imms
+                if line[4].isdigit() and imm_table[line[4]] == -1:
+                    imm_table[line[4]] = num_imms
                     num_imms += 1
 
         # IF or WHILE
         if len(line) == 4 and (line[0] == "if" or line[0] == "while"):
-            if line[1].isdigit():
-                imm_table[int(line[1])] = num_imms
+            if line[1].isdigit() and imm_table[line[1]] == -1:
+                imm_table[line[1]] = num_imms
                 num_imms += 1
-            if line[3].isdigit():
-                imm_table[int(line[3])] = num_imms
+            if line[3].isdigit() and imm_table[line[3]] == -1:
+                imm_table[line[3]] = num_imms
                 num_imms += 1
 
     return imm_table, num_imms
@@ -86,7 +85,10 @@ def writeLUTImm(imm_table):
 
     # write each address
     for i in range(table_size):
-        file.write("\t\t5'd" + str(i) + ":    immediate = 8'd" + str(imm_list[i]) + ";\n")
+        if i < 10:
+            file.write("\t\t5'd" + str(i) + ":    immediate = 8'd" + str(imm_list[i]) + ";\n")
+        else:
+            file.write("\t\t5'd" + str(i) + ":   immediate = 8'd" + str(imm_list[i]) + ";\n")
 
     # write everything else
     file.write("\t\tdefault: immediate = 8'd255;\n" +
@@ -109,20 +111,40 @@ def redXOR(red):
         return 0
 
 
+def writeWithTabs(num_tabs, write_file, towrite):
+    if len(towrite.split("\n")) == 5:
+        towrite = towrite.split("\n")
+        for i in range(len(towrite)):
+            if i == len(towrite) - 1:
+                write_file.write(("\t" * num_tabs) + towrite[i])
+            else:
+                write_file.write(("\t" * num_tabs) + towrite[i] + "\n")
+    else:
+        write_file.write(("\t" * num_tabs) + towrite)
+
+
 # set up the memory for program1
 def initMemory1():
     MEM     = ([32] * 54) + ([0] * (256 - 54))
-    MEM[61] = 10          # number of spaces
-    MEM[62] = tap_LUT[0]  # LFSR tap pattern
-    MEM[63] = 1           # LFSR initial state
+    MEM[61] = 10  # number of spaces
+    MEM[62] = 0   # LFSR tap pattern
+    MEM[63] = 1   # LFSR initial state
+    for i in range(len(tap_LUT)):
+        MEM[i + 128] = tap_LUT[i]
     message = "Mr. Watson, come here. I want to see you."
     for i in range(len(message)):
         MEM[i] = ord(message[i])  # convert character literal to int
     return MEM
 
 
+# set up the memory for program1
 def initMemory2():
-    return []  # TODO
+    MEM = [0] * 256
+    for i in range(len(tap_LUT)):
+        MEM[i + 128] = tap_LUT[i]
+    enc_message = ""
+    for i in range(len([1])):
+        MEM[64+i] = 1
 
 
 def initMemory3():
