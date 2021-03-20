@@ -98,7 +98,10 @@ def writeLUTAdd(addr_table):
 
     # write each address
     for i in range(table_size):
-        file.write("\t\t5'd" + str(i) + ":    address = 10'd" + str(addr_list[i]) + ";\n")
+        if i < 10:
+            file.write("\t\t5'd" + str(i) + ":    address = 10'd" + str(addr_list[i]) + ";\n")
+        else:
+            file.write("\t\t5'd" + str(i) + ":   address = 10'd" + str(addr_list[i]) + ";\n")
 
     # write everything else
     file.write("\t\tdefault: address = 10'd1023;\n" +
