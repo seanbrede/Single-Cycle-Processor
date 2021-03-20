@@ -59,3 +59,19 @@ def initMemory1():
         MEM[i] = ord(message[i])  # convert char to int
 
     return MEM
+
+
+def initMemory3():
+    MEM = ([32] * 54) + ([0] * (256 - 54))
+    f = open('./Tests/p3taphex60seedhex1spaces13.txt', "r")
+    a = []
+    for line in f:
+        last4 = line[-5:]
+        last4 = last4[0:4]
+        h = int(last4, 16)
+        a.append(h)
+    f.close()
+    for i in range(len(a)):
+        MEM[64 + i] = a[i]
+
+    return MEM

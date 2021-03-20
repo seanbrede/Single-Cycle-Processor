@@ -63,11 +63,15 @@ while found == 0:
         lfsr_st          = cycle_LFSR(lfsr_st, curr_tap) # what the current tap pattern produces
 
         # actual    != expected, go to next tap
-        if lfsr_st != expected_state:
+        if lfsr_st < expected_state:
             tap_select += 1
-            break
+            read_ptr = last_ptr
 
-        if read_ptr == last_ptr - 1:
+        if expected_state < lfsr_st:
+            tap_select += 1
+            read_ptr = last_ptr
+
+        if read_ptr == 74:
             found = 1
         # read in the next MEM value and continue checking
         read_ptr += 1

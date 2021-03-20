@@ -57,13 +57,13 @@ module decrypt_depad_tb ()        ;
   assign LFSR_ptrn[15] = 7'h7E;		 // same as LFSR_ptrn[7]
 // select an LFSR feedback tap pattern
   always_comb begin
-    pt_no = 0; //$random>>22;        // specific pattern for debug, random for verification
+    pt_no = 0; //$random>>22;        // specific pattern for debug, random for verification  //TODO:: change to random
     pt_no1 = pt_no[3:0];
     lfsr_ptrn = LFSR_ptrn[pt_no1];    // engage the selected pattern
   end
 // select a starting LFSR state -- any nonzero value will do
   always_comb begin					   
-    LFSR_init = 7'b1; //$random>>2;  // specific value for debug, random for verification
+    LFSR_init = 7'b1; //$random>>2;  // specific value for debug, random for verification //TODO:: change to random
     if(!LFSR_init) LFSR_init = 7'b1; // prevents illegal starting state = 7'b0; 
   end
 
@@ -75,11 +75,11 @@ module decrypt_depad_tb ()        ;
   end
 
 // ***** instantiate your own top level design here *****
-  top_level dut(
-    .clk     (clk  ),   // input: use your own port names, if different
-    .init    (init ),   // input: some prefer to call this ".reset"
-    .req     (start),   // input: launch program
-    .ack     (done )    // output: "program run complete"
+  TopLevel dut(
+    .Clk     (clk  ),   // input: use your own port names, if different
+    .Reset   (init ),   // input: some prefer to call this ".reset"
+    .Start   (start),   // input: launch program
+    .Ack     (done )    // output: "program run complete"
   );
 
   initial begin
@@ -133,10 +133,10 @@ module decrypt_depad_tb ()        ;
 //    dut.DM.core[62] = lfsr_ptrn;      // LFSR feedback tap positions (9 possible ptrns)
 //    dut.DM.core[63] = LFSR_init;      // LFSR starting state (nonzero)
     for(int m=0; m<26; m++)             // load first 26 characters of encrypted message into data memory
-      dut.DM.core[m+64] = msg_crypto1[m];	 // this guarantees all space prepend characters are clean
+      dut.DM1.Core[m+64] = msg_crypto1[m];	 // this guarantees all space prepend characters are clean
     for(int n=26; n<64; n++) begin	  	// load subsequent, possibly corrupt, encrypted message into data memory
 	  flipper = $random;                // value between 0 and 63, inclusive
-      dut.DM.core[n+64] = msg_crypto1[n]^(1<<flipper);
+      dut.DM1.Core[n+64] = msg_crypto1[n]^(1<<flipper);
       if(flipper<8) flipped[n]=1;		// if flipper>7, it is out of range, has no impact on message
 	end
     #20ns init  = 1'b0;				  // suggestion: reset = 1 forces your program counter to 0
@@ -149,34 +149,34 @@ module decrypt_depad_tb ()        ;
 // ***** use your instance name for data memory and its internal core *****
     for(int n=0; n<64; n++)	begin
       if(flipped[n+pre_length+space]) begin
-        if(dut.DM.core[n][7]) begin
+        if(dut.DM1.Core[n][7]) begin
 		  $fwrite(file_no,"%d bench msg: %s %h dut msg: %h",
-              n, msg_padded1[n+pre_length+space][6:0], msg_padded1[n][6:0], dut.DM.core[n][6:0]);
+              n, msg_padded1[n+pre_length+space][6:0], msg_padded1[n][6:0], dut.DM1.Core[n][6:0]);
           $fdisplay(file_no,"  error successfully flagged");
           score++;
         end  
-        else if(dut.DM.core[n][7]==0) begin
+        else if(dut.DM1.Core[n][7]==0) begin
 		  $fwrite(file_no,"%d bench msg: %s %h dut msg: %h",
-              n, msg_padded1[n+pre_length+space][6:0], msg_padded1[n][6:0], dut.DM.core[n][6:0]);
+              n, msg_padded1[n+pre_length+space][6:0], msg_padded1[n][6:0], dut.DM1.Core[n][6:0]);
           $fdisplay(file_no,"  error missed");
 //          score++;
         end  
         else begin
 		  $fwrite(file_no,"%d bench msg: %s %h dut msg: %h",
-              n, msg_padded1[n+pre_length+space][6:0], msg_padded1[n][6:0], dut.DM.core[n][6:0]);
+              n, msg_padded1[n+pre_length+space][6:0], msg_padded1[n][6:0], dut.DM1.Core[n][6:0]);
           $fdisplay(file_no,"  error flag not returned");
 //          score++;
         end  
       end
 	  else if({flipped[n+pre_length+space],msg_padded1[n+pre_length+space][6:0]}
-	         == dut.DM.core[n])	begin
+	         == dut.DM1.Core[n])	begin
         $fdisplay(file_no,"%d bench msg: %s %h dut msg: %h",
-          n, msg_padded1[n+pre_length+space][6:0], msg_padded1[n][6:0], dut.DM.core[n][6:0]);
+          n, msg_padded1[n+pre_length+space][6:0], msg_padded1[n][6:0], dut.DM1.Core[n][6:0]);
 		score++;
 	  end
       else
         $fdisplay(file_no,"%d bench msg: %s %h dut msg: %h  OOPS!",
-          n, msg_padded1[n+pre_length+space][6:0], msg_padded1[n][6:0], dut.DM.core[n][6:0]);
+          n, msg_padded1[n+pre_length+space][6:0], msg_padded1[n][6:0], dut.DM1.Core[n][6:0]);
     end
     perfect_score = strlen + 10 - pre_length;      
     $fdisplay(file_no,"score = %d/%d",score,perfect_score);
