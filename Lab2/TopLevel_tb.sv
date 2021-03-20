@@ -224,9 +224,8 @@ initial begin
         #10ns $stop;
     end
 
-   // DUT.RF1.Registers[0]  = 8'b00000001;
-    DUT.RF1.Registers[1]  = 8'b11110000; // RS
-    DUT.RF1.Registers[10] = 8'b00001111; // RD
+
+    DUT.RF1.Registers[8] = 8'b00000111; // RD = 7
 
 	// ############################################################################
 	// Increment To next test
@@ -243,8 +242,67 @@ initial begin
     $display("TEST 5 PASSED ");
     $display("***************************************");
 
+
     $display("***************************************");
-    $display("TEST 6 SET LESS THAN ");
+    $display("TEST 6  RED XOR  ");
+    $display("***************************************");
+
+    if ( DUT.Instruction[8:5] != 4'b0001) begin
+        $display("operation is not RED XOR  ");
+        $display("OP= %b ", DUT.Instruction[8:5] );
+        #10ns $stop;
+    end
+
+    if ( DUT.Instruction[4:1] != 4'b1000) begin
+        $display("inst rd is not 8 ");
+        $display("inst rd = %b ", DUT.Instruction[4:1] );
+        #10ns $stop;
+    end
+
+    if ( DUT.Instruction[0:0] != 1'b0) begin
+        $display("inst rs is not 0");
+        $display("inst rs = %b ", DUT.Instruction[0:0] );
+        #10ns $stop;
+    end
+
+    if ( DUT.ALU1.InputA != 8'b00000111) begin
+        $display("ALU register A did not have value 7");
+        $display("Input A data = %b ", DUT.ALU1.InputA);
+        #10ns $stop;
+    end
+
+    if ( DUT.ALU1.OP != 4'b0001) begin
+        $display("ALU operation was not RED XOR ");
+        $display("ALU OP= %b ", DUT.ALU1.OP);
+        #10ns $stop;
+    end
+
+    if ( DUT.ALU_out != 8'b00000001) begin
+        $display("ALU was not equal to 1");
+        $display("ALU = %b ", DUT.ALU_out);
+        #10ns $stop;
+    end
+
+    DUT.RF1.Registers[1]  = 8'b11110000; // RS
+    DUT.RF1.Registers[10] = 8'b00001111; // RD
+
+	// ############################################################################
+	// Increment To next test
+	#10ns
+    // ############################################################################
+
+    if ( DUT.RF1.Registers[0] != 8'b00000001) begin
+        $display("DUT.RF1.Registers[0] was not equal to 1");
+        $display("DUT.RF1.Registers[0] = %b ", DUT.RF1.Registers[0]);
+        #10ns $stop;
+    end
+
+    $display("***************************************");
+    $display("TEST 6 passed ");
+    $display("***************************************");
+
+    $display("***************************************");
+    $display("TEST 7 SET LESS THAN ");
     $display("***************************************");
 
     if ( DUT.Instruction[8:5] != 4'b1011) begin
@@ -301,8 +359,20 @@ initial begin
     end
 
     $display("***************************************");
-    $display("TEST 6 PASSED ");
+    $display("TEST 7 PASSED ");
     $display("***************************************");
+
+    // Do SEQ on 2 non-equal values and do JEQ Again
+    $display("Testing JNEQ, where r0=8'd1");
+    $display("We Expect PC to be unchanged since r0==1 means");
+
+
+
+
+
+
+
+
 
 
     $display("");

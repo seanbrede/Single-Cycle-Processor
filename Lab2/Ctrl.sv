@@ -21,7 +21,7 @@ assign BranchEn = (Instruction[8:5] == 4'b1010); // if OP == JEQ, BranchEn == 1
 assign MemWrite = (Instruction[8:5] == 4'b0111);  // mem_store command
 // don't write to reg when:   // STORE  instruction        // Jump Equal instr	   // Jump Not Equal Instr
 assign RegWrite = ((Instruction[8:5] == 4'b0111 || Instruction[8:5] == 4'b1010 || Instruction[8:5] == 4'b1111) ? 1'b0 : 1'b1);  // mem_store command
-// If instruction is a Load (LOAD TABLE or LOAD)
+// If instruction is a Load (LOAD or LOAD TABLE)
 assign LoadInst = (Instruction[8:5] == 4'b0110 || Instruction[8:5] == 4'b0101); // calls out load specially
 // If instruction is LOAD TABLE select ImmReadValue in TopLevel
 assign LoadTableEn = (Instruction[8:5] == 4'b0101); // Checks if LOAD TABLE called, else defaults to LOAD (DataMem)

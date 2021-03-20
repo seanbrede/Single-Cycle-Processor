@@ -39,7 +39,7 @@ assign      DataOutA = Registers[RaddrA];	// can't read from addr 0, just like M
 assign		DataOutB = Registers[RaddrB];  // can read from addr 0, just like ARM
 assign		r0IsZeroFlag = ( Registers[0] == 0 ) ? 1'b1 : 1'b0;
 assign		r1Val = Registers[1];
-assign		MemWriteValue = Registers[{RaddrA[2:0], RaddrB}]; // R[rd], for store, MEM[R[rd]]
+assign		MemWriteValue = Registers[RaddrA]; // R[rd], for store, MEM[R[rd]]
 // assign		Registers[0] = ALUzero;
 
 // sequential (clocked) writes 
