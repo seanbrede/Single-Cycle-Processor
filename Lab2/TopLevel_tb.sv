@@ -149,7 +149,7 @@ initial begin
     end
 
 
-    assert(DUT.DM1.DataAddress == 8'd61) begin
+    assert(DUT.DM1.DataAddress == 8'd7) begin
         $display("Success, accessing MEM[7] where DataAddress = %d ", DUT.DM1.DataAddress);
     end
     else begin
@@ -334,19 +334,21 @@ initial begin
         $display("expected r1 to be 8'd15, but it is %d instead", DUT.RF1.Registers[1]);
     end
     // ############################################################################
-	// Next test 7 JNEQ #15 
+	// Next test 7 JNEQ #3 on 2 equal values
     // ###########################################################################
     $display("Testing JNEQ, where r0=8'd1");
     $display("We Expect PC to be unchanged since r0==1 means");
-    #5ns 
+    #5ns // half
+    assert(DUT.RF1.OP == 8'b1111)
+    else $display("Operation is NOT JNEQ!");
 
-    assert(DUT.InstFetch.ProgCtr == 8'd7)
+    assert(DUT.InstFetch1.ProgCtr == 8'd7)
     else begin
         $display("PC is not the value we expected!");
     end
 
-    #5ns 
-    assert(DUT.InstFetch.ProgCtr == 8'd8) begin
+    #5ns // full cycle
+    assert(DUT.InstFetch1.ProgCtr == 8'd8) begin
         $display("PgmCtr incremented by 1, and did not change to 3, which is what we expected!");        
         $display("Program Counter after Test 7 %d ", DUT.PgmCtr);
         $display("instruction out %b ", DUT.Instruction);
@@ -358,7 +360,96 @@ initial begin
         $display("PC value jumped, not what we expected!");
     end	
 
+    // ############################################################################
+	// Next test 8 JNEQ #3 on 2 non-equal values
+    // ###########################################################################
 
+    // Do SEQ on 2 non-equal values and do JEQ Again
+    $display("Testing JNEQ, where r0=8'd1");
+    $display("We Expect PC to be unchanged since r0==1 means");
+
+    $display("instruction out %b ", DUT.Instruction);
+    #5ns // half cycle for SEQ 
+    $display("instruction out %b ", DUT.Instruction);
+    #5ns  // full cycle for SEQ
+    $display("instruction out %b ", DUT.Instruction);
+    assert(DUT.RF1.OP == 4'b1111) 
+    else begin
+        $display("The instruction is not JNEQ as expected!");
+    end
+
+    assert(DUT.InstFetch1.ProgCtr == 8'd9)
+    else begin
+        $display("PC is not the value we expected!");
+    end
+
+    assert(DUT.Instruction[4:0] == 5'b00011) 
+    else begin 
+        $display("the Target jump address is wrong!");
+    end
+
+    #5ns // half cycle for JNEQ
+    $display("instruction out %b ", DUT.Instruction);
+    assert(DUT.RF1.OP == 4'b1111) begin
+        $display("PC current points to the correct instruction, STR r4 at %b", DUT.PgmCtr);
+    end
+    else begin
+        $display("The instruction is not STR (0111) as expected!");
+    end
+
+    #5ns // full cycle
+    $display("instruction out %b ", DUT.Instruction);
+    $display("Program Counter after Test 8 %d ", DUT.PgmCtr);
+
+    if ( DUT.Instruction[8:5] != 4'b1111) begin
+        $display("operation is not Jump Absolute");
+        $display("OP= %b ", DUT.Instruction[8:5] );
+        #10ns $stop;
+    end
+
+    if ( DUT.Instruction[4:0] != 5'b10101) begin
+        $display("immediate was not 25");
+        $display("immediate = %b ", DUT.Instruction[4:0] );
+        #10ns $stop;
+    end
+
+    if (DUT.r0IsZeroFlag == 1'b0) begin
+        $display(" r0IsZeroFlag is 0, i.e. r0 ");
+        $display(" r0IsZeroFlag= %b ",  DUT.r0IsZeroFlag );
+        #10ns $stop;
+    end
+
+     if ( DUT.Jump != 1'b1) begin
+        $display("Jump Enable is not 1 ");
+        $display("Jump Enable = %b ",  DUT.Jump);
+        #10ns $stop;
+    end
+
+    if ( DUT.PgmCtr != 9'b000000101) begin
+        $display("PC was not 5 ");
+        $display("PC  = %b ",  DUT.PgmCtr);
+        #10ns $stop;
+    end
+
+    if ( DUT.PCTarg != 9'b000001010) begin
+        $display("PC TARGET was not 10");
+        $display("PC TARGET = %b ",  DUT.PCTarg );
+        #10ns $stop;
+    end
+
+
+    assert(DUT.PgmCtr == 8'd3) begin
+        $display("PgmCtr is pointing at the correct place! %d", DUT.PgmCtr);
+        $display("PgmCtr incremented by 1, and did not change to 3, which is what we expected!");        
+        $display("Program Counter after Test 8 %d ", DUT.PgmCtr);
+        $display("instruction out %b ", DUT.Instruction);
+        $display("***************************************");
+        $display("TEST 8 PASSED ");
+        $display("***************************************");
+    end
+    else begin
+        $display("The PC != 4 as expected!");
+    end
 
     // launch program in DUT
 	#10ns Req = 0;
