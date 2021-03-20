@@ -131,6 +131,6 @@ def program3CheckWork( test, indexOfFirstNonSpaceChar, results, MEM ):
             correct += 1
             # print("match @ i =", i+DEBUG_FIRST_NON_SPACE_INDEX, " tb = ", hex(TEST_BENCH_HEX_VALS[i]), "vs.  MEM=", hex(MEM[i]))
         total += 1
-    
+
     #print('values checked -> ', total)
     print('correctness = ', correct / total * 100, ' %')

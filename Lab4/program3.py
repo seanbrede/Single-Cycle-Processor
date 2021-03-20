@@ -1,4 +1,4 @@
-import compile_helpers as chs;  TEST = 2; MEM = chs.initMemory3(TEST)
+import compile_helpers as chs;  TEST = 0; MEM = chs.initMemory3(TEST)
 
 # variable            # register location
 parityExpected  = 0              # r2
@@ -13,8 +13,7 @@ write_ptr       = 0              # r10
 read_end        = 128            # r11
 echar_no_parity = 0              # r12
 parity          = 0              # r13
-dchar_no_parity = 0              # r14
-dummyLoad       = 0              # r15
+dummyLoad       = 0              # r14
 
 
 # 0. Figure out tap
@@ -77,9 +76,9 @@ while found == 0:
     if read_ptr == 64:
         LFSR_st = echar_no_parity ^ 32
 
-    dchar_no_parity = LFSR_st ^ echar_no_parity
+    echar_no_parity = LFSR_st ^ echar_no_parity
 
-    if 32 < dchar_no_parity:
+    if 32 < echar_no_parity:
         found = 1
 
     # cycle the LFSR, move to next char
