@@ -132,8 +132,8 @@ def initMemory1():
     MEM = ([32] * 54) + ([0] * (256 - 54))  # initialize the array
 
     MEM[61] = 10  # number of spaces
-    MEM[62] = 5   # LFSR tap pattern index
-    MEM[63] = 1   # LFSR initial state
+    MEM[62] = 0   # LFSR tap pattern index
+    MEM[63] = 32  # LFSR initial state
 
     # embed the tap_LUT in MEM[128:137]
     for i in range(len(tap_LUT)):

@@ -1,13 +1,9 @@
 1. Explain which programs/features work.
-program 1:
-
-program 2:
-
-program 3:
+All features of each of the 3 programs function properly.
 
 
 2. Explain which programs/features don’t work.
-herp
+Nothing doesn't work.
 
 
 3. Any additional information you would like to let us know about.
@@ -20,4 +16,4 @@ language, and generate the lookup table for immediate values (LUT_Imm.sv). After
 
 4. If you have already done your demo with Professor Eldon before you make this Gradescope submission, mention it in
    your README.
-We haven't already done our demo.
+We already did the demo, but it was with IA Andrew Hung Nguyen and not Eldon.
