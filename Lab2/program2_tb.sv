@@ -2,11 +2,13 @@
 // testbench for programmable message decryption (Program #2)
 // CSE141L  
 // runs program 2 (decrypt a message)
-module decrypt_tb ()        ;
-  logic      clk   = 1'b0   ,      // advances simulation step-by-step
-             init  = 1'b1   ,      // init (reset) command to DUT
-             start = 1'b1   ;      // req (start program) command to DUT
-  wire       done           ;      // done flag returned by DUT
+module decrypt_tb;
+
+  bit      Clk   = 'b1   ,      // advances simulation step-by-step
+           Init  = 'b1   ,      // init (reset) command to DUT
+           Req   = 'b1   ;      // req (start program) command to DUT
+
+  wire       Ack           ;      // done flag returned by DUT
   logic[3:0] pre_length     ;      // space char. bytes before first char. in message  
   logic[7:0] message1[54]   ,      // original raw message, in binary
              msg_padded1[64],      // original message, plus pre- and post-padding w/ ASCII spaces
@@ -16,11 +18,16 @@ module decrypt_tb ()        ;
              lfsr1[64]      ,      // states of program 1 encrypting LFSR
              LFSR_init      ;      // one of 127 possible NONZERO starting states
   int        score          ;      // count of correct encyrpted characters
+
+ logic[6:0] dummy;
+
 // our original American Standard Code for Information Interchange message follows
 // note in practice your design should be able to handle ANY ASCII string that is
 //  restricted to characters between space (0x20) and script f (0x9f) and shorter than 
 //  53 characters in length
-  string     str1  = "Mr. Watson, come here. I want to see you.";     // sample program 1 input
+  //string     str1  = "Mr. Watson, come here. I want to see you.";     // sample program 1 input
+   //string       str1  = "qwertyuiopasdfghjklzxcvbnm";
+   string       str1  = "  Two  spaces  in  between  ,  2  . ";
 //  string     str1  = " Knowledge comes, but wisdom lingers.    ";   // alternative inputs
 //  string     str1  = "  01234546789abcdefghijklmnopqrstuvwxyz. ";   //   (make up your own,
 //  string     str1  = "  f       A joke is a very serious thing.";   // 	as well)
@@ -42,35 +49,58 @@ module decrypt_tb ()        ;
   assign LFSR_ptrn[6] = 7'h5C;
   assign LFSR_ptrn[7] = 7'h7E;
   assign LFSR_ptrn[8] = 7'h7B;
+
+
   always_comb begin
-    pt_no = $random>>22;                   // or pick a specific one
+    pt_no = 0;
     if(pt_no>8) pt_no = pt_no[2:0];	       // restrict to 0 through 8 (our legal patterns)
     $display("pt_no = %d",pt_no);
   end    
   assign lfsr_ptrn = LFSR_ptrn[pt_no];     // engage the selected pattern
 
 // now select a starting LFSR state -- any nonzero value will do
-  always_comb begin					   
-    LFSR_init = $random>>2;                // or set a value, such as 7'b1, for debug
+  always_comb begin
+    LFSR_init =  17;//$random>>2;                // or set a value, such as 7'b1, for debug  //TODO:: change to random
     if(!LFSR_init) LFSR_init = 7'b1;       // prevents illegal starting state = 7'b0; 
   end
 
 // set preamble lengths for the four program runs (always > 9 but < 16)
   always_comb begin
-    pre_length = $random>>10 ;             // program 1 run
+    pre_length =  27;//$random>>10 ;             // program 1 run  //TPDP chang e back
     if(pre_length < 10) pre_length = 10;   // prevents pre_length < 10
     else if(pre_length > 26) pre_length = 26; 
   end
 
 // ***** instantiate your own top level design here *****
-  top_level dut(
-    .clk     (clk  ),                      // input: use your own port names, if different
-    .init    (init ),                      // input: some prefer to call this ".reset"
-    .req     (start),                      // input: launch program
-    .ack     (done )                       // output: "program run complete"
+ TopLevel dut(
+    .Clk     (Clk ),   // input: use your own port names, if different
+    .Reset   (Init),   // input: some prefer to call this ".reset"
+    .Start   (Req),   // input: launch program
+    .Ack     (Ack)    // output: "program run complete"
   );
 
   initial begin
+   #10ns Init = 'b0;
+   #10ns Req  = 'b1;
+
+	// initialize DUT's data memory
+	#10ns for (int i=0; i<256; i++)
+		dut.DM1.Core[i] = 8'h0;	     // clear data_mem
+
+    dut.DM1.Core[128] = 7'h60;	     // 110_0000
+    dut.DM1.Core[129] = 7'h48;
+    dut.DM1.Core[130] = 7'h78;
+    dut.DM1.Core[131] = 7'h72;
+    dut.DM1.Core[132] = 7'h6A;
+    dut.DM1.Core[133] = 7'h69;
+    dut.DM1.Core[134] = 7'h5C;
+    dut.DM1.Core[135] = 7'h7E;
+    dut.DM1.Core[136] = 7'h7B;
+
+	// initialize DUT's register file
+	for(int j=0; j<16; j++)
+		dut.RF1.Registers[j] = 8'b0;    // default -- clear it
+
 //***** pre-load your instruction ROM here or inside itself	*****
 //    $readmemb("encoder.bin", dut.instr_rom.rom);
 // you may also pre-load desired constants, etc. into
@@ -113,28 +143,43 @@ module decrypt_tb ()        ;
 //	  dut.DM.core[m] = 8'h20;         // pad memory w/ ASCII space characters
 //    for(int m=0; m<strlen; m++)
 //      dut.DM.core[m] = str1[m];       // overwrite/copy original string into device's data memory[0:strlen-1]
-//    dut.DM.core[61] = pre_length;     // number of bytes preceding message
-//    dut.DM.core[62] = lfsr_ptrn;      // LFSR feedback tap positions (9 possible ptrns)
-//    dut.DM.core[63] = LFSR_init;      // LFSR starting state (nonzero)
+     //dut.DM1.core[61] = pre_length;     // number of bytes preceding message
+    // dut.DM1.core[62] = lfsr_ptrn;      // LFSR feedback tap positions (9 possible ptrns)
+    // dut.DM1.core[63] = LFSR_init;      // LFSR starting state (nonzero)
     for(int n=0; n<64; n++) 			// load encrypted message into data memory
-	  dut.DM.core[n+64] = msg_crypto1[n];
-    #20ns init  = 1'b0;				  // suggestion: reset = 1 forces your program counter to 0
-	#10ns start = 1'b0; 			  //   request/start = 1 holds your program counter 
+	  dut.DM1.Core[n+64] = msg_crypto1[n];
+
+
+    //#20ns Init  = 1'b0;				  // suggestion: reset = 1 forces your program counter to 0
+	#10ns Req    = 'b0; 			  //   request/start = 1 holds your program counter
     #60ns;                            // wait for 6 clock cycles of nominal 10ns each
-    wait(done);                       // wait for DUT's ack/done flag to go high
+
+    dut.DM1.Core[128] = 7'h60;	     // 110_0000
+    dut.DM1.Core[129] = 7'h48;
+    dut.DM1.Core[130] = 7'h78;
+    dut.DM1.Core[131] = 7'h72;
+    dut.DM1.Core[132] = 7'h6A;
+    dut.DM1.Core[133] = 7'h69;
+    dut.DM1.Core[134] = 7'h5C;
+    dut.DM1.Core[135] = 7'h7E;
+    dut.DM1.Core[136] = 7'h7B;
+
+
+
+    wait(Ack);                       // wait for DUT's ack/done flag to go high
     #10ns $fdisplay(file_no,"");
     $fdisplay(file_no,"program 2:");
 // ***** reads your results and compares to test bench
 // ***** use your instance name for data memory and its internal core *****
     for(int n=0; n<64; n++)	begin
-	  if(msg_padded1[n]==dut.DM.core[n])	begin
+	  if(msg_padded1[n]==dut.DM1.Core[n])	begin
         $fdisplay(file_no,"%d bench msg: %s %h dut msg: %h",
-          n, msg_padded1[n], msg_padded1[n], dut.DM.core[n]);
+          n, msg_padded1[n], msg_padded1[n], dut.DM1.Core[n]);
 		score++;
 	  end
       else
         $fdisplay(file_no,"%d bench msg: %s %h dut msg: %h  OOPS!",
-          n, msg_padded1[n], msg_padded1[n], dut.DM.core[n]);
+          n, msg_padded1[n], msg_padded1[n], dut.DM1.Core[n]);
     end
     $fdisplay(file_no,"score = %d/64",score);
     #20ns $fclose(file_no);
@@ -142,8 +187,8 @@ module decrypt_tb ()        ;
   end
 
 always begin     // continuous loop
-  #5ns clk = 1;  // clock tick
-  #5ns clk = 0;  // clock tock
+  #5ns Clk = 'b1;  // clock tick
+  #5ns Clk = 'b0;  // clock tock
 end
 
 endmodule

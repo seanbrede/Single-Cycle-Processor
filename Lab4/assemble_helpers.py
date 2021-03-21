@@ -25,8 +25,8 @@ ops_dict = {
 
 # names of input and output files
 filenames = [("program1.as", "program1.txt"),
-             ("program2.as", "program2.mc"),
-             ("program3.as", "program3.mc")]
+             ("program2.as", "program2.txt"),
+             ("program3.as", "program3.txt")]
 
 
 # deal with comments, formatting, capitalization

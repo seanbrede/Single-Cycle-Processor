@@ -4,11 +4,13 @@
 // runs program 1 (encrypt a message)
 // notes:
 //   1. 
-module encrypt_tb ()        ;
-  logic      clk   = 1'b0   ,      // advances simulation step-by-step
-             init  = 1'b1   ,      // init (reset) command to DUT
-             start = 1'b1   ;      // req (start program) command to DUT
-  wire       done           ;      // ack (program done) flag returned by DUT
+module encrypt_tb;
+
+  bit      Clk   = 'b1   ,      // advances simulation step-by-step
+           Init  = 'b1   ,      // init (reset) command to DUT
+           Req   = 'b1   ;      // req (start program) command to DUT
+
+  wire       Ack           ;      // ack (program done) flag returned by DUT
   logic[7:0] pre_length     ,      // space char. bytes before first char. in message  
              pre_length1    ;      // pre_length sent to DUT
   logic[7:0] message1[54]   ,      // original raw message, in binary, up to 54 characters in length
@@ -19,11 +21,14 @@ module encrypt_tb ()        ;
              lfsr1[64]      ,      // states of program 1 encrypting LFSR
              LFSR_init      ;      // one of 127 possible NONZERO starting states
   int        score          ;      // count of correct encyrpted characters
+
+
 // our original American Standard Code for Information Interchange message follows
 // note in practice your design should be able to handle ANY ASCII string that is
 //  restricted to characters between space (0x20) and script f (0x9f) and shorter than 
 //  54 characters in length
-  string     str1  = "Mr. Watson, come here. I want to see you.";     // sample program 1 input
+ // string     str1  = "Mr. Watson, come here. I want to see you.";     // sample program 1 input
+  string       str1  = "  Two  spaces  in  between  ,  2  . ";
 //  string     str1  = " Knowledge comes, but wisdom lingers.    ";   // alternative inputs
 //  string     str1  = "  01234546789abcdefghijklmnopqrstuvwxyz. ";   //   (make up your own,
 //  string     str1  = "  f       A joke is a very serious thing.";   // 	as well)
@@ -46,34 +51,58 @@ module encrypt_tb ()        ;
   assign LFSR_ptrn[7] = 7'h7E;
   assign LFSR_ptrn[8] = 7'h7B;
   always_comb begin
-    pt_no = $random;
+    pt_no =  8; // $random;
     if(pt_no==8) pt_no1 = pt_no[3:0];
     else         pt_no1 = pt_no[2:0];  // restrict to 0 through 8 (our legal patterns)
     lfsr_ptrn = LFSR_ptrn[pt_no1];  // engage the selected pattern
   end
 // now select a starting LFSR state -- any nonzero value will do
   always_comb begin					   
-    LFSR_init = $random>>2;          // or set a value, such as 7'b1, for debug
+    LFSR_init = 31;//32; //$random>>2;          // or set a value, such as 7'b1, for debug
     if(!LFSR_init) LFSR_init = 7'b1; // prevents illegal starting state = 7'b0; 
   end
 
 // set preamble length for the program run (always > 9 but < 26)
   always_comb begin
-    pre_length = $random>>10 ;        // program 1 run
+    pre_length = 29;//$random>>10 ;        // program 1 run
     pre_length1 = pre_length; 
     if(pre_length < 10) pre_length = 10;   // prevents pre_length < 10
 	else if(pre_length > 26) pre_length = 26; 
   end
 
 // ***** instantiate your own top level design here *****
+
  TopLevel dut(
-    .Clk     (clk  ),   // input: use your own port names, if different
-    .Reset   (init ),   // input: some prefer to call this ".reset"
-    .Start   (start),   // input: launch program
-    .Ack     (done )    // output: "program run complete"
+    .Clk     (Clk ),   // input: use your own port names, if different
+    .Reset   (Init),   // input: some prefer to call this ".reset"
+    .Start   (Req),   // input: launch program
+    .Ack     (Ack)    // output: "program run complete"
   );
 
-  initial begin
+initial begin
+    #10ns Init = 'b0;
+	#10ns Req  = 'b1;
+
+	// initialize DUT's data memory
+	#10ns for (int i=0; i<256; i++)
+		dut.DM1.Core[i] = 8'h0;	     // clear data_mem
+
+
+    dut.DM1.Core[128] = 7'h60;	     // 110_0000
+    dut.DM1.Core[129] = 7'h48;
+    dut.DM1.Core[130] = 7'h78;
+    dut.DM1.Core[131] = 7'h72;
+    dut.DM1.Core[132] = 7'h6A;
+    dut.DM1.Core[133] = 7'h69;
+    dut.DM1.Core[134] = 7'h5C;
+    dut.DM1.Core[135] = 7'h7E;
+    dut.DM1.Core[136] = 7'h7B;
+
+
+	// initialize DUT's register file
+	for(int j=0; j<16; j++)
+		dut.RF1.Registers[j] = 8'b0;    // default -- clear it
+
 //***** pre-load your instruction ROM here or inside itself	*****
 //    $readmemb("encoder.bin", dut.instr_rom.rom);
 // you may also pre-load desired constants, etc. into
@@ -119,13 +148,37 @@ module encrypt_tb ()        ;
 	  dut.DM1.Core[m] = 8'h20;         // pad memory w/ ASCII space characters
     for(int m=0; m<strlen; m++)
       dut.DM1.Core[m] = str1[m];       // overwrite/copy original string into device's data memory[0:strlen-1]
+
+    $display(" MEM is about to be set");
     dut.DM1.Core[61] = pre_length1;     // number of bytes preceding message
     dut.DM1.Core[62] = pt_no;//lfsr_ptrn;      // LFSR feedback tap positions (9 possible ptrns)
     dut.DM1.Core[63] = LFSR_init;      // LFSR starting state (nonzero)
-    #20ns init  = 1'b0;				  // suggestion: reset = 1 forces your program counter to 0
-	#10ns start = 1'b0; 			  //   request/start = 1 holds your program counter 
+    $display(" MEM 61 - 64 set");
+
+    if ( dut.DM1.Core[61] != pre_length1) begin
+        $display(" DM[61] != 10 ");
+        $display(" DM[61] == %b ", dut.DM1.Core[61] );
+        #10ns $stop;
+    end
+
+    //#10ns Init  = 'b0;				  // suggestion: reset = 1 forces your program counter to 0
+	#10ns Req   = 'b0; 			  //   request/start = 1 holds your program counter
     #60ns;                            // wait for 6 clock cycles of nominal 10ns each
-    wait(done);                       // wait for DUT's ack/done flag to go high
+
+
+    dut.DM1.Core[128] = 7'h60;	     // 110_0000
+    dut.DM1.Core[129] = 7'h48;
+    dut.DM1.Core[130] = 7'h78;
+    dut.DM1.Core[131] = 7'h72;
+    dut.DM1.Core[132] = 7'h6A;
+    dut.DM1.Core[133] = 7'h69;
+    dut.DM1.Core[134] = 7'h5C;
+    dut.DM1.Core[135] = 7'h7E;
+    dut.DM1.Core[136] = 7'h7B;
+
+
+    wait(Ack);                       // wait for DUT's ack/done flag to go high
+    $display(" wait(Ack) line finished ");
 //    #2000ns; 
     #10ns $fdisplay(file_no,"");
     $fdisplay(file_no,"program 1:");
@@ -141,14 +194,16 @@ module encrypt_tb ()        ;
         $fdisplay(file_no,"%d bench msg: %s %h dut msg: %h  OOPS!",
           n, msg_crypto1[n][6:0]+8'h20, msg_crypto1[n], dut.DM1.Core[n+64]);
     end
+
+
     $fdisplay(file_no,"score = %d/64",score);
     #20ns $fclose(file_no);
     #20ns $stop;
-  end
+end
 
 always begin     // continuous loop
-  #5ns clk = 1;  // clock tick
-  #5ns clk = 0;  // clock tock
+  #5ns Clk = 'b1;  // clock tick
+  #5ns Clk = 'b0;  // clock tock
 end
 
 endmodule

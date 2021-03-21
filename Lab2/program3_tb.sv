@@ -3,11 +3,13 @@
 // testbench for programmable message decryption, space removal (Program #3)
 // CSE141L  
 // encrypts / decrypts a message, with occasional one-bit corruption
-module decrypt_depad_tb ()        ;
-  logic      clk   = 1'b0   ,      // advances simulation step-by-step
-             init  = 1'b1   ,      // init (reset) command to DUT
-             start = 1'b1   ;      // req (start program) command to DUT
-  wire       done           ;      // done flag returned by DUT
+module decrypt_depad_tb;
+  bit      Clk   = 'b1   ,      // advances simulation step-by-step
+           Init  = 'b1   ,      // init (reset) command to DUT
+           Req   = 'b1   ;      // req (start program) command to DUT
+
+  wire       Ack           ;      // done flag returned by DUT
+
   logic[4:0] pre_length     ;  	   // space char. bytes before first char. in message, limited 10-26
   logic[7:0] message1[54]   ,      // original raw message, in binary
              msg_padded1[128],      // original message, plus pre- and post-padding w/ ASCII spaces
@@ -21,13 +23,14 @@ module decrypt_depad_tb ()        ;
 // note in practice your design should be able to handle ANY ASCII string that is
 //  restricted to characters between space (0x20) and script f (0x9f) and shorter than 
 //  53 characters in length
-  string     str1  = "Mr. Watson, come here. I want to see you.";     // sample program 1 input
+ // string     str1  = "Mr. Watson, come here. I want to see you.";     // sample program 1 input
 //  string     str1  = " Knowledge comes, but wisdom lingers.    ";   // alternative inputs
 //  string     str1  = "  01234546789abcdefghijklmnopqrstuvwxyz. ";   //   (make up your own,
-//  string     str1  = "          A joke is a very serious thing.";   // 	as well)
+  //string     str1  = "          A joke is a very serious thing.";   // 	as well)
+  //string       str1  = "qwertyuiopasdfghjklzxcvbnm";
 //  string     str1  = "                           Ajok          ";   // 
 //  string     str1  = " Knowledge comes, but wisdom lingers.    ";   // 
-
+   string       str1  = "  Two  spaces  in  between  ,  2  . ";
 // displayed encrypted string will go here:
   string      str_enc1[64];          // program 1 desired output will go here
   int         strlen;                // incoming string length 
@@ -57,38 +60,59 @@ module decrypt_depad_tb ()        ;
   assign LFSR_ptrn[15] = 7'h7E;		 // same as LFSR_ptrn[7]
 // select an LFSR feedback tap pattern
   always_comb begin
-    pt_no = 0; //$random>>22;        // specific pattern for debug, random for verification
+    pt_no = 0;//$random>>22;        // specific pattern for debug, random for verification
     pt_no1 = pt_no[3:0];
     lfsr_ptrn = LFSR_ptrn[pt_no1];    // engage the selected pattern
   end
 // select a starting LFSR state -- any nonzero value will do
   always_comb begin					   
-    LFSR_init = 7'b1; //$random>>2;  // specific value for debug, random for verification
+    LFSR_init = 71;//$random>>2;  // specific value for debug, random for verification
     if(!LFSR_init) LFSR_init = 7'b1; // prevents illegal starting state = 7'b0; 
   end
 
 // set preamble lengths for the program  (always > 9 but < 16)
   always_comb begin
-    pre_length = $random>>10 ;             // program 1 run
+    pre_length = 12;//$random>>10 ;             // program 1 run
     if(pre_length < 10) pre_length = 10;   // prevents pre_length < 10
     else if(pre_length > 26) pre_length = 26;
   end
 
 // ***** instantiate your own top level design here *****
-  top_level dut(
-    .clk     (clk  ),   // input: use your own port names, if different
-    .init    (init ),   // input: some prefer to call this ".reset"
-    .req     (start),   // input: launch program
-    .ack     (done )    // output: "program run complete"
+ TopLevel dut(
+    .Clk     (Clk ),   // input: use your own port names, if different
+    .Reset   (Init),   // input: some prefer to call this ".reset"
+    .Start   (Req),   // input: launch program
+    .Ack     (Ack)    // output: "program run complete"
   );
 
   initial begin
+   #10ns Init = 'b0;
+   #10ns Req  = 'b1;
+
+	// initialize DUT's data memory
+	#10ns for (int i=0; i<256; i++)
+		dut.DM1.Core[i] = 8'h0;	     // clear data_mem
+
+    dut.DM1.Core[128] = 7'h60;	     // 110_0000
+    dut.DM1.Core[129] = 7'h48;
+    dut.DM1.Core[130] = 7'h78;
+    dut.DM1.Core[131] = 7'h72;
+    dut.DM1.Core[132] = 7'h6A;
+    dut.DM1.Core[133] = 7'h69;
+    dut.DM1.Core[134] = 7'h5C;
+    dut.DM1.Core[135] = 7'h7E;
+    dut.DM1.Core[136] = 7'h7B;
+
+	// initialize DUT's register file
+	for(int j=0; j<16; j++)
+		dut.RF1.Registers[j] = 8'b0;    // default -- clear it
+
 //***** pre-load your instruction ROM here or inside itself	*****
 //    $readmemb("encoder.bin", dut.instr_rom.rom);
 // you may also pre-load desired constants, etc. into
 //   your data_mem here -- the upper addresses are reserved for your use
 //    dut.data_mem.DM[128]=8'hfe;   //whatever constants you want	
-    file_no = $fopen("msg_decoder_out.txt","w");		 // create your output file
+    file_no = $fopen("msg_parity_out.txt","w");		 // create your output file
     #0ns strlen = str1.len;       // length of string 1 (# characters between " ")
     if(strlen>54) strlen = 54;          // clip message at 54 characters
     for(space=0;space<26;space++)		// count leading spaces in unpadded message
@@ -133,50 +157,65 @@ module decrypt_depad_tb ()        ;
 //    dut.DM.core[62] = lfsr_ptrn;      // LFSR feedback tap positions (9 possible ptrns)
 //    dut.DM.core[63] = LFSR_init;      // LFSR starting state (nonzero)
     for(int m=0; m<26; m++)             // load first 26 characters of encrypted message into data memory
-      dut.DM.core[m+64] = msg_crypto1[m];	 // this guarantees all space prepend characters are clean
+      dut.DM1.Core[m+64] = msg_crypto1[m];	 // this guarantees all space prepend characters are clean
     for(int n=26; n<64; n++) begin	  	// load subsequent, possibly corrupt, encrypted message into data memory
 	  flipper = $random;                // value between 0 and 63, inclusive
-      dut.DM.core[n+64] = msg_crypto1[n]^(1<<flipper);
+      dut.DM1.Core[n+64] = msg_crypto1[n]^(1<<flipper);
       if(flipper<8) flipped[n]=1;		// if flipper>7, it is out of range, has no impact on message
 	end
-    #20ns init  = 1'b0;				  // suggestion: reset = 1 forces your program counter to 0
-	#10ns start = 1'b0; 			  //   request/start = 1 holds your program counter 
+
+    //#20ns Init  = 1'b0;				  // suggestion: reset = 1 forces your program counter to 0
+	#10ns Req    = 'b0; 			  //   request/start = 1 holds your program counter
     #60ns;                            // wait for 6 clock cycles of nominal 10ns each
-    wait(done);                       // wait for DUT's ack/done flag to go high
+
+    dut.DM1.Core[128] = 7'h60;	     // 110_0000
+    dut.DM1.Core[129] = 7'h48;
+    dut.DM1.Core[130] = 7'h78;
+    dut.DM1.Core[131] = 7'h72;
+    dut.DM1.Core[132] = 7'h6A;
+    dut.DM1.Core[133] = 7'h69;
+    dut.DM1.Core[134] = 7'h5C;
+    dut.DM1.Core[135] = 7'h7E;
+    dut.DM1.Core[136] = 7'h7B;
+
+
+
+    wait(Ack);                       // wait for DUT's ack/done flag to go high
+
     #10ns $fdisplay(file_no,"");
     $fdisplay(file_no,"program 3:");
 // ***** reads your results and compares to test bench
 // ***** use your instance name for data memory and its internal core *****
     for(int n=0; n<64; n++)	begin
       if(flipped[n+pre_length+space]) begin
-        if(dut.DM.core[n][7]) begin
+        if(dut.DM1.Core[n][7]) begin
 		  $fwrite(file_no,"%d bench msg: %s %h dut msg: %h",
-              n, msg_padded1[n+pre_length+space][6:0], msg_padded1[n][6:0], dut.DM.core[n][6:0]);
+              n, msg_padded1[n+pre_length+space][6:0], msg_padded1[n][6:0], dut.DM1.Core[n][6:0]);
           $fdisplay(file_no,"  error successfully flagged");
           score++;
         end  
-        else if(dut.DM.core[n][7]==0) begin
+        else if(dut.DM1.Core[n][7]==0) begin
 		  $fwrite(file_no,"%d bench msg: %s %h dut msg: %h",
-              n, msg_padded1[n+pre_length+space][6:0], msg_padded1[n][6:0], dut.DM.core[n][6:0]);
+              n, msg_padded1[n+pre_length+space][6:0], msg_padded1[n][6:0], dut.DM1.Core[n][6:0]);
           $fdisplay(file_no,"  error missed");
 //          score++;
         end  
         else begin
 		  $fwrite(file_no,"%d bench msg: %s %h dut msg: %h",
-              n, msg_padded1[n+pre_length+space][6:0], msg_padded1[n][6:0], dut.DM.core[n][6:0]);
+              n, msg_padded1[n+pre_length+space][6:0], msg_padded1[n][6:0], dut.DM1.Core[n][6:0]);
           $fdisplay(file_no,"  error flag not returned");
 //          score++;
         end  
       end
 	  else if({flipped[n+pre_length+space],msg_padded1[n+pre_length+space][6:0]}
-	         == dut.DM.core[n])	begin
+	         == dut.DM1.Core[n])	begin
         $fdisplay(file_no,"%d bench msg: %s %h dut msg: %h",
-          n, msg_padded1[n+pre_length+space][6:0], msg_padded1[n][6:0], dut.DM.core[n][6:0]);
+          n, msg_padded1[n+pre_length+space][6:0], msg_padded1[n][6:0], dut.DM1.Core[n][6:0]);
 		score++;
 	  end
       else
         $fdisplay(file_no,"%d bench msg: %s %h dut msg: %h  OOPS!",
-          n, msg_padded1[n+pre_length+space][6:0], msg_padded1[n][6:0], dut.DM.core[n][6:0]);
+          n, msg_padded1[n+pre_length+space][6:0], msg_padded1[n][6:0], dut.DM1.Core[n][6:0]);
     end
     perfect_score = strlen + 10 - pre_length;      
     $fdisplay(file_no,"score = %d/%d",score,perfect_score);
@@ -185,8 +224,8 @@ module decrypt_depad_tb ()        ;
   end
 
 always begin     // continuous loop
-  #5ns clk = 1;  // clock tick
-  #5ns clk = 0;  // clock tock
+  #5ns Clk = 'b1;  // clock tick
+  #5ns Clk = 'b0;  // clock tock
 end
 
 endmodule
