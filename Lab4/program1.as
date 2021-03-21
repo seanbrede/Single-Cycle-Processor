@@ -1,6 +1,6 @@
 
 # num_spaces = mem[61] 
-LDT 0
+LDT 0  # 11
 LOD r1
 MVL r2 r1
 
@@ -39,20 +39,20 @@ LDT 3
 MVL r10 r1
 
 # lfsr_tap = lfsr_tap + 128 
-MVH r3 r0
-LDT 5
-ADD r0 r1
-MVL r3 r0
+MVH r3 r0  # 32
+LDT 5   # 33
+ADD r0 r1  # 34
+MVL r3 r0  # 35
 
 # lfsr_tap = mem[lfsr_tap] 
-LOD r3
-MVL r3 r1
+LOD r3     # 36
+MVL r3 r1  # 37
 
 # if num_spaces < 10: 
-MVH r2 r0
-LDT 6
-SLT r0 r1
-JNE label0
+MVH r2 r0   # 38
+LDT 6       # 39
+SLT r0 r1   # 40
+JNE label0  # 41
 
 	# num_spaces = 10 
 	LDT 6

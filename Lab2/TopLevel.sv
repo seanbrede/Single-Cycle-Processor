@@ -35,6 +35,8 @@ wire       MemWrite,	// data_memory write enable
 		   LoadInst;
 
 wire [7:0] r1Val;
+wire [7:0] r3Val;
+
 wire [7:0] LoadValue;
 
 logic [15:0] CycleCt; // standalone; NOT PC!
@@ -91,7 +93,8 @@ RegFile #(.W(8),.D(4)) RF1 (
 	.DataOutB 		(ReadB),
 	.MemWriteValue 	(MemWriteValue),
 	.r0IsZeroFlag	(r0IsZeroFlag),
-	.r1Val			(r1Val)
+	.r1Val			(r1Val),
+	.r3Val          (r3Val)
 	);
 
 // ALU
@@ -133,5 +136,4 @@ always_ff @(posedge Clk)
 		CycleCt <= 0;
 	else if (Ack == 0) // if (!halt)
 		CycleCt <= CycleCt + 16'b1;
-
 endmodule

@@ -22,7 +22,8 @@ module RegFile #(parameter W=8, D=4) (		  // W = data path width; D = pointer wi
 	output 		 [W-1:0] DataOutB,		      // pedagogic reasons only
 	output       [W-1:0] MemWriteValue,
 	output		 		 r0IsZeroFlag,
-	output		 [W-1:0] r1Val
+	output		 [W-1:0] r1Val,
+	output		 [W-1:0] r3Val
 );
 
 // W bits wide [W-1:0] and 2**4 registers deep 	 
@@ -39,6 +40,7 @@ assign      DataOutA = Registers[RaddrA];	// can't read from addr 0, just like M
 assign		DataOutB = Registers[RaddrB];  // can read from addr 0, just like ARM
 assign		r0IsZeroFlag = ( Registers[0] == 0 ) ? 1'b1 : 1'b0;
 assign		r1Val = Registers[1];
+assign		r3Val = Registers[3];
 assign		MemWriteValue = Registers[RaddrA]; // R[rd], for store, MEM[R[rd]]
 // assign		Registers[0] = ALUzero;
 

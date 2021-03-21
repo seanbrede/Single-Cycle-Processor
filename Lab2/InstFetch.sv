@@ -24,8 +24,6 @@ always_ff @(posedge Clk)	            // or just always; always_ff is a linting c
 		ProgCtr <= ProgCtr;
 	else if(BranchAbs)	               // unconditional absolute jump
 		ProgCtr <= Target;
-	// else if(BranchRelEn && ALU_flag) // conditional relative jump
-	//   ProgCtr <= Target + ProgCtr;
 	else
 		ProgCtr <= ProgCtr+'b1; 	      // default increment (no need for ARM/MIPS +4 -- why?)
 
