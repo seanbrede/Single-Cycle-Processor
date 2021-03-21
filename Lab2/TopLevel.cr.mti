@@ -30,27 +30,6 @@ Model Technology ModelSim - Intel FPGA Edition vlog 2020.3 Compiler 2020.07 Jul 
 Top level modules:
 	ALU
 
-} {} {}} E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/InstROM.sv {1 {vlog -work work -sv -stats=none E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/InstROM.sv
-Model Technology ModelSim - Intel FPGA Edition vlog 2020.3 Compiler 2020.07 Jul 22 2020
--- Compiling module InstROM
-
-Top level modules:
-	InstROM
-
-} {} {}} E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/LUT_Add.sv {1 {vlog -work work -sv -stats=none E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/LUT_Add.sv
-Model Technology ModelSim - Intel FPGA Edition vlog 2020.3 Compiler 2020.07 Jul 22 2020
--- Compiling module LUT_Add
-
-Top level modules:
-	LUT_Add
-
-} {} {}} E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/program1_tb.sv {1 {vlog -work work -sv -stats=none E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/program1_tb.sv
-Model Technology ModelSim - Intel FPGA Edition vlog 2020.3 Compiler 2020.07 Jul 22 2020
--- Compiling module encrypt_tb
-
-Top level modules:
-	encrypt_tb
-
 } {} {}} E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/RegFile.sv {1 {vlog -work work -sv -stats=none E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/RegFile.sv
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.3 Compiler 2020.07 Jul 22 2020
 -- Compiling package RegFile_sv_unit
@@ -59,13 +38,6 @@ Model Technology ModelSim - Intel FPGA Edition vlog 2020.3 Compiler 2020.07 Jul 
 
 Top level modules:
 	RegFile
-
-} {} {}} E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/LUT_Imm.sv {1 {vlog -work work -sv -stats=none E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/LUT_Imm.sv
-Model Technology ModelSim - Intel FPGA Edition vlog 2020.3 Compiler 2020.07 Jul 22 2020
--- Compiling module LUT_Imm
-
-Top level modules:
-	LUT_Imm
 
 } {} {}} E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/ALU_tb.sv {1 {vlog -work work -sv -stats=none E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/ALU_tb.sv
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.3 Compiler 2020.07 Jul 22 2020
@@ -82,13 +54,6 @@ Model Technology ModelSim - Intel FPGA Edition vlog 2020.3 Compiler 2020.07 Jul 
 
 Top level modules:
 	TopLevel_tb
-
-} {} {}} E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/program3_tb.sv {1 {vlog -work work -sv -stats=none E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/program3_tb.sv
-Model Technology ModelSim - Intel FPGA Edition vlog 2020.3 Compiler 2020.07 Jul 22 2020
--- Compiling module decrypt_depad_tb
-
-Top level modules:
-	decrypt_depad_tb
 
 } {} {}} E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/InstFetch.sv {1 {vlog -work work -sv -stats=none E:/quartusModelSim/QP/modelsim_ase/win32aloem/CSE-141L-master/Lab2/InstFetch.sv
 Model Technology ModelSim - Intel FPGA Edition vlog 2020.3 Compiler 2020.07 Jul 22 2020

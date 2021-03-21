@@ -25,7 +25,9 @@ module decrypt_tb;
 // note in practice your design should be able to handle ANY ASCII string that is
 //  restricted to characters between space (0x20) and script f (0x9f) and shorter than 
 //  53 characters in length
-  string     str1  = "Mr. Watson, come here. I want to see you.";     // sample program 1 input
+  //string     str1  = "Mr. Watson, come here. I want to see you.";     // sample program 1 input
+   //string       str1  = "qwertyuiopasdfghjklzxcvbnm";
+   string       str1  = "  Two  spaces  in  between  ,  2  . ";
 //  string     str1  = " Knowledge comes, but wisdom lingers.    ";   // alternative inputs
 //  string     str1  = "  01234546789abcdefghijklmnopqrstuvwxyz. ";   //   (make up your own,
 //  string     str1  = "  f       A joke is a very serious thing.";   // 	as well)
@@ -50,23 +52,21 @@ module decrypt_tb;
 
 
   always_comb begin
-    dummy =   $random>>22;
-    dummy =  $random>>22;
-    pt_no = $random>>22;                   // or pick a specific one
+    pt_no = 0;
     if(pt_no>8) pt_no = pt_no[2:0];	       // restrict to 0 through 8 (our legal patterns)
     $display("pt_no = %d",pt_no);
   end    
   assign lfsr_ptrn = LFSR_ptrn[pt_no];     // engage the selected pattern
 
 // now select a starting LFSR state -- any nonzero value will do
-  always_comb begin					   
-    LFSR_init = $random>>2;                // or set a value, such as 7'b1, for debug
+  always_comb begin
+    LFSR_init =  17;//$random>>2;                // or set a value, such as 7'b1, for debug  //TODO:: change to random
     if(!LFSR_init) LFSR_init = 7'b1;       // prevents illegal starting state = 7'b0; 
   end
 
 // set preamble lengths for the four program runs (always > 9 but < 16)
   always_comb begin
-    pre_length = $random>>10 ;             // program 1 run
+    pre_length =  27;//$random>>10 ;             // program 1 run  //TPDP chang e back
     if(pre_length < 10) pre_length = 10;   // prevents pre_length < 10
     else if(pre_length > 26) pre_length = 26; 
   end
