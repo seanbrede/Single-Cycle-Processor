@@ -18,10 +18,10 @@ chs.writeLUTImm(imm_table)
 # parse each line of Python code
 for read, write in chs.filenames:
     write_file = open(write, "w")
-    var_index = 2
-    var_table = col.defaultdict(lambda: -1)
-    cf_stack  = []
-    curr_tabs = 0
+    var_index  = 2
+    var_table  = col.defaultdict(lambda: -1)
+    cf_stack   = []
+    curr_tabs  = 0
 
     # look at each line of Python code
     for raw_line in open(read, "r"):
@@ -215,7 +215,6 @@ for read, write in chs.filenames:
             sys.exit("error3!")
 
     # at the end of the file, if we're still inside of any if/whiles, we need to end them
-    # TODO make sure it prints the correct number of tabs?
     for _ in range(curr_tabs):
         if cf_stack[len(cf_stack)-1][0:5] == "label":
             chs.writeWithTabs(0, write_file, "\n")
@@ -230,7 +229,7 @@ for read, write in chs.filenames:
     # add ACK at the end
     chs.writeWithTabs(0, write_file, "\nACK")
     # TODO debug
-    print(var_table)
+    # print(var_table)
 
     # close the file that we've been writing to
     write_file.close()
