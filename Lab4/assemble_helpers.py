@@ -81,7 +81,7 @@ def intToBinaryString(num, num_bits):
 def writeLUTAdd(addr_table):
     table_size = len(addr_table)
     if table_size > 32: sys.exit("TERMINATING: LUT_Add size " + str(table_size) + " exceeds maximum: 32")
-    file = open("../Lab2/LUT_Add.sv", "w")
+    file = open("LUT_Add.sv", "w")
 
     # turn addr_table into a list
     addr_list = [None] * table_size

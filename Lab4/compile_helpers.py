@@ -71,7 +71,7 @@ def addImmEntries(file, imm_table, num_imms):
 def writeLUTImm(imm_table):
     table_size = len(imm_table)
     if table_size > 32: sys.exit("TERMINATING: LUT_Imm size " + str(table_size) + " exceeds maximum: 32")
-    file = open("../Lab2/LUT_Imm.sv", "w")
+    file = open("LUT_Imm.sv", "w")
 
     # turn imm_table into a list
     imm_list = [None] * table_size
